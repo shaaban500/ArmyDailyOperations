@@ -1,0 +1,153 @@
+﻿@using DailyOperations.Domain.ViewModels.Vehicles;
+@model GetAllVehiclesViewModel
+<header class="center mg-top25 mg-bottom20"> المركبات </header>
+
+<div class="center mg-top20" id="officers-body">
+    <table class="width90">
+        <thead>
+            <tr>
+                <th class="width30">
+                    <div class="flex-row center gap1">
+                        <div>النوع</div>
+                        <div class="cursor" onclick="openForm('VehicleTypeForm')">
+                            <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>
+                        </div>
+                    </div>
+                </th>
+                <th class="width30">
+                    <div class="flex-row center gap1">
+                        <div> الماركة </div>
+                        <div class="cursor" onclick="openForm('VehicleMarkForm')">
+                            <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>
+                        </div>
+                    </div>
+                </th>
+                <th> رقم المركبة </th>
+                <th>
+                    <div class="center">
+                        <a asp-controller="Vehicles" asp-action="AddOrUpdate" onclick="openForm('VehicleForm')">
+                            <span class="material-symbols-rounded primary cursor" style="font-size:38px;font-weight:500;">add_circle</span>
+                        </a>
+                    </div>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Vehicles != null && Model.Vehicles.Count() > 0)
+            {
+                @foreach (var obj in Model.Vehicles)
+                {
+                    <tr>
+                        <td>@obj?.VehicleType?.Type</td>
+                        <td>@obj?.VehicleMark?.Mark</td>
+                        <td>@string.Concat(obj?.VehicleNumbers, " - ", obj?.VehicleLetters)</td>
+                        <td>
+                            <div class="center gap2">
+                                <a asp-controller="Vehicles" asp-route-id="@obj.Id" asp-action="Delete">
+                                    <span class="material-symbols-rounded danger">delete_forever</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+<form method="post" asp-controller="Vehicles" asp-action="AddOrUpdate" enctype="multipart/form-data">
+    <div class="form-fees gap0" id="VehicleForm">
+        <div class="flex-row justify-content-start">
+            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('VehicleForm')">
+                close
+            </span>
+        </div>
+        <div class="flex-column align-center">
+            <span id="vehicles-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+            <input hidden asp-for="@Model.Vehicle.Id" id="VehicleId" />
+
+            <div class="mg-top20 width80">
+                <label asp-for="@Model.Vehicle.VehicleTypeId"> النوع</label>
+                <select name="Vehicle.VehicleTypeId" class="input-box width100" asp-items="@(new SelectList(Model.VehicleTypes, "Id", "Type"))">
+                </select>
+            </div>
+
+            <div class="mg-top20 width80">
+                <label asp-for="@Model.Vehicle.VehicleMarkId">الماركة</label>
+                <select name="Vehicle.VehicleMarkId" class="input-box width100" asp-items="@(new SelectList(Model.VehicleMarks, "Id", "Mark"))">
+                </select>
+            </div>
+
+            <div class="mg-top20 width80">
+                <label asp-for="@Model.Vehicle.VehicleLetters"> حروف لوحة المركبة </label>
+                <input asp-for="@Model.Vehicle.VehicleLetters" class="input-box width100" type="text" placeholder="ادخل حروف لوحة المركبة" />
+            </div>
+
+            <div class="mg-top20 width80">
+                <label asp-for="@Model.Vehicle.VehicleNumbers"> أرقام لوحة المركبة </label>
+                <input asp-for="@Model.Vehicle.VehicleNumbers" class="input-box width100" type="text" placeholder="ادخل أرقام لوحة المركبة" />
+            </div>
+
+            <div class="center mg-bottom50 mg-top50">
+                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+<form method="post" asp-controller="VehicleMarks" asp-action="AddOrUpdate" enctype="multipart/form-data">
+    <div class="form-fees gap0" id="VehicleMarkForm">
+        <div class="flex-row justify-content-start">
+            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('VehicleMarkForm')">
+                close
+            </span>
+        </div>
+        <div class="flex-column align-center">
+            <span id="vehicleMarks-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+            <div class="mg-top20 width80">
+                <label asp-for="@Model.VehicleMark.Mark">الماركة</label>
+                <input asp-for="@Model.VehicleMark.Mark " class="input-box width100" type="text" placeholder="ادخل ماركة المركبة" />
+            </div>
+
+            <div class="center mg-bottom50 mg-top50">
+                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+<form method="post" asp-controller="VehicleTypes" asp-action="AddOrUpdate" enctype="multipart/form-data">
+    <div class="form-fees gap0" id="VehicleTypeForm">
+        <div class="flex-row justify-content-start">
+            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('VehicleTypeForm')">
+                close
+            </span>
+        </div>
+        <div class="flex-column align-center">
+            <span id="vehicleTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+            <div class="mg-top20 width80">
+                <label asp-for="@Model.VehicleType.Type"> النوع </label>
+                <input asp-for="@Model.VehicleType.Type" class="input-box width100" type="text" placeholder="ادخل نوع المركبة" />
+            </div>
+
+            <div class="center mg-bottom50 mg-top50">
+                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+            </div>
+        </div>
+    </div>
+</form>
+

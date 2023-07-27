@@ -1,0 +1,109 @@
+﻿@using DailyOperations.Domain.ViewModels.Operations;
+@model GetAllOperationsViewModel
+
+<div class="center mg-top50 mg-bottom50 gap5">
+	<a asp-controller="OperationOfficers" asp-action="Search" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 white bold bg-primary">
+		ضباط
+		<span class="material-symbols-rounded">
+			groups
+		</span>
+	</a>
+	<a asp-controller="OperationAssistants" asp-action="Search" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold">
+		أمناء شرطة
+		<span class="material-symbols-rounded">
+			groups
+		</span>
+	</a>
+	<a asp-controller="OperationSoldiers" asp-action="Search" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold">
+		مجندين
+		<span class="material-symbols-rounded">
+			groups
+		</span>
+	</a>
+	<a asp-controller="OperationVehicles" asp-action="Search" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold">
+		مركبات
+		<span class="material-symbols-rounded">
+			airport_shuttle
+		</span>
+	</a>
+</div>
+
+<form method="post" asp-controller="OperationOfficers" asp-action="Search" enctype="multipart/form-data">
+
+	<div class="center gap5">
+		<div class="width100">
+			<label asp-for="@Model.PoliceOfficerId"> الاسم </label>
+			<select name="PoliceOfficerId" class="input-box width100" asp-items="@(new SelectList(Model.PoliceOfficers, "Id", "Name"))">
+			</select>
+		</div>
+		<div class="width100">
+			<label asp-for="@Model.SearchDateFrom"> التاريخ من: </label>
+			<input type="date" asp-for="@Model.SearchDateFrom" class="input-box width100" />
+		</div>
+		<div class="width100">
+			<label asp-for="@Model.SearchDateTo"> التاريخ حتى: </label>
+			<input type="date" asp-for="@Model.SearchDateTo" class="input-box width100" />
+		</div>
+		<button type="submit" class="bg-primary height-fit padding1 radius50 mg-top25 cursor white">
+			<span class="material-symbols-rounded">
+				search
+			</span>
+		</button>
+	</div>
+
+</form>
+
+@if (Model.DailyOperationViewModel is not null && Model.DailyOperationViewModel.OperationOfficers is not null && Model.DailyOperationViewModel.OperationOfficers.Count > 0)
+{
+	<div class="center bold gap5 mg-top50 font2rem">
+			<div>
+				@Model.DailyOperationViewModel.OperationOfficers[0].PoliceOfficer.OfficerMilitaryDegree.Degree /
+				@Model.DailyOperationViewModel.OperationOfficers[0].PoliceOfficer.Name
+			</div>
+			<div>
+				(@Model.DailyOperationViewModel?.OperationOfficers[0]?.PoliceOfficer?.PowerType?.Name - @Model.DailyOperationViewModel?.OperationOfficers[0]?.PoliceOfficer?.Department?.Name)
+			</div>
+	</div>
+
+	<div class="center mg-top50">
+		<table class="width90">
+			<thead>
+				<tr>
+					<th> الفترة </th>
+					<th> الادارة </th>
+					<th> القسم </th>
+					<th> اليومية </th>
+					<th> القطاع </th>
+					<th> من </th>
+					<th> إالى </th>
+					<th> نوع الخدمة </th>
+					<th> الوصف </th>
+					<th> التعليمات </th>
+					<th> التاريخ </th>
+					<th> التوقيت من </th>
+					<th> الى </th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var operation in Model.DailyOperationViewModel?.OperationOfficers)
+				{
+					<tr>
+						<td> @operation.Operation.ShiftType.Type </td>
+						<td> @operation.Operation.GeneralDepartment.Department </td>
+						<td> @operation.Operation.InnerDepartment.Department </td>
+						<td> @operation.Operation.DailyOperation.DailyOperationName </td>
+						<td> @operation.Operation.Sector.SectorName </td>
+						<td> @operation.Operation.SectorPlaceFrom.SectorPlaceName </td>
+						<td> @operation.Operation.SectorPlaceTo.SectorPlaceName </td>
+						<td> @operation.OperationType.Type </td>
+						<td> @operation.OperationDescription.Description </td>
+						<td> @operation.OperationInstruction.Instruction </td>
+						<td> @operation.Operation.Date.ToShortDateString() </td>
+						<td> @operation.TimeFrom </td>
+						<td> @operation.TimeTo </td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+}

@@ -1,0 +1,77 @@
+﻿<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>  </title>
+    <link rel="stylesheet" href="~/css/site.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Rounded" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <img src="~/logo.png" class="logo"/>
+            
+            <div class="flex-row align-center justify-content-end padding1 gap7 font20px bold700">
+                <div class="dropdown">
+                    <button class="dropbtn flex-row gap1 justify-content-between cursor">
+                        <span class="material-symbols-rounded" style="font-size:29px;">
+                            night_shelter
+                        </span>
+                        <span class="font20px bold">الأجازات</span>
+                    </button>
+
+                    <div class="dropdown-content">
+                        <a href="#"> الضباط</a>
+                        <a href="#"> الأمناء و الأفراد</a>
+                        <a href="#"> المجندين </a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn flex-row gap1 justify-content-between cursor">
+                        <span class="material-symbols-rounded" style="font-size:29px;">
+                            pending_actions
+                        </span>
+                        <span class="font20px bold">اليومية</span>
+                    </button>
+                    <div class="dropdown-content">
+                        <a asp-controller="Operations" asp-action="GetAll"> إنشاء يومية جديدة </a>
+                        <a asp-controller="OperationOfficers" asp-action="Search"> البحث في اليوميات </a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn flex-row gap1 justify-content-between cursor">
+                        <span class="material-symbols-rounded" style="font-size:29px;">
+                            group
+                        </span>
+                        <span class="font20px bold">أصل القوة</span>
+                    </button>
+                    <div class="dropdown-content">
+                        <a asp-controller="PoliceOfficers" asp-action="GetAll">الضباط</a>
+                        <a asp-controller="PoliceAssistants" asp-action="GetAll">الأمناء و الأفراد</a>
+                        <a asp-controller="Soldiers" asp-action="GetAll"> المجندين </a>
+                        <a asp-controller="Vehicles" asp-action="GetAll"> المركبات </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section>
+            @RenderBody()
+        </section>
+
+
+    </main>
+
+
+
+</body>
+</html>
+
+<script src="~/js/layout.js"></script>
+

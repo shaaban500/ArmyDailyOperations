@@ -1,0 +1,747 @@
+﻿@using DailyOperations.Domain.ViewModels.Operations;
+@model GetAllOperationsViewModel
+
+<div class="flex-column">
+	<header class="center mg-top20 mg-bottom20 gap2 cursor" onclick="expand('operation')">
+		<div class="center gap2 width25 bg-white card-radius height50px padding1" id="operationspans">
+			<div>
+				إنشاء يومية جديدة	 
+			</div> 
+			<span class="material-symbols-rounded" style="font-weight:900; font-size:30px">
+				expand_more
+			</span>
+			<span class="material-symbols-rounded" style="font-weight:900; font-size:30px; display:none;">
+				expand_less
+			</span>
+		</div>
+	</header>
+
+<div id="operation">
+	<form method="post" asp-controller="Operations" asp-action="AddOrUpdate" enctype="multipart/form-data">
+		<div class="flex-column align-center width100 bg-white card-radius height-fit card-padding mg-top10 shadow1 mg-bottom50">
+			<span class="font20px mg-bottom20 danger"> اختيار اليومية و القطاع و التوقيت أولا</span>
+			<div class="center gap1 width100">
+
+				<div class="width100">
+					<span class="material-symbols-rounded cursor" onclick="openForm('GeneralDepartmentForm')">
+						add_circle
+					</span>
+					<label asp-for="@Model.GeneralDepartmentId"> الإدارة </label>
+					<select name="GeneralDepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.GeneralDepartments, "Id", "Department"))">
+					</select>
+				</div>
+				<div class="width100">
+					<span class="material-symbols-rounded cursor" onclick="openForm('InnerDepartmentForm')">
+						add_circle
+					</span>
+					<label asp-for="@Model.InnerDepartmentId"> القسم </label>
+					<select name="InnerDepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.InnerDepartments, "Id", "Department"))">
+					</select>
+				</div>
+				<div class="width100">
+					<span class="material-symbols-rounded cursor" onclick="openForm('DailyOperationForm')">
+						add_circle
+					</span>
+					<label asp-for="@Model.DailyOperationId"> اليومية </label>
+					<select name="DailyOperationId" class="input-box width100" asp-items="@(new SelectList(Model.DailyOperations, "Id", "DailyOperationName"))">
+					</select>
+				</div>
+				<div class="width100">
+					<span class="material-symbols-rounded cursor" onclick="openForm('ShiftTypeForm')">
+						add_circle
+					</span>
+					<label asp-for="@Model.ShiftTypeId"> الفترة </label>
+					<select name="ShiftTypeId" class="input-box width100" asp-items="@(new SelectList(Model.ShiftTypes, "Id", "Type"))">
+					</select>
+				</div>
+				<div class="width100">
+					<label asp-for="@Model.Date"> التاريخ </label>
+					<input asp-for="@Model.Date" class="input-box width100" type="date">
+				</div>
+				<div class="width100">
+					<label asp-for="@Model.SelectedTimeFrom">التوقيت من:</label>
+					<select name="SelectedTimeFrom" class="input-box width100" asp-items="@(new SelectList(Model.Times.Select(t => new { Value = t, Text = GetTimeText(t) }), "Value", "Text", Model.SelectedTimeFrom))">
+					</select>
+				</div>
+	
+				<div class="width100">
+					<label asp-for="@Model.SelectedTimeTo">التوقيت إلى:</label>
+					<select name="SelectedTimeTo" class="input-box width100" asp-items="@(new SelectList(Model.Times.Select(t => new { Value = t, Text = GetTimeText(t) }), "Value", "Text", Model.SelectedTimeTo))">
+					</select>
+				</div>
+				<div class="width100">
+					<span class="material-symbols-rounded cursor" onclick="openForm('SectorForm')">
+						add_circle
+					</span>
+					<label asp-for="@Model.SectorId"> القطاع </label>
+					<select name="SectorId" class="input-box width100" asp-items="@(new SelectList(Model.Sectors, "Id", "SectorName"))">
+					</select>
+				</div>
+				<div class="width100">
+					<span class="material-symbols-rounded cursor" onclick="openForm('SectorPlaceForm')">
+						add_circle
+					</span>
+					<label asp-for="@Model.SectorPlaceToId">من:</label>
+					<select name="SectorPlaceToId" class="input-box width100" asp-items="@(new SelectList(Model.SectorPlaces, "Id", "SectorPlaceName"))">
+					</select>
+				</div>
+				<div class="width100">
+					<label asp-for="@Model.SectorPlaceFromId">إلى:</label>
+					<select name="SectorPlaceFromId" class="input-box width100" asp-items="@(new SelectList(Model.SectorPlaces, "Id", "SectorPlaceName"))">
+					</select>
+				</div>
+			</div>
+			<button type="submit"class="center gap2 font20px card-radius height50px cursor width300px shadow1 white bg-primary bold mg-top20 mg-bottom10">
+				حفظ إعدادات اليومية
+				<span class="material-symbols-rounded">
+					save
+				</span>
+			</button>
+		</div>
+	</form>
+</div>
+
+
+
+@if(Model.DailyOperationViewModel is not null && Model.DailyOperationViewModel.Operation is not null && Model.DailyOperationViewModel.Operation.GeneralDepartment is not null && Model.OperationId != 0) 
+{
+	<header class="center mg-top20 mg-bottom20 gap2 cursor" onclick="expand('service')">
+		<div class="center gap2 width25 bg-white card-radius height50px padding1" id="servicespans">
+			<div>
+				إضافة خدمة
+			</div>
+			<span class="material-symbols-rounded" style="font-weight:900; font-size:30px">
+				expand_more
+			</span>
+			<span class="material-symbols-rounded" style="font-weight:900; font-size:30px; display:none;">
+				expand_less
+			</span>
+		</div>
+	</header>
+<div id="service"> 
+	<form method="post" asp-controller="Operations" asp-action="AddOperationForMembers" enctype="multipart/form-data" class="bg-white shadow1 card-radius height-fit card-padding mg-bottom50">
+		<input hidden asp-for="@Model.OperationId" />
+		<div class="center gap1 width100" id="record">
+			<div class="width100">
+				<label asp-for="@Model.PoliceOfficerId">ضابط</label>
+				<select name="PoliceOfficerId" asp-for="@Model.PoliceOfficerId" class="input-box width100">
+					<option></option>
+					@foreach(var officer in Model.PoliceOfficers)
+					{
+						<option value="@officer.Id">  @officer.Name - @officer.OfficerMilitaryDegree.Degree </option>
+					}
+				</select>
+			</div>
+
+			<div class="width100">
+				<label asp-for="@Model.PoliceAssistantId">أمين شرطة</label>
+				<select name="PoliceAssistantId" asp-for="@Model.PoliceAssistantId" class="input-box width100">
+					<option></option>
+					@foreach(var policeAssistant in Model.PoliceAssistants)
+					{
+						<option value="@policeAssistant.Id"> @policeAssistant.Name - @policeAssistant.AssistantsMilitaryDegree.Degree</option>
+					}
+				</select>
+			</div>
+
+			<div class="width100">
+				<label asp-for="@Model.SoldierId"> مجند </label>
+				<select name="SoldierId" class="input-box width100" asp-items="@(new SelectList(Model.Soldiers, "Id", "Name"))">
+					<option></option>
+				</select>
+			</div>
+			<div class="width100">
+				<span class="material-symbols-rounded cursor" onclick="openForm('OperationTypeForm')">
+					add_circle
+				</span>
+				<label asp-for="@Model.OperationTypeId"> نوع الخدمة</label>
+				<select name="OperationTypeId" class="input-box width100" asp-items="@(new SelectList(Model.OperationTypes, "Id", "Type"))">
+				</select>
+			</div>
+
+			<div class="width100">
+				<span class="material-symbols-rounded cursor" onclick="openForm('OperationDescriptionForm')">
+					add_circle
+				</span>
+				<label asp-for="@Model.OperationDescriptionId">وصف الخدمة</label>
+				<select name="OperationDescriptionId" class="input-box width100" asp-items="@(new SelectList(Model.OperationDescriptions, "Id", "Description"))">
+				</select>
+			</div>
+
+			<div class="width100">
+				<span class="material-symbols-rounded cursor" onclick="openForm('OperationInstructionForm')">
+					add_circle
+				</span>
+				<label asp-for="@Model.OperationInstructionId">التعليمات </label>
+				<select name="OperationInstructionId" class="input-box width100" asp-items="@(new SelectList(Model.OperationInstructions, "Id", "Instruction"))">
+				</select>
+			</div>
+			
+			<div class="width100">
+				<label asp-for="@Model.OperationTimeFrom">التوقيت من:</label>
+				<select name="OperationTimeFrom" class="input-box width100" asp-items="@(new SelectList(Model.Times.Select(t => new { Value = t, Text = GetTimeText(t) }), "Value", "Text", Model.OperationTimeFrom))">
+					<option></option>
+				</select>
+			</div>
+
+			<div class="width100">
+				<label asp-for="@Model.OperationTimeTo">التوقيت إلى:</label>
+				<select name="OperationTimeTo" class="input-box width100" asp-items="@(new SelectList(Model.Times.Select(t => new { Value = t, Text = GetTimeText(t) }), "Value", "Text", Model.OperationTimeTo))">
+					<option></option>
+				</select>
+			</div>
+
+			<div class="width100">
+				<label asp-for="@Model.VehicleTypeId"> نوع المركبة</label>
+				<select name="VehicleTypeId" class="input-box width100" asp-items="@(new SelectList(Model.VehicleTypes, "Id", "Type"))">
+				</select>
+			</div>
+
+			<div class="width100">
+				<label asp-for="@Model.VehicleId">المركبة</label>
+				<select name="VehicleId" class="input-box width100" asp-for="@Model.VehicleId">
+					<option></option>
+					@foreach (var vehicle in Model.Vehicles)
+					{
+						<option value="@vehicle?.Id"> @vehicle?.VehicleType?.Type (@vehicle?.VehicleLetters - @vehicle?.VehicleNumbers) </option>
+					}
+				</select>
+			</div>
+
+			<div class="width100">
+				<label asp-for="@Model.DriverData">قائد المركبة</label>
+				<select name="DriverData" class="input-box width100" onchange="GetDriverData()" id="DriverSelect">
+					<option></option>
+					@foreach (var officer in Model.PoliceOfficers)
+					{
+								<option value="@officer.Id|1"> @officer.Name - @officer.OfficerMilitaryDegree.Degree</option>
+					}
+
+					@foreach (var assistant in Model.PoliceAssistants)
+					{
+						<option value="@assistant.Id|2">@assistant.Name - @assistant.AssistantsMilitaryDegree.Degree</option>
+					}
+
+					@foreach (var soldier in Model.Soldiers)
+					{
+						<option value="@soldier.Id|3">@soldier.Name - مجند</option>
+					}
+				</select>
+			</div>
+
+		</div>
+
+		<div class="center gap5 mg-top20 mg-bottom10">
+			<button type="submit"class="center gap2 font20px card-radius height50px cursor width200px shadow1 white bg-primary bold">
+				حفظ
+				<span class="material-symbols-rounded">
+					save
+				</span>
+			</button>
+			<div class="center gap2 font20px card-radius height50px cursor width200px shadow1 white bg-primary bold" id="printButton" onclick="printDivContent()">
+				طباعة
+				<span class="material-symbols-rounded">
+					print
+				</span>
+			</div>
+		</div>
+
+	</form>
+</div>
+
+		<header class="center mg-top20 mg-bottom20 gap2 cursor" onclick="expand('signs')">
+			<div class="center gap2 width25 bg-white card-radius height50px padding1" id="signsspans">
+				<div>
+					إضافة الإمضاءات
+				</div>
+				<span class="material-symbols-rounded" style="font-weight:900; font-size:30px">
+					expand_more
+				</span>
+				<span class="material-symbols-rounded" style="font-weight:900; font-size:30px; display:none;">
+					expand_less
+				</span>
+			</div>
+		</header>
+
+<div id="signs">
+		<div class="center">
+			<div class="flex-column width80 bg-white card-radius height-fit shadow1 card-padding mg-bottom50">
+			<div class="center gap2 mg-bottom10 width100">
+				<div class="width250px">
+					<label> الوظيفة </label>
+					<input class="input-box width100" id="job"/>
+				</div>
+				<div class="width250px">
+					<label> الرتبة </label>
+					<input class="input-box width100" id="degree" />
+				</div>
+				<div class="width250px">
+					<label> الاسم </label>
+					<input class="input-box width100" id="name" />
+				</div>
+				<button id="add-btn" class="padding1 width250px btn center gap2 font20px card-radius height50px cursor width250px shadow1 white bg-primary bold mg-top25">
+					إضافة الإمضاء
+					<span class="material-symbols-rounded">
+						add_circle
+					</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<div class="flex-column width100" id="printContent">
+		<div class="flex-row align-start">
+			<div class="font20px bold">@Model.DailyOperationViewModel.Operation.GeneralDepartment.Department</div>
+		</div>
+		<div class="flex-row align-start">
+			<div class="font20px bold">@Model.DailyOperationViewModel.Operation.InnerDepartment.Department</div>
+		</div>
+		<div class="center align-start">
+			<div class="font20px bold"> يومية @Model.DailyOperationViewModel.Operation.DailyOperation.DailyOperationName</div>
+		</div>
+		<div class="center align-start">
+			<div class="font20px bold">  @Model.DailyOperationViewModel.Operation.ShiftType.Type من: @GetTimeText(Model.DailyOperationViewModel.Operation.ShiftTimeFrom) إلى: @GetTimeText(Model.DailyOperationViewModel.Operation.ShiftTimeTo) </div>
+		</div>
+		<div class="center align-start">
+			<div class="font20px bold"> القطاع @Model.DailyOperationViewModel.Operation.Sector.SectorName  من: @Model.DailyOperationViewModel.Operation.SectorPlaceFrom.SectorPlaceName إلى: @Model.DailyOperationViewModel.Operation.SectorPlaceTo.SectorPlaceName </div>
+		</div>
+		<div class="center align-start mg-bottom20">
+			<div class="font20px bold"> التاريخ:  @Model.DailyOperationViewModel.Operation.Date.ToShortDateString() </div>
+		</div>
+
+		<div class="flex-column align-center width100">
+			<header class="center mg-bottom20 mg-top10"> يومية الضباط </header>
+			<table class="width90 mg-bottom50">
+				<thead>
+					<tr>
+						<th> الرتبة </th>
+						<th> الضابط </th>
+						<th> نوع الخدمة </th>
+						<th> وصف الخدمة </th>
+						<th> تعليمات الخدمة </th>
+						<th> نوع المركبة </th>
+						<th> رقم المركبة </th>
+						<th> قائد المركبة </th>
+					</tr>
+				</thead>
+				<tbody>
+					@if (Model != null && Model.OperationOfficersViewModel != null)
+					{
+						@foreach(var operation in Model.OperationOfficersViewModel)
+						{
+							<tr>
+								<td> @operation?.OperationOfficer?.PoliceOfficer?.OfficerMilitaryDegree.Degree </td>
+								<td>
+									<div class="flex-column align-center gap0">
+										@operation?.OperationOfficer?.PoliceOfficer?.Name
+										<div class="center">
+											@GetTimeText(operation?.OperationOfficer?.TimeFrom ?? 0) : @GetTimeText(operation?.OperationOfficer?.TimeTo ?? 0)
+										</div>
+										<div class="center">
+											@operation?.OperationOfficer?.PoliceOfficer?.Phone
+										</div>
+									</div>
+
+								</td>
+								<td> @operation?.OperationOfficer?.OperationType?.Type </td>
+								<td> @operation?.OperationOfficer?.OperationDescription?.Description </td>
+								<td> @operation?.OperationOfficer?.OperationInstruction?.Instruction </td>
+								<td> @operation?.OperationVehicle?.Vehicle?.VehicleType?.Type </td>
+								<td> @operation?.OperationVehicle?.Vehicle?.VehicleLetters @operation?.OperationVehicle?.Vehicle?.VehicleNumbers </td>
+								<td> @operation?.DriverName</td>
+								<td class="danger cursor delete">
+									<a asp-controller="OperationOfficers" asp-action="Delete" asp-route-id="@operation.OperationOfficer.Id" asp-route-operationId="@Model.OperationId">
+										<span class="material-symbols-rounded">
+											delete_forever
+										</span>
+									</a>
+								</td>	
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+
+			<header class="center mg-bottom20 mg-top50"> يومية الأمناء و الأفراد </header>
+			<table class="width90 mg-bottom50">
+				<thead>
+					<tr>
+						<th> الرتبة </th>
+						<th> الاسم </th>
+						<th> نوع الخدمة </th>
+						<th> وصف الخدمة </th>
+						<th> تعليمات الخدمة </th>
+					</tr>
+				</thead>
+				<tbody>
+					@if (Model != null && Model.DailyOperationViewModel != null && Model.DailyOperationViewModel.OperationPoliceAssistants != null)
+					{
+						@foreach (var operation in Model.DailyOperationViewModel.OperationPoliceAssistants)
+						{
+							<tr>
+								<td> @operation?.PoliceAssistant?.AssistantsMilitaryDegree?.Degree </td>
+								<td> 
+									<div class="flex-column align-center gap0">
+
+										@operation?.PoliceAssistant?.Name
+										<div class="center">
+											@GetTimeText(operation?.TimeFrom ?? 0) : @GetTimeText(operation?.TimeTo ?? 0)
+										</div>
+										<div class="center">
+											@operation?.PoliceAssistant?.Phone
+										</div>
+									</div>
+								</td>
+								<td> @operation?.OperationType?.Type </td>
+								<td> @operation?.OperationDescription?.Description </td>
+								<td> @operation?.OperationInstruction?.Instruction </td>
+								<td class="danger cursor delete">
+									<a asp-controller="OperationAssistants" asp-action="Delete" asp-route-id="@operation.Id" asp-route-operationId="@Model.OperationId">
+										<span class="material-symbols-rounded">
+											delete_forever
+										</span>
+									</a>
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+
+
+			<header class="center mg-bottom20 mg-top50"> يومية المجندين </header>
+			<table class="width90 mg-bottom50">
+				<thead>
+					<tr>
+						<th> الرتبة </th>
+						<th> الاسم </th>
+						<th> نوع الخدمة </th>
+						<th> وصف الخدمة </th>
+						<th> تعليمات الخدمة </th>
+					</tr>
+				</thead>
+				<tbody>
+						@if (Model != null && Model.DailyOperationViewModel != null && Model.DailyOperationViewModel.OperatinSoldiers != null)
+					{
+						@foreach (var operation in Model.DailyOperationViewModel.OperatinSoldiers)
+						{
+							<tr>
+								<td> مجند 2 </td>
+								<td> 
+									<div class="flex-column align-center gap0">
+										@operation?.Soldier?.Name 
+										<div class="center">
+											@GetTimeText(operation?.TimeFrom ?? 0) : @GetTimeText(operation?.TimeTo ?? 0)
+										</div>
+										<div class="center">
+											@operation?.Soldier?.Phone
+										</div>
+									</div>
+								</td>
+								<td> @operation?.OperationType?.Type </td>
+								<td> @operation?.OperationDescription?.Description </td>
+								<td> @operation?.OperationInstruction?.Instruction </td>
+								<td class="danger cursor delete">
+									<a asp-controller="OperationSoldiers" asp-action="Delete" asp-route-id="@operation.Id" asp-route-operationId="@Model.OperationId">
+										<span class="material-symbols-rounded">
+											delete_forever
+										</span>
+									</a>
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+
+			<header class="center mg-bottom20 mg-top50"> يومية المركبات </header>
+			<table class="width90 mg-bottom50">
+				<thead>
+					<tr>
+						<th> قائد المركبة </th>
+						<th> نوع الخدمة </th>
+						<th> وصف الخدمة </th>
+						<th> تعليمات الخدمة </th>
+						<th> نوع المركبة </th>
+						<th> رقم المركبة </th>
+						<th> بصحبة </th>
+					</tr>
+				</thead>
+				<tbody>
+					@if (Model != null && Model.OperationVehiclesViewModel != null)
+					{
+						@foreach(var operation in Model.OperationVehiclesViewModel)
+						{
+							<tr>
+								<td> 
+									<div class="flex-column align-center gap0">
+										@operation?.DriverName											
+										<div class="center">
+											@GetTimeText(operation?.OperationVehicle.TimeFrom ?? 0) : @GetTimeText(operation?.OperationVehicle.TimeTo ?? 0)
+										</div>
+									</div>
+								</td>
+								<td> @operation?.OperationVehicle?.OperationType?.Type </td>
+								<td> @operation?.OperationVehicle?.OperationDescription?.Description</td>
+								<td> @operation?.OperationVehicle?.OperationInstruction?.Instruction </td>
+								<td> @operation?.OperationVehicle?.Vehicle?.VehicleType?.Type</td>
+								<td> @operation?.OperationVehicle?.Vehicle?.VehicleNumbers @operation?.OperationVehicle?.Vehicle?.VehicleLetters  </td>
+								<td> @operation?.OfficerName </td>
+								@if(operation == null || operation.OfficerName == null)
+								{
+									<td class="danger cursor delete">
+										<a asp-controller="OperationVehicles" asp-action="Delete" asp-route-id="@operation?.OperationVehicle?.Id" asp-route-operationId="@Model.OperationId">
+											<span class="material-symbols-rounded">
+												delete_forever
+											</span>
+										</a>
+									</td>	
+								}
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+
+		</div>
+
+		<div id="signatures" class="flex-column font20px bold">
+		</div>
+
+	</div>
+
+}
+
+
+</div>
+
+
+
+<form method="post" asp-controller="AddingLookUps" asp-action="GeneralDepartment" enctype="multipart/form-data">
+	<div class="form-fees gap0" id="GeneralDepartmentForm">
+		<div class="flex-row justify-content-start cursor">
+			<span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('GeneralDepartmentForm')">
+				close
+			</span>
+		</div>
+		<div class="flex-column align-center">
+			<span id="vehicleTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+			<div class="margin-input width80">
+				<label asp-for="GeneralDepartment.Department"> الإدارة </label>
+				<input asp-for="GeneralDepartment.Department" class="input-box width100" type="text" placeholder="ادخل اسم الإدارة" />
+			</div>
+			<input hidden asp-for="@Model.OperationId" />
+			<div class="center mg-bottom20 mg-top20">
+				<button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+<form method="post" asp-controller="AddingLookUps" asp-action="InnerDepartment" enctype="multipart/form-data">
+	<div class="form-fees gap0" id="InnerDepartmentForm">
+		<div class="flex-row justify-content-start cursor">
+			<span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('InnerDepartmentForm')">
+				close
+			</span>
+		</div>
+		<div class="flex-column align-center">
+			<span id="vehicleTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+			<div class="margin-input width80">
+				<label asp-for="InnerlDepartment.Department"> القسم </label>
+				<input asp-for="InnerlDepartment.Department" class="input-box width100" type="text" placeholder="ادخل اسم الإدارة" />
+			</div>
+			<input hidden asp-for="@Model.OperationId" />
+			<div class="center mg-bottom20 mg-top20">
+				<button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+<form method="post" asp-controller="AddingLookUps" asp-action="DailyOperation" enctype="multipart/form-data">
+	<div class="form-fees gap0" id="DailyOperationForm">
+		<div class="flex-row justify-content-start cursor">
+			<span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('DailyOperationForm')">
+				close
+			</span>
+		</div>
+		<div class="flex-column align-center">
+			<span id="vehicleTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+			<div class="margin-input width80">
+				<label asp-for="DailyOperation.DailyOperationName"> اليومية </label>
+				<input asp-for="DailyOperation.DailyOperationName" class="input-box width100" type="text" placeholder="ادخل اسم الإدارة" />
+			</div>
+			<input hidden asp-for="@Model.OperationId" />
+			<div class="center mg-bottom20 mg-top20">
+				<button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+			</div>
+		</div>
+	</div>
+</form>
+
+<form method="post" asp-controller="AddingLookUps" asp-action="ShiftType" enctype="multipart/form-data">
+	<div class="form-fees gap0" id="ShiftTypeForm">
+		<div class="flex-row justify-content-start cursor">
+			<span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('ShiftTypeForm')">
+				close
+			</span>
+		</div>
+		<div class="flex-column align-center">
+			<span id="vehicleTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+			<div class="margin-input width80">
+				<label asp-for="ShiftType.Type"> الفترة </label>
+				<input asp-for="ShiftType.Type" class="input-box width100" type="text" placeholder="ادخل اسم الإدارة" />
+			</div>
+			<input hidden asp-for="@Model.OperationId" />
+			<div class="center mg-bottom20 mg-top20">
+				<button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+<form method="post" asp-controller="AddingLookUps" asp-action="Sector" enctype="multipart/form-data">
+	<div class="form-fees gap0" id="SectorForm">
+		<div class="flex-row justify-content-start cursor">
+			<span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('SectorForm')">
+				close
+			</span>
+		</div>
+		<div class="flex-column align-center">
+			<span id="vehicleTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+			<div class="margin-input width80">
+				<label asp-for="Sector.SectorName"> القطاع </label>
+				<input asp-for="Sector.SectorName" class="input-box width100" type="text" />
+			</div>
+			<input hidden asp-for="@Model.OperationId" />
+			<div class="center mg-bottom20 mg-top20">
+				<button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+<form method="post" asp-controller="AddingLookUps" asp-action="SectorPlace" enctype="multipart/form-data">
+	<div class="form-fees gap0" id="SectorPlaceForm">
+		<div class="flex-row justify-content-start cursor">
+			<span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('SectorPlaceForm')">
+				close
+			</span>
+		</div>
+		<div class="flex-column align-center">
+			<span id="vehicleTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+			<div class="margin-input width80">
+				<label asp-for="SectorPlace.SectorPlaceName"> القطاع من أو إالى: </label>
+				<input asp-for="SectorPlace.SectorPlaceName" class="input-box width100" type="text" />
+			</div>
+			<input hidden asp-for="@Model.OperationId" />
+			<div class="center mg-bottom20 mg-top20">
+				<button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+<form method="post" asp-controller="AddingLookUps" asp-action="OperationType" enctype="multipart/form-data">
+	<div class="form-fees gap0" id="OperationTypeForm">
+		<div class="flex-row justify-content-start cursor">
+			<span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('OperationTypeForm')">
+				close
+			</span>
+		</div>
+		<div class="flex-column align-center">
+			<span id="vehicleTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+			<div class="margin-input width80">
+				<label asp-for="OperationType.Type"> نوع الخدمة </label>
+				<input asp-for="OperationType.Type" class="input-box width100" type="text" />
+			</div>
+			<input hidden asp-for="@Model.OperationId" />
+			<div class="center mg-bottom20 mg-top20">
+				<button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+<form method="post" asp-controller="AddingLookUps" asp-action="OperationDescription" enctype="multipart/form-data">
+	<div class="form-fees gap0" id="OperationDescriptionForm">
+		<div class="flex-row justify-content-start cursor">
+			<span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('OperationDescriptionForm')">
+				close
+			</span>
+		</div>
+		<div class="flex-column align-center">
+			<span id="vehicleTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+			<div class="margin-input width80">
+				<label asp-for="OperationDescription.Description"> وصف الخدمة </label>
+				<input asp-for="OperationDescription.Description" class="input-box width100" type="text" />
+			</div>
+			<input hidden asp-for="@Model.OperationId" />
+			<div class="center mg-bottom20 mg-top20">
+				<button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+<form method="post" asp-controller="AddingLookUps" asp-action="OperationInstruction" enctype="multipart/form-data">
+	<div class="form-fees gap0" id="OperationInstructionForm">
+		<div class="flex-row justify-content-start cursor">
+			<span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('OperationInstructionForm')">
+				close
+			</span>
+		</div>
+		<div class="flex-column align-center">
+			<span id="vehicleTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+			<div class="margin-input width80">
+				<label asp-for="OperationInstruction.Instruction"> تعليمات الخدمة </label>
+				<input asp-for="OperationInstruction.Instruction" class="input-box width100" type="text" />
+			</div>
+			<input hidden asp-for="@Model.OperationId" />
+			<div class="center mg-bottom20 mg-top20">
+				<button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+
+
+@functions {
+    public string GetTimeText(int time)
+    {
+        if (time <= 12)
+        {
+            return $"{time} ص";
+        }
+        else
+        {
+            return $"{time - 12} م";
+        }
+    }
+
+}
+
+
+
+
+<script src="~/js/roadService.js"></script>

@@ -1,0 +1,202 @@
+﻿@using DailyOperations.Domain.ViewModels.PoliceOfficers;
+@model GetAllPoliceOfficersViewModel
+
+<header class="center mg-top25 mg-bottom20"> الضباط </header>
+<div class="center mg-top50" id="officers-body">
+    <table class="width90">
+        <thead>
+            <tr>
+                <th class="width20"> 
+                    <div class="flex-row center gap1">
+                        <div>القوة</div>
+                        <div class="cursor" onclick="openForm('PowerTypeForm')">
+                            <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>
+                        </div>
+                    </div>
+                </th>
+                <th class="width20">
+                    <div class="flex-row center gap1">
+                        <div> الإدارة </div>
+                        <div class="cursor" onclick="openForm('DepartmentForm')">
+                            <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>
+                        </div>
+                    </div> 
+                </th>
+                <th class="width20"> 
+                    <div class="flex-row center gap1">
+                        <div> الرتبة </div>
+                        <div class="cursor" onclick="openForm('OfficerMilitaryDegreeForm')">
+                            <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>
+                        </div>
+                    </div> 
+                </th>
+                <th> الاسم </th>
+                <th> التليفون</th>
+                <th class="width10">
+                    <div class="center">
+                        <a asp-controller="PoliceOfficers" asp-action="AddOrUpdate" onclick="openForm('PoliceOfficersForm')">
+                            <span class="material-symbols-rounded primary cursor" style="font-size:38px;font-weight:500;">add_circle</span>
+                        </a>
+                    </div>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.PoliceOfficers != null && Model.PoliceOfficers.Count() > 0)
+            {
+                @foreach (var obj in Model.PoliceOfficers)
+                {
+                    <tr>
+                        <td>@obj.PowerType.Name</td>
+                        <td>@obj.Department.Name</td>
+                        <td>@obj.OfficerMilitaryDegree.Degree</td>
+                        <td>@obj.Name</td>
+                        <td>@obj.Phone</td>
+                        <td>
+                            <div class="center gap2">
+                                <a asp-controller="PoliceOfficers" asp-route-id="@obj.Id" asp-action="Delete">
+                                    <span class="material-symbols-rounded danger">delete_forever</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+<form method="post" asp-controller="PoliceOfficers" asp-action="AddOrUpdate" enctype="multipart/form-data"> @*onsubmit="return validateProjectForm()">*@
+    <div class="form-fees gap0" id="PoliceOfficersForm">
+        <div class="flex-row justify-content-start">
+            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('PoliceOfficersForm')">
+                close
+            </span>
+        </div>
+        <div class="flex-column align-center">
+            <span id="officers-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+            <input hidden asp-for="PoliceOfficer.Id" id="officerId" />
+            
+            <div class="mg-top50 width80">
+                <label asp-for="@Model.PoliceOfficer.PowerTypeId"> القوة</label>
+                <select name="PoliceOfficer.PowerTypeId" class="input-box width100" asp-items="@(new SelectList(Model.PowerTypes, "Id", "Name"))">
+                </select>
+            </div>
+
+            <div class="mg-top50 width80">
+                <label asp-for="@Model.PoliceOfficer.DepartmentId">الإدارة</label>
+                <select name="PoliceOfficer.DepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.Departments, "Id", "Name"))">
+                </select>
+            </div>
+            
+            <div class="mg-top50 width80">
+                <label asp-for="@Model.PoliceOfficer.OfficerMilitaryDegreeId"> الرتبة</label>
+                <select name="PoliceOfficer.OfficerMilitaryDegreeId" class="input-box width100" asp-items="@(new SelectList(Model.OfficersMililaryDegrees, "Id", "Degree"))">
+                </select>
+            </div>
+            
+            <div class="mg-top50 width80">
+                <label asp-for="@Model.PoliceOfficer.Name">الاسم</label>
+                <input id="project-name" asp-for="@Model.PoliceOfficer.Name" class="input-box width100" type="text" placeholder="ادخل الاسم" />
+            </div>
+            
+            
+            <div class="mg-top50 width80">
+                <label asp-for="@Model.PoliceOfficer.Phone">التليفون</label>
+                <input id="project-name" asp-for="@Model.PoliceOfficer.Phone" class="input-box width100" type="text" placeholder="ادخل رقم الهاتف" />
+            </div>
+            
+            <div class="center mg-bottom20 mg-top50">
+                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<form method="post" asp-controller="PowerTypes" asp-action="AddOrUpdate" enctype="multipart/form-data">
+    <div class="form-fees gap0" id="PowerTypeForm">
+        <div class="flex-row justify-content-start">
+            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('PowerTypeForm')">
+                close
+            </span>
+        </div>
+        <div class="flex-column align-center">
+            <span id="powerTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+
+            <div class="mg-top50 width80">
+                <label asp-for="@Model.PowerType.Name">القوة</label>
+                <input asp-for="@Model.PowerType.Name" class="input-box width100" type="text" placeholder="ادخل نوع القوة" />
+            </div>
+
+            <div class="center mg-bottom20 mg-top50">
+                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+<form method="post" asp-controller="Departments" asp-action="AddOrUpdate" enctype="multipart/form-data">
+    <div class="form-fees gap0" id="DepartmentForm">
+        <div class="flex-row justify-content-start">
+            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('DepartmentForm')">
+                close
+            </span>
+        </div>
+        <div class="flex-column align-center">
+            <span id="Departments-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+            @*<input hidden asp-for="@Model.PowerType.Id" id="powerTypeId" />*@
+
+            <div class="mg-top50 width80">
+                <label asp-for="@Model.Department.Name">الإدارة</label>
+                <input asp-for="@Model.Department.Name" class="input-box width100" type="text" placeholder="ادخل اسم الإدارة" />
+            </div>
+
+            <div class="center mg-bottom20 mg-top50">
+                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<form method="post" asp-controller="OfficerMilitaryDegrees" asp-action="AddOrUpdate" enctype="multipart/form-data">
+    <div class="form-fees gap0" id="OfficerMilitaryDegreeForm">
+        <div class="flex-row justify-content-start">
+            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('OfficerMilitaryDegreeForm')">
+                close
+            </span>
+        </div>
+        <div class="flex-column align-center">
+            <span id="OfficerMilitaryDegree-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+            @*<input hidden asp-for="@Model.PowerType.Id" id="powerTypeId" />*@
+
+            <div class="mg-top50 width80">
+                <label asp-for="@Model.OfficerMililaryDegree.Degree">الرتبة</label>
+                <input asp-for="@Model.OfficerMililaryDegree.Degree" class="input-box width100" type="text" placeholder="ادخل الرتبة" />
+            </div>
+
+            <div class="center mg-bottom20 mg-top50">
+                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+<script src="~/js/layout.js"></script>

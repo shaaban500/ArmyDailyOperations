@@ -1,0 +1,26 @@
+﻿@using DailyOperations.Domain.ViewModels.PoliceOfficers;
+@model GetAllPoliceOfficersViewModel 
+
+<form method="post" asp-controller="PowerTypes" asp-action="AddOrUpdate" enctype="multipart/form-data">
+    <div class="form-fees gap0" id="powerTypesForm">
+        <div class="flex-row justify-content-start">
+            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('powerTypesForm')">
+                close
+            </span>
+        </div>
+        <div class="flex-column align-center">
+            <span id="powerTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+            @*<input hidden asp-for="@Model.PowerType.Id" id="powerTypeId" />*@
+
+            <div class="margin-input width80">
+                <label asp-for="@Model.PowerType.Name">القوة</label>
+                <input asp-for="@Model.PowerType.Name" class="input-box width100" type="text" placeholder="ادخل نوع القوة" />
+            </div>
+
+            <div class="center mg-bottom20">
+                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+            </div>
+        </div>
+    </div>
+</form>
