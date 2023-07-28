@@ -1,4 +1,5 @@
 ﻿using DailyOperations.Domain.Entities;
+using DailyOperations.Domain.Entities.Holidays;
 using DailyOperations.Domain.Entities.Members;
 using DailyOperations.Domain.Entities.Operations;
 using DailyOperations.Domain.Entities.Shared;
@@ -50,6 +51,16 @@ namespace DailyOperations.Persistence.Contexts
         public DbSet<ShiftType> ShiftTypes { get; set; }
 
         #endregion
+
+        #region Holidays
+
+        public DbSet<HolidayType> HolidayTypes { get; set; }
+        public DbSet<OfficerHoliday> OfficerHolidays { get; set; }
+        public DbSet<AssistantHoliday> AssistantHolidays { get; set; }
+        public DbSet<SoldierHoliday> SoldierHolidays { get; set; }
+
+        #endregion
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             //var userId = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
