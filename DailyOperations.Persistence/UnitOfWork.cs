@@ -1,9 +1,11 @@
 ﻿using DailyOperations.Domain.Interfaces;
 using DailyOperations.Domain.Interfaces.Repositories;
+using DailyOperations.Domain.Interfaces.Repositories.Holidays;
 using DailyOperations.Domain.Interfaces.Repositories.Members;
 using DailyOperations.Domain.Interfaces.Repositories.Operations;
 using DailyOperations.Persistence.Contexts;
 using DailyOperations.Persistence.Repositories;
+using DailyOperations.Persistence.Repositories.Holidays;
 using DailyOperations.Persistence.Repositories.Members;
 using DailyOperations.Persistence.Repositories.Operations;
 
@@ -28,7 +30,7 @@ namespace DailyOperations.Persistence
         private ISoldiersExtraDurationRepository _soldiersExtraDurationRepository;
         private IEducationCertificateRepository _educationCertificateRepository;
 
-        // New repositories
+
         private IDailyOperationRepository _dailyOperationRepository;
         private IDriverTypeRepository _driverTypeRepository;
         private IGeneralDepartmentRepository _generalDepartmentRepository;
@@ -44,6 +46,17 @@ namespace DailyOperations.Persistence
         private ISectorPlaceRepository _sectorPlaceRepository;
         private ISectorRepository _sectorRepository;
         private IShiftTypeRepository _shiftTypeRepository;
+
+
+        private IHolidayTypeRepository _holidayTypeRepository;
+        private IOfficerHolidayRepository _officerHolidayRepository;
+        private IAssistantHolidayRepository _assistantHolidayRepository;
+        private ISoldierHolidayRepository _soldierHolidayRepository;
+
+        public IHolidayTypeRepository HolidayTypes => _holidayTypeRepository ??= new HolidayTypesRepository(_context);
+        public IOfficerHolidayRepository OfficerHolidays => _officerHolidayRepository ??= new OfficerHolidayRepository(_context);
+        public IAssistantHolidayRepository AssistantHolidays => _assistantHolidayRepository ??= new AssistantHolidayRepository(_context);
+        public ISoldierHolidayRepository SoldierHolidays => _soldierHolidayRepository ?? = new SoldierHolidayRepository(_context);
 
         public UnitOfWork(AppDbContext context)
         {

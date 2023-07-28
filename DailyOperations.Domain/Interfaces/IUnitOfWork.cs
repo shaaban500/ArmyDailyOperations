@@ -1,4 +1,5 @@
 ﻿using DailyOperations.Domain.Interfaces.Repositories;
+using DailyOperations.Domain.Interfaces.Repositories.Holidays;
 using DailyOperations.Domain.Interfaces.Repositories.Members;
 using DailyOperations.Domain.Interfaces.Repositories.Operations;
 
@@ -43,8 +44,16 @@ namespace DailyOperations.Domain.Interfaces
         ISectorRepository Sectors { get; }
         IShiftTypeRepository ShiftTypes { get; }
 
-        #endregion
+		#endregion
 
+		#region Holidays
+
+        IHolidayTypeRepository HolidayTypes { get; }
+        IOfficerHolidayRepository OfficerHolidays { get; }
+        IAssistantHolidayRepository AssistantHolidays { get; }
+        ISoldierHolidayRepository SoldierHolidays { get; }
+		#endregion
+		
         void Save();
         Task<int> SaveAsync();
     }
