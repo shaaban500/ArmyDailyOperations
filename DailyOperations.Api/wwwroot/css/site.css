@@ -843,7 +843,7 @@ input[type="checkbox"] {
     -moz-appearance: none;
     background-color: var(--color-white);
     border: 0.2px solid var(--color-primary);
-    border-radius: 10px;
+    border-radius: 1px;
     width: 12px;
     height: 12px;
     transform: scale(2);
@@ -995,6 +995,4 @@ input[type="color"] {
 .hide{
     display:none;
 }
-
-
 

@@ -1,4 +1,5 @@
 ﻿using DailyOperations.Domain.Interfaces;
+using DailyOperations.Domain.ViewModels.SoldierHolidays;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DailyOperations.Api.Controllers.Holidays
@@ -13,30 +14,33 @@ namespace DailyOperations.Api.Controllers.Holidays
 
 		public async Task<IActionResult> GetAll(int numOfDays)
 		{
-			//if(numOfDays > 0) 
-			//{ 
-			//	var soldiers = await _unitOfWork.SoldierHolidays.GetAllIQueryable();
 
-			//	var today = DateTime.UtcNow.Date;
+			var soldierHolidays = await _unitOfWork.SoldierHolidays.GetAllIQueryable();
 
-			//	var officerViewModels = soldiers
-			//			.Where(h => h.IsFinished)
-			//			.GroupBy(h => h.SoldierId)
-			//			.Select(g => new SoldierViewModel
-			//			{
-			//				Soldier = g.OrderByDescending(h => h.HolidayEndDate).First().Soldier,
-			//				DaysSinceHoliday = (today - g.OrderByDescending(h => h.HolidayEndDate).First().HolidayEndDate.Date).TotalDays
-			//			})
-			//			.ToList();
+			var today = DateTime.UtcNow.Date;
+
+			var soldierHolidayViewModels = soldierHolidays
+					.Where(h => h.IsFinished)
+					.GroupBy(h => h.SoldierId)
+					.Select(g => new SoldierHolidayViewModel
+					{
+						Soldier = g.OrderByDescending(h => h.HolidayEndDate).First().Soldier,
+						DaysSinceHoldiay = (today - g.OrderByDescending(h => h.HolidayEndDate).First().HolidayEndDate.Date).TotalDays
+					});
 
 
-			//}
-			//else 
-			//{
-				
-			//}
-			return View();
+			if(numOfDays > 0)
+			{
+				soldierHolidayViewModels = soldierHolidayViewModels.Where(vm => vm.DaysSinceHoldiay == numOfDays);
+			}
+
+
+			return View(new GetAllSoldierHolidaysViewModel { SoldierHolidays = soldierHolidayViewModels.ToList() });
 		}
+
+
+
+
 
 
 	}

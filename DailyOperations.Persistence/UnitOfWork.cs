@@ -56,7 +56,7 @@ namespace DailyOperations.Persistence
         public IHolidayTypeRepository HolidayTypes => _holidayTypeRepository ??= new HolidayTypesRepository(_context);
         public IOfficerHolidayRepository OfficerHolidays => _officerHolidayRepository ??= new OfficerHolidayRepository(_context);
         public IAssistantHolidayRepository AssistantHolidays => _assistantHolidayRepository ??= new AssistantHolidayRepository(_context);
-        public ISoldierHolidayRepository SoldierHolidays => _soldierHolidayRepository ?? = new SoldierHolidayRepository(_context);
+        public ISoldierHolidayRepository SoldierHolidays => _soldierHolidayRepository ??= new SoldierHolidayRepository(_context);
 
         public UnitOfWork(AppDbContext context)
         {
