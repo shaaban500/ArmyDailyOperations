@@ -1,100 +1,128 @@
 ﻿@using DailyOperations.Domain.ViewModels.SoldierHolidays;
 @model GetAllSoldierHolidaysViewModel
 
-<header class="center mg-top25 mg-bottom20"> الحضور </header>
-<div class="center" id="officers-body">
-    <table class="width90">
-        <thead>
-            <tr>
-                <th class="width20">
-                    <div class="flex-row center gap1">
-                        <div> الاسم </div>
-                    </div>
-                </th>
-                <th class="width20">
-                    <div class="flex-row center gap1">
-                        <div> أيام العمالة </div>
-                    </div>
-                </th>
-                <th class="width20">
-                    <div class="flex-column gap2">
-                        <div> إضافة أجازة </div>
-                        <div class="center gap1">
-                            <label> تحديد الكل </label>
-                            <input id="check-all" class="align-center" type="checkbox"/>
+<form method="post" asp-controller="" asp-action="" enctype="multipart/form-data">
+   
+    <header class="center mg-top25 mg-bottom20"> الحضور </header>
+    
+    <div class="flex-column align-center">
+        <table class="width90">
+            <thead>
+                <tr>
+                    <th class="width20">
+                        <div class="flex-row center gap1">
+                            <div> الاسم </div>
                         </div>
-                    </div>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.SoldierHolidays is not null && Model.SoldierHolidays.Count() > 0)
-            {
-                @foreach (var obj in Model.SoldierHolidays)
+                    </th>
+                    <th class="width20">
+                        <div class="flex-row center gap1">
+                            <div> أيام العمالة </div>
+                        </div>
+                    </th>
+                    <th class="width20">
+                        <div class="flex-column gap2">
+                            <div> إضافة أجازة </div>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.SoldierHolidays is not null && Model.SoldierHolidays.Count() > 0)
                 {
-                    <tr>
-                        <td>@obj.Soldier.Name</td>
-                        <td>@obj.DaysSinceHoldiay</td>
-                        <td class="center">
-                            <input class="align-center checkbox" type="checkbox" />
-                        </td>
-                    </tr> 
+                    @for(int i = 0 ; i < Model.SoldierHolidays.Count ; i++)
+                    {
+                        <tr>
+                            <td>@Model.SoldierHolidays[i].Soldier.Name</td>
+                            <td>@Model.SoldierHolidays[i].DaysSinceHoldiay</td>
+                            <td class="center">
+                                <input asp-for="@Model.SoldierHolidays[i].IsSelected" class="align-center checkbox" type="checkbox" />
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
 
-
-
-@*
-<form method="post" asp-controller="OfficerMilitaryDegrees" asp-action="AddOrUpdate" enctype="multipart/form-data">
-    <div class="form-fees gap0" id="OfficerMilitaryDegreeForm">
-        <div class="flex-row justify-content-start">
-            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('OfficerMilitaryDegreeForm')">
-                close
-            </span>
-        </div>
-        <div class="flex-column align-center">
-            <span id="OfficerMilitaryDegree-error" class="center danger font2rem mg-bottom20 bold"></span>
-
-            @*<input hidden asp-for="@Model.PowerType.Id" id="powerTypeId" />
-
-            <div class="mg-top50 width80">
-                <label asp-for="@Model.OfficerMililaryDegree.Degree">الرتبة</label>
-                <input asp-for="@Model.OfficerMililaryDegree.Degree" class="input-box width100" type="text" placeholder="ادخل الرتبة" />
+    
+        <div class="center width75 gap2 mg-top50">
+            <div class="width100">
+                <label> تاريخ بداية الأجازة </label>
+                <input asp-for="@Model.HolidayStartDate" type="date" class="input-box width100"/>
             </div>
-
-            <div class="center mg-bottom20 mg-top50">
-                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+            <div class="width100">
+                <label> تاريخ نهاية الأجازة </label>
+                <input asp-for="@Model.HolidayEndDate" type="date" class="input-box width100"/>
+            </div>
+            <div class="width100">
+                <label asp-for="@Model.SelectedHolidayTypeId"> نوع الأجازة</label>
+                <select name="SelectedHolidayTypeId" class="input-box width100" asp-items="@(new SelectList(Model.HolidayTypes, "Id", "Type"))">
+                </select>
+            </div>
+            <div class="center width500px gap1 mg-top10">
+                <label> تحديد الكل </label>
+                <input id="check-all" class="" type="checkbox" />
             </div>
         </div>
+    
+
+        <div class="center mg-bottom50 mg-top50">
+            <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+        </div>
+
     </div>
+
 </form>
 
-*@
+<div class="center">
 
+    <div class="flex-column width40 bg-white card-padding ">
 
-<script>
-    var selectAllCheckbox = document.getElementById('check-all');
-    var checkboxes = document.getElementsByClassName('checkbox');
+        <div class="center">
+            <div class="flex-row justify-content-between width100">
+                <div class="width100">
+                    <h2> مديرية أمن مطروح </h2>
+                    <h2> إدارة مرور مطروح </h2>
+                </div>
+                <div>
+                    <img src="~/logo.png" class="width50px height50px">
+                </div>
+            </div>
+        </div>
+    
+        <div class="line mg-top10"></div>
+        <h2 class="center mg-top10 mg-bottom10"> تصريح أجازة </h2>
+        <div class="line"></div>
 
-    selectAllCheckbox.addEventListener('change', function () {
-        for (var i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = selectAllCheckbox.checked;
-        }
-    });
+        <div class="flex-row mg-top20">
+            <span class="font12px">
+                الاسم /
+                <span class="font20px bold">
+                    حنفي الأبهة 
+                </span>
+            </span>
+        </div>
 
-    for (var i = 0; i < checkboxes.length; i++) {
-        checkboxes[i].addEventListener('change', function () {
-            var allChecked = true;
-            for (var j = 0; j < checkboxes.length; j++) {
-                if (!checkboxes[j].checked) {
-                    allChecked = false;
-                    break;
-                }
-            }
-            selectAllCheckbox.checked = allChecked;
-        });
-    }
-</script>
+        <div class="center mg-top10">
+            <div class="line width50"></div>
+        </div>
+
+        <div class="center font20px mg-top20">
+            يصرح للمذكور القيام بأجازة ميدانية
+        </div>
+        <div class="center font20px mg-top10">
+            من الساعة 6 ص يوم: @Model.HolidayStartDate.ToShortDateString()
+        </div>
+        <div class="center font20px mg-top10">
+            إالى الساعة 10 م يوم: @Model.HolidayEndDate.ToShortDateString()
+        </div>
+        <div class="center font20px mg-top10">
+            و هذا تصريح منا بذلك...
+        </div>
+
+        <div class="flex-row">
+            
+        </div>
+    </div>
+
+</div>
+<script src="~/js/soldierHolidays.js"></script>

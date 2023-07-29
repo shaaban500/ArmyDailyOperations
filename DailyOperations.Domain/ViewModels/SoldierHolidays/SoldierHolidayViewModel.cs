@@ -6,6 +6,6 @@ namespace DailyOperations.Domain.ViewModels.SoldierHolidays
 	{
         public Soldier Soldier { get; set; }
         public double DaysSinceHoldiay { get; set; }
-        
+        public bool IsSelected { get; set; }
     }
 }
