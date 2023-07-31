@@ -4,6 +4,9 @@ namespace DailyOperations.Domain.ViewModels.SoldierHolidays
 {
     public class GetAllSoldierHolidaysViewModel
     {
+        // filter number 
+        public int NumberOfDays { get; set; }
+
         // table
         public List<SoldierHolidayViewModel> SoldierHolidays { get; set; }
         

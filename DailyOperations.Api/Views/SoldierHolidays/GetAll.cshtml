@@ -1,9 +1,45 @@
 ﻿@using DailyOperations.Domain.ViewModels.SoldierHolidays;
 @model GetAllSoldierHolidaysViewModel
 
-<form method="post" asp-controller="" asp-action="" enctype="multipart/form-data">
+<div class="center mg-top50 mg-bottom50 gap5">
+    <a asp-controller="SoldierHolidays" asp-action="GetAll" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold white bg-primary">
+        الحضور
+        <span class="material-symbols-rounded">
+            groups
+        </span>
+    </a>
+    <a asp-controller="SoldierHolidays" asp-action="GetAllHolidays" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold">
+        الأجازات
+        <span class="material-symbols-rounded">
+            hotel
+        </span>
+    </a>
+    <a asp-controller="SoldierHolidays" asp-action="GetAllReturns" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold">
+        العودة
+        <span class="material-symbols-rounded">
+            metabolism
+        </span>
+    </a>
+</div>
+
+
+<form method="post" asp-controller="SoldierHolidays" asp-action="GetAll" enctype="multipart/form-data">
+    <div class="flex-row width500px mg-top50 mg-bottom50 padding1 gap2">
+        <label asp-for="@Model.NumberOfDays" class="width50"> عدد أيام العمالة </label>
+        <input asp-for="@Model.NumberOfDays" type="text" class="input-box width50" />
+        
+        <button type="submit" class="bg-primary height-fit padding1 radius50  cursor white">
+            <span class="material-symbols-rounded">
+                search
+            </span>
+        </button>
+
+    </div>
+</form>
+
+
+<form method="post" asp-controller="SoldierHolidays" asp-action="Add" enctype="multipart/form-data">
    
-    <header class="center mg-top25 mg-bottom20"> الحضور </header>
     
     <div class="flex-column align-center">
         <table class="width90">
@@ -35,6 +71,7 @@
                             <td>@Model.SoldierHolidays[i].Soldier.Name</td>
                             <td>@Model.SoldierHolidays[i].DaysSinceHoldiay</td>
                             <td class="center">
+                                <input asp-for="@Model.SoldierHolidays[i].Soldier.Id" hidden />
                                 <input asp-for="@Model.SoldierHolidays[i].IsSelected" class="align-center checkbox" type="checkbox" />
                             </td>
                         </tr>
