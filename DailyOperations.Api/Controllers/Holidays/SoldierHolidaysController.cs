@@ -107,6 +107,8 @@ namespace DailyOperations.Api.Controllers.Holidays
         {
             var soldierHolidays = model.SoldierHolidays.Where(x => x.IsSelected == true).ToList();
 
+            var allSoldierholidays = new List<SoldierHoliday>();
+
             foreach (var holiday in soldierHolidays)
             {
                 var holidayToAdd = new SoldierHoliday
@@ -120,18 +122,19 @@ namespace DailyOperations.Api.Controllers.Holidays
                 };
 
                 var addedHoliday = await _unitOfWork.SoldierHolidays.AddAsync(holidayToAdd);
+                allSoldierholidays.Add(addedHoliday);
             }
 
 
-            return RedirectToAction(nameof(GetAll));
+            return View("HolidayPermessions", allSoldierholidays);
         }
 
 
-        [HttpPost]
+
+        [HttpGet]
         public async Task<IActionResult> GetAllHolidays()
         {
-            return RedirectToAction(nameof(GetAll));
-
+            return View();
         }
     }
 }

@@ -1,0 +1,72 @@
+﻿@using DailyOperations.Domain.Entities.Holidays;
+@model List<SoldierHoliday>
+
+<div class="flex-column align-center">
+
+
+    @{
+        int i = 0;
+        foreach(var holiday in Model)
+        {
+            if (i % 4 == 0)
+            {
+                <div class="flex-row gap2 justify-content-between">
+            }
+                
+            <div class="flex-column width25 bg-white card-padding ">
+            
+                    <div class="center">
+                        <div class="flex-row justify-content-between width100">
+                            <div class="width100">
+                                <h2> مديرية أمن مطروح </h2>
+                                <h2> إدارة مرور مطروح </h2>
+                            </div>
+                            <div>
+                                <img src="~/logo.png" class="width50px height50px">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="line mg-top10"></div>
+                    <h2 class="center mg-top10 mg-bottom10"> تصريح أجازة </h2>
+                    <div class="line"></div>
+
+                    <div class="flex-row mg-top20">
+                        <span class="font12px">
+                            الاسم /
+                            <span class="font20px bold">
+                                @holiday.Soldier?.Name
+                            </span>
+                        </span>
+                    </div>
+
+                    <div class="center mg-top10">
+                        <div class="line width50"></div>
+                    </div>
+
+                    <div class="center font20px mg-top20">
+                        يصرح للمذكور القيام بأجازة ميدانية
+                    </div>
+                    <div class="center font20px mg-top10">
+                        من الساعة 6 ص يوم: @holiday.HolidayStartDate.ToShortDateString()
+                    </div>
+                    <div class="center font20px mg-top10">
+                        إالى الساعة 10 م يوم: @holiday.HolidayEndDate.ToShortDateString()
+                    </div>
+                    <div class="center font20px mg-top10">
+                        و هذا تصريح منا بذلك...
+                    </div>
+
+                    <div class="flex-row">
+                    </div>
+                </div>
+
+            if (i % 4 == 3 )
+            {
+                </div>
+            }
+            i++;
+        }
+    }
+
+</div>

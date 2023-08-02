@@ -1,7 +1,7 @@
 ﻿@using DailyOperations.Domain.ViewModels.SoldierHolidays;
 @model GetAllSoldierHolidaysViewModel
 
-<div class="center mg-top50 mg-bottom50 gap5">
+<div class="center mg-top25 mg-bottom50 gap7">
     <a asp-controller="SoldierHolidays" asp-action="GetAll" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold white bg-primary">
         الحضور
         <span class="material-symbols-rounded">
@@ -14,26 +14,26 @@
             hotel
         </span>
     </a>
-    <a asp-controller="SoldierHolidays" asp-action="GetAllReturns" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold">
-        العودة
-        <span class="material-symbols-rounded">
-            metabolism
-        </span>
-    </a>
 </div>
 
 
-<form method="post" asp-controller="SoldierHolidays" asp-action="GetAll" enctype="multipart/form-data">
-    <div class="flex-row width500px mg-top50 mg-bottom50 padding1 gap2">
-        <label asp-for="@Model.NumberOfDays" class="width50"> عدد أيام العمالة </label>
-        <input asp-for="@Model.NumberOfDays" type="text" class="input-box width50" />
+<form class="center" method="post" asp-controller="SoldierHolidays" asp-action="GetAll" enctype="multipart/form-data">
+    <div class="center width30 mg-top50 mg-bottom50 card-padding gap2  bg-white card-radius">
+        <div class="width100">
+            <label asp-for="@Model.NumberOfDays"> عدد أيام العمالة </label>
+            <input asp-for="@Model.NumberOfDays" type="text" class="input-box width100" />
+        </div>
         
-        <button type="submit" class="bg-primary height-fit padding1 radius50  cursor white">
+        <button type="submit" class="bg-primary height-fit padding1 radius50 mg-top25 cursor white">
             <span class="material-symbols-rounded">
                 search
             </span>
         </button>
 
+        <div class="center width300px gap1 mg-top10">
+                <label> تحديد الكل </label>
+                <input id="check-all" class="" type="checkbox" />
+            </div>
     </div>
 </form>
 
@@ -42,20 +42,20 @@
    
     
     <div class="flex-column align-center">
-        <table class="width90">
+        <table class="width75">
             <thead>
                 <tr>
-                    <th class="width20">
+                    <th>
                         <div class="flex-row center gap1">
                             <div> الاسم </div>
                         </div>
                     </th>
-                    <th class="width20">
+                    <th>
                         <div class="flex-row center gap1">
                             <div> أيام العمالة </div>
                         </div>
                     </th>
-                    <th class="width20">
+                    <th>
                         <div class="flex-column gap2">
                             <div> إضافة أجازة </div>
                         </div>
@@ -81,7 +81,7 @@
         </table>
 
     
-        <div class="center width75 gap2 mg-top50">
+        <div class="center width50 gap2 mg-top50 card-radius card-padding bg-white">
             <div class="width100">
                 <label> تاريخ بداية الأجازة </label>
                 <input asp-for="@Model.HolidayStartDate" type="date" class="input-box width100"/>
@@ -95,10 +95,6 @@
                 <select name="SelectedHolidayTypeId" class="input-box width100" asp-items="@(new SelectList(Model.HolidayTypes, "Id", "Type"))">
                 </select>
             </div>
-            <div class="center width500px gap1 mg-top10">
-                <label> تحديد الكل </label>
-                <input id="check-all" class="" type="checkbox" />
-            </div>
         </div>
     
 
@@ -110,56 +106,5 @@
 
 </form>
 
-<div class="center">
 
-    <div class="flex-column width40 bg-white card-padding ">
-
-        <div class="center">
-            <div class="flex-row justify-content-between width100">
-                <div class="width100">
-                    <h2> مديرية أمن مطروح </h2>
-                    <h2> إدارة مرور مطروح </h2>
-                </div>
-                <div>
-                    <img src="~/logo.png" class="width50px height50px">
-                </div>
-            </div>
-        </div>
-    
-        <div class="line mg-top10"></div>
-        <h2 class="center mg-top10 mg-bottom10"> تصريح أجازة </h2>
-        <div class="line"></div>
-
-        <div class="flex-row mg-top20">
-            <span class="font12px">
-                الاسم /
-                <span class="font20px bold">
-                    حنفي الأبهة 
-                </span>
-            </span>
-        </div>
-
-        <div class="center mg-top10">
-            <div class="line width50"></div>
-        </div>
-
-        <div class="center font20px mg-top20">
-            يصرح للمذكور القيام بأجازة ميدانية
-        </div>
-        <div class="center font20px mg-top10">
-            من الساعة 6 ص يوم: @Model.HolidayStartDate.ToShortDateString()
-        </div>
-        <div class="center font20px mg-top10">
-            إالى الساعة 10 م يوم: @Model.HolidayEndDate.ToShortDateString()
-        </div>
-        <div class="center font20px mg-top10">
-            و هذا تصريح منا بذلك...
-        </div>
-
-        <div class="flex-row">
-            
-        </div>
-    </div>
-
-</div>
 <script src="~/js/soldierHolidays.js"></script>

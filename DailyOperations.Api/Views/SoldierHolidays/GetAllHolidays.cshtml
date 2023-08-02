@@ -1,0 +1,33 @@
+﻿<div class="center mg-top25 mg-bottom50 gap7">
+    <a asp-controller="SoldierHolidays" asp-action="GetAll" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold">
+        الحضور
+        <span class="material-symbols-rounded">
+            groups
+        </span>
+    </a>
+    <a asp-controller="SoldierHolidays" asp-action="GetAllHolidays" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold white bg-primary">
+        الأجازات
+        <span class="material-symbols-rounded">
+            hotel
+        </span>
+    </a>
+</div>
+
+
+<form class="center" method="post" asp-controller="SoldierHolidays" asp-action="GetAll" enctype="multipart/form-data">
+    <div class="center width30 mg-top50 mg-bottom50 card-padding gap2  bg-white card-radius">
+        <div class="width100">
+            <label> عدد أيام العمالة </label>
+            <input type="text" class="input-box width100" />
+        </div>
+
+        <button type="submit" class="bg-primary height-fit padding1 radius50 mg-top25 cursor white">
+            <span class="material-symbols-rounded">
+                search
+            </span>
+        </button>
+
+    </div>
+</form>
+
+
