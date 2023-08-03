@@ -122,6 +122,8 @@ namespace DailyOperations.Api.Controllers.Holidays
                 };
 
                 var addedHoliday = await _unitOfWork.SoldierHolidays.AddAsync(holidayToAdd);
+
+                addedHoliday.Soldier = await _unitOfWork.Soldiers.GetByIdAsync(addedHoliday.SoldierId);
                 allSoldierholidays.Add(addedHoliday);
             }
 

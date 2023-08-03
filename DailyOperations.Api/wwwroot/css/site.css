@@ -93,7 +93,7 @@ h5 {
 
 
 h6 {
-    font-size: 7.6rem;
+    font-size: 0.6rem;
 }
 
 
@@ -318,6 +318,9 @@ main {
     border: 3px solid var(--color-primary);
 }
 
+.border-dark {
+    border: 1px solid var(--color-dark);
+}
 /******************** Button *****************/
 .btn {
     color: var(--color-white);
@@ -456,6 +459,15 @@ a {
     width: 50px;
 }
 
+.width30px {
+    width: 30px;
+}
+
+.height30px {
+    height: 30px;
+}
+
+
 .height50px {
     height: 50px;
 }
@@ -494,6 +506,10 @@ a {
 
 .height120px {
     height: 120px;
+}
+
+.font10px {
+    font-size: 10px;
 }
 
 .font20px {
