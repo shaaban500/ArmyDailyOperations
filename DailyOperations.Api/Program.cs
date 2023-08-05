@@ -1,8 +1,10 @@
 using DailyOperations.Domain.Interfaces;
 using DailyOperations.Domain.Interfaces.Services;
+using DailyOperations.Domain.Interfaces.Services.Holidays;
 using DailyOperations.Domain.Interfaces.Services.Members;
 using DailyOperations.Domain.Interfaces.Services.Operations;
 using DailyOperations.Infrastructure.Services;
+using DailyOperations.Infrastructure.Services.Holidays;
 using DailyOperations.Infrastructure.Services.Members;
 using DailyOperations.Infrastructure.Services.Operations;
 using DailyOperations.Persistence;
@@ -52,7 +54,7 @@ builder.Services.AddScoped<IOperationVehicleServices, OperationVehicleServices>(
 builder.Services.AddScoped<ISectorPlaceServices, SectorPlaceServices>();
 builder.Services.AddScoped<ISectorServices, SectorServices>();
 builder.Services.AddScoped<IShiftTypeServices, ShiftTypeServices>();
-
+builder.Services.AddScoped<ISeedSoldierHolidaysData, SeedSoldierHolidaysData>();
 
 
 

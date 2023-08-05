@@ -1,4 +1,7 @@
-﻿<div class="center mg-top25 mg-bottom50 gap7">
+﻿@using DailyOperations.Domain.ViewModels.SoldierHolidays;
+@model GetAllSoldierHolidaysViewModel
+
+<div class="center mg-top25 mg-bottom50 gap7">
     <a asp-controller="SoldierHolidays" asp-action="GetAll" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold">
         الحضور
         <span class="material-symbols-rounded">
@@ -14,20 +17,124 @@
 </div>
 
 
-<form class="center" method="post" asp-controller="SoldierHolidays" asp-action="GetAll" enctype="multipart/form-data">
-    <div class="center width30 mg-top50 mg-bottom50 card-padding gap2  bg-white card-radius">
-        <div class="width100">
-            <label> عدد أيام العمالة </label>
-            <input type="text" class="input-box width100" />
+<form class="center" method="post" asp-controller="SoldierHolidays" asp-action="GetAllHolidays" enctype="multipart/form-data">
+    <div class="center width30 gap2 mg-bottom50 mg-top50">
+        <div class="center width100 gap2 card-radius card-padding bg-white">
+
+            <div class="width100">
+                <label> تاريخ العودة </label>
+                <input asp-for="@Model.ReturnDate" type="date" class="input-box width100" />
+            </div>
+
+            <button type="submit" class="bg-primary height-fit padding1 radius50 mg-top25 cursor white">
+                <span class="material-symbols-rounded">
+                    search
+                </span>
+            </button>
         </div>
-
-        <button type="submit" class="bg-primary height-fit padding1 radius50 mg-top25 cursor white">
-            <span class="material-symbols-rounded">
-                search
-            </span>
-        </button>
-
+        <div class="center width300px gap1 mg-top10">
+                <label> تحديد الكل </label>
+                <input id="check-all" class="" type="checkbox" />
+        </div>
     </div>
 </form>
 
 
+
+
+<form method="post" asp-controller="SoldierHolidays" asp-action="AddHolidayReturn" enctype="multipart/form-data">
+
+
+    <div class="flex-column align-center">
+        <table class="width75">
+            <thead>
+                <tr>
+                    <th> الاسم </th>
+                    <th> تاريخ بداية الأجازة </th>
+                    <th> تاريخ العودة </th>
+                    <th> مدة الأجازة </th>
+                    <th> تعديل </th>
+                    <th> معاودة </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.SoldierHolidays is not null && Model.SoldierHolidays.Count() > 0)
+                {
+                    @for (int i = 0; i < Model.SoldierHolidays.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model.SoldierHolidays[i]?.SoldierHoliday?.Soldier?.Name</td>
+                            <td>@Model.SoldierHolidays[i]?.SoldierHoliday?.HolidayStartDate?.ToShortDateString()</td>
+                            <td>@Model.SoldierHolidays[i]?.SoldierHoliday?.HolidayEndDate?.ToShortDateString()</td>
+                            <td>
+                                @{
+                                    DateTime? startDate = Model.SoldierHolidays[i]?.SoldierHoliday?.HolidayStartDate;
+                                    DateTime? endDate = Model.SoldierHolidays[i]?.SoldierHoliday?.HolidayEndDate;
+                                    int? dateDifference = null;
+
+                                    if (startDate != null && endDate != null)
+                                    {
+                                        dateDifference = (int)(endDate - startDate).Value.TotalDays;
+                                    }
+                                }
+
+                                @dateDifference
+                            </td>
+                            <td>
+                                <div class="center" onclick="openForm('ReturnForm', 'hiddenInput', @Model.SoldierHolidays[i].SoldierHoliday.Id)">
+                                    <span class="material-symbols-rounded green cursor" style="font-size:35px;">
+                                        edit_note
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="center">
+                                    <input asp-for="@Model.SoldierHolidays[i].SoldierHoliday.Id" hidden />
+                                    <input asp-for="@Model.SoldierHolidays[i].IsSelectedForReturn" class="align-center checkbox" type="checkbox" />
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+        <div class="center mg-bottom50 mg-top50">
+            <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+        </div>
+
+    </div>
+
+</form>
+
+
+
+
+<form method="post" asp-controller="SoldierHolidays" asp-action="EditReturnDates" enctype="multipart/form-data">
+    <div class="form-fees gap0 card-padding width30" id="ReturnForm">
+        <div class="flex-row justify-content-start">
+            <span class="material-symbols-rounded cursor danger large-font" id="close" onclick="closeForm('ReturnForm')">
+                close
+            </span>
+        </div>
+        <input id="hiddenInput" hidden asp-for="@Model.SoldierHolidayId"/>
+        <div class="flex-column align-center">
+            <div class="width80">
+                <label> تاريخ بداية الأجازة </label>
+                <input asp-for="@Model.HolidayStartDate" type="date" class="input-box width100" />
+            </div>
+            <div class="width80">
+                <label> تاريخ نهاية الأجازة </label>
+                <input asp-for="@Model.HolidayEndDate" type="date" class="input-box width100" />
+            </div>
+
+            <div class="center mg-bottom20 mg-top50">
+                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<script src="~/js/soldierHolidays.js"></script>

@@ -202,7 +202,7 @@ small {
     flex-direction: column;
     justify-content: space-between;
     gap: 2rem;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    box-shadow: 0 0px 500px rgba(0,0,0,1), 0 200px 200px rgba(0,0,0,0.14);
     border-radius: var(--card-border-radius);
     padding: var(--padding-1);
     z-index: 100;
@@ -880,6 +880,7 @@ input[type="checkbox"]:checked {
 }
 
 input[type="checkbox"]:checked::before {
+    content: "\2713";
     text-align: center;
     font-size: 10px;
     color: var(--color-white);

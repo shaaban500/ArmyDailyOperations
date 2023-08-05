@@ -18,19 +18,21 @@
 
 
 <form class="center" method="post" asp-controller="SoldierHolidays" asp-action="GetAll" enctype="multipart/form-data">
-    <div class="center width30 mg-top50 mg-bottom50 card-padding gap2  bg-white card-radius">
-        <div class="width100">
-            <label asp-for="@Model.NumberOfDays"> عدد أيام العمالة </label>
-            <input asp-for="@Model.NumberOfDays" type="text" class="input-box width100" />
-        </div>
+    <div class="center width30 gap2 mg-bottom50 mg-top50">
+        <div class="center width100 gap2 card-radius card-padding bg-white">
+            <div class="width100">
+                <label asp-for="@Model.NumberOfDays"> عدد أيام العمالة </label>
+                <input asp-for="@Model.NumberOfDays" type="text" class="input-box width100" />
+            </div>
         
-        <button type="submit" class="bg-primary height-fit padding1 radius50 mg-top25 cursor white">
-            <span class="material-symbols-rounded">
-                search
-            </span>
-        </button>
+            <button type="submit" class="bg-primary height-fit padding1 radius50 mg-top25 cursor white">
+                <span class="material-symbols-rounded">
+                    search
+                </span>
+            </button>
 
-        <div class="center width300px gap1 mg-top10">
+        </div>
+            <div class="center width300px gap1 mg-top10">
                 <label> تحديد الكل </label>
                 <input id="check-all" class="" type="checkbox" />
             </div>
@@ -68,8 +70,8 @@
                     @for(int i = 0 ; i < Model.SoldierHolidays.Count ; i++)
                     {
                         <tr>
-                            <td>@Model.SoldierHolidays[i].Soldier.Name</td>
-                            <td>@Model.SoldierHolidays[i].DaysSinceHoldiay</td>
+                            <td>@Model.SoldierHolidays[i]?.Soldier?.Name</td>
+                            <td>@Model.SoldierHolidays[i]?.DaysSinceHoldiay</td>
                             <td class="center">
                                 <input asp-for="@Model.SoldierHolidays[i].Soldier.Id" hidden />
                                 <input asp-for="@Model.SoldierHolidays[i].IsSelected" class="align-center checkbox" type="checkbox" />

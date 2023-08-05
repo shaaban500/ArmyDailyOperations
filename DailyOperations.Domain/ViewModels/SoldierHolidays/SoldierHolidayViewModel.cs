@@ -10,5 +10,6 @@ namespace DailyOperations.Domain.ViewModels.SoldierHolidays
         public double DaysSinceHoldiay { get; set; }
 
         public bool IsSelected { get; set; }
+        public bool IsSelectedForReturn { get; set; }
     }
 }

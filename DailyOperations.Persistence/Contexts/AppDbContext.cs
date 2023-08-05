@@ -183,11 +183,8 @@ namespace DailyOperations.Persistence.Contexts
                 }
             );
 
-        #endregion
+            #endregion
 
         }
-
-
-
     }
 }

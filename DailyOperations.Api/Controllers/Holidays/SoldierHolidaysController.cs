@@ -1,103 +1,61 @@
 ﻿using DailyOperations.Domain.Entities.Holidays;
 using DailyOperations.Domain.Interfaces;
+using DailyOperations.Domain.Interfaces.Services.Holidays;
 using DailyOperations.Domain.ViewModels.SoldierHolidays;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DailyOperations.Api.Controllers.Holidays
 {
 	public class SoldierHolidaysController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
-		public SoldierHolidaysController(IUnitOfWork unitOfWork)
-		{
-			_unitOfWork = unitOfWork;
-		}
-
-        //public async Task<IActionResult> GetAll(int numOfDays)
-        //{
-
-        //	var soldierHolidays = await _unitOfWork.SoldierHolidays.GetAllIQueryable();
-
-        //	var today = DateTime.UtcNow.Date;
-
-        //	var soldierHolidayViewModels = soldierHolidays
-        //			.Where(h => h.IsFinished)
-        //			.GroupBy(h => h.SoldierId)
-        //			.Select(g => new SoldierHolidayViewModel
-        //			{
-        //				Soldier = g.OrderByDescending(h => h.HolidayEndDate).First().Soldier,
-        //				DaysSinceHoldiay = (today - g.OrderByDescending(h => h.HolidayEndDate).First().HolidayEndDate.Date).TotalDays
-        //			});
-
-
-        //	if(numOfDays > 0)
-        //	{
-        //		soldierHolidayViewModels = soldierHolidayViewModels.Where(vm => vm.DaysSinceHoldiay == numOfDays);
-        //          }
-
-
-        //	var holidayTypes = await _unitOfWork.HolidayTypes.GetAllAsync();
-
-        //          var getAllSoldierHolidaysViewModel = new GetAllSoldierHolidaysViewModel
-        //	{
-        //              SoldierHolidays = soldierHolidayViewModels.ToList(),
-        //		HolidayTypes = holidayTypes.ToList(),
-        //          };
-
-        //          return View(getAllSoldierHolidaysViewModel);
-        //}
-
+        private readonly ISeedSoldierHolidaysData _seedSoldierHolidaysData;
+        public SoldierHolidaysController(IUnitOfWork unitOfWork, ISeedSoldierHolidaysData seedSoldierHolidaysData)
+        {
+            _unitOfWork = unitOfWork;
+            _seedSoldierHolidaysData = seedSoldierHolidaysData;
+        }
 
 
         public async Task<IActionResult> GetAll(GetAllSoldierHolidaysViewModel model)
         {
-            var soldiers = await _unitOfWork.Soldiers.GetAllIQueryable();
-
-            var soldierViewModels = soldiers
-                .Select(soldier => new SoldierHolidayViewModel
-                {
-                    Soldier = soldier,
-                    DaysSinceHoldiay = 0
-                })
-                .ToList();
-
             var soldierHolidays = await _unitOfWork.SoldierHolidays.GetAllIQueryable();
 
-            var today = DateTime.UtcNow.Date;
+            var result = await soldierHolidays
+                                .Where(sh => sh.HolidayEndDate != null)
+                                .Include(x => x.Soldier)
+                                .GroupBy(sh => sh.SoldierId)
+                                .Select(g => g.OrderByDescending(sh => sh.HolidayEndDate).FirstOrDefault())
+                                .ToListAsync();
 
-            foreach (var soldierHoliday in soldierHolidays)
+            if(model.NumberOfDays > 0)
+                result = result.Where(x => (x.HolidayEndDate - x.HolidayStartDate).Value.TotalDays == model.NumberOfDays).ToList();
+
+            foreach (var holiday in result)
             {
-                if (soldierHoliday.IsFinished)
+                var soldierHoliday = new SoldierHoliday
                 {
-                    var soldierViewModel = soldierViewModels.FirstOrDefault(vm => vm.Soldier.Id == soldierHoliday.SoldierId);
-                    if (soldierViewModel != null)
-                    {
-                        var daysSinceHoliday = (today - soldierHoliday.HolidayEndDate.Date).TotalDays;
-                        if (daysSinceHoliday < 0)
-                        {
-                            daysSinceHoliday = 0;
-                        }
-                        soldierViewModel.DaysSinceHoldiay = daysSinceHoliday;
-                    }
-                }
+                    Id = holiday.Id,
+                    HolidayTypeId = holiday.Id,
+                    SoldierId = holiday.SoldierId,
+                    Soldier = holiday.Soldier,
+                    HolidayStartDate = holiday.HolidayStartDate,
+                    HolidayEndDate = holiday.HolidayEndDate,
+                    HolidayType = holiday.HolidayType,
+                    IsFinished = holiday.IsFinished,
+                };
+
+                var soldierHolidayViewModel = new SoldierHolidayViewModel
+                {
+                    Soldier = holiday.Soldier,
+                    SoldierHoliday = soldierHoliday,
+                };
+
+                model.SoldierHolidays.Add(soldierHolidayViewModel);
             }
 
-            var soldierHolidayViewModels = soldierViewModels;
-
-            if (model.NumberOfDays > 0)
-            {
-                soldierHolidayViewModels = soldierViewModels.Where(vm => vm.DaysSinceHoldiay == model.NumberOfDays).ToList();
-            }
-
-            var holidayTypes = await _unitOfWork.HolidayTypes.GetAllAsync();
-
-            var getAllSoldierHolidaysViewModel = new GetAllSoldierHolidaysViewModel
-            {
-                SoldierHolidays = soldierHolidayViewModels,
-                HolidayTypes = holidayTypes.ToList(),
-            };
-
-            return View(getAllSoldierHolidaysViewModel);
+            return View(model);
         }
 
 
@@ -117,7 +75,6 @@ namespace DailyOperations.Api.Controllers.Holidays
                     HolidayTypeId = model.SelectedHolidayTypeId,
                     HolidayStartDate = model.HolidayStartDate,
                     HolidayEndDate = model.HolidayEndDate,
-                    Duration = model.Duration,
                     IsFinished = false,
                 };
 
@@ -133,10 +90,78 @@ namespace DailyOperations.Api.Controllers.Holidays
 
 
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllHolidays()
+
+        public async Task<IActionResult> GetAllHolidays(GetAllSoldierHolidaysViewModel model)
         {
-            return View();
+            await _seedSoldierHolidaysData.SeedSoldierHolidays();
+
+            var soldierHolidays = await _unitOfWork.SoldierHolidays.GetAllIQueryable();
+            soldierHolidays = soldierHolidays.Where(x => !x.IsFinished).Include(x => x.Soldier).Include(x => x.HolidayType);
+
+            soldierHolidays = model.ReturnDate != null ? soldierHolidays.Where(x => x.HolidayEndDate == model.ReturnDate) : soldierHolidays;
+
+            var getAllSoldierHolidaysViewModel = new GetAllSoldierHolidaysViewModel();
+
+            foreach(var holiday in soldierHolidays)
+            {
+                var soldierHoliday = new SoldierHoliday
+                {
+                    Id = holiday.Id,
+                    HolidayTypeId = holiday.Id,
+                    SoldierId = holiday.SoldierId,
+                    Soldier = holiday.Soldier,
+                    HolidayStartDate = holiday.HolidayStartDate,
+                    HolidayEndDate = holiday.HolidayEndDate,
+                    HolidayType = holiday.HolidayType,
+                    IsFinished = holiday.IsFinished,
+                };
+
+                var soldierHolidayViewModel = new SoldierHolidayViewModel
+                {
+                    Soldier = holiday.Soldier,
+                    SoldierHoliday = soldierHoliday,
+                };
+
+                getAllSoldierHolidaysViewModel.SoldierHolidays.Add(soldierHolidayViewModel);
+            }
+
+            return View(getAllSoldierHolidaysViewModel);
         }
+
+
+        public async Task<IActionResult> EditReturnDates(GetAllSoldierHolidaysViewModel model)
+        {
+            var soldierHoliday = await _unitOfWork.SoldierHolidays.GetByIdAsync(model.SoldierHolidayId);
+            
+            if(soldierHoliday is not null)
+            {
+                soldierHoliday.HolidayStartDate = model.HolidayStartDate;
+                soldierHoliday.HolidayEndDate = model.HolidayEndDate;
+
+                await _unitOfWork.SoldierHolidays.UpdateAsync(soldierHoliday);
+            }
+
+            return RedirectToAction(nameof(GetAllHolidays));
+        }
+
+
+        
+        public async Task<IActionResult> AddHolidayReturn(GetAllSoldierHolidaysViewModel model)
+        {
+            foreach(var holiday in model.SoldierHolidays.Where(x => x.IsSelectedForReturn == true))
+            {
+                var soldierHoliday = await _unitOfWork.SoldierHolidays.GetByIdAsync(holiday.SoldierHoliday.Id);
+                
+                if(soldierHoliday is not null)
+                {
+                    soldierHoliday.IsFinished = true;
+                }
+
+                await _unitOfWork.SoldierHolidays.UpdateAsync(soldierHoliday);
+            }
+
+            return RedirectToAction(nameof(GetAllHolidays));
+        }
+
     }
 }
