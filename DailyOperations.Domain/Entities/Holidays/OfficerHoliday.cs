@@ -6,19 +6,17 @@ namespace DailyOperations.Domain.Entities.Holidays
 {
 	public class OfficerHoliday : BaseEntity
 	{
-		public DateTime HolidayStartDate { get; set; }
-		public int Duration { get; set; }
-		// need refactor, because this is a derived attribute
-		public DateTime HolidayEndDate { get; set; }
+		public DateTime? HolidayStartDate { get; set; }
+		public DateTime? HolidayEndDate { get; set; }
 		public bool IsFinished { get; set; }
 
 		public long PoliceOfficerId { get; set; }
 		[ForeignKey("PoliceOfficerId")]
 		public PoliceOfficer PoliceOfficer { get; set; }
 
-		public long HolidayTypeId { get; set; }
+		public long? HolidayTypeId { get; set; }
 		[ForeignKey("HolidayTypeId")]
-		public HolidayType HolidayType { get; set; }
+		public HolidayType? HolidayType { get; set; }
 
 	}
 }

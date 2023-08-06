@@ -627,7 +627,7 @@ a {
 
 /****************** Input ***********************/
 .input-box {
-    height: 50px;
+    height: 45px;
     border-radius: var(--border-radius-1);
     background: var(--color-white);
     border: 1px solid var(--color-gray);
@@ -638,7 +638,7 @@ a {
 
 
 label {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     font-weight:500;
     margin: 5px 5px;
     color:var(--color-primary);
@@ -872,6 +872,7 @@ input[type="checkbox"] {
     transform: scale(2);
     cursor: pointer;
     transition: all 0.5s ease;
+    border-radius: 2px;
 }
 
 input[type="checkbox"]:checked {
@@ -882,8 +883,9 @@ input[type="checkbox"]:checked {
 input[type="checkbox"]:checked::before {
     content: "\2713";
     text-align: center;
-    font-size: 10px;
+    font-size: 12px;
     color: var(--color-white);
+    padding: 2px 2px;
 }
 
 input[type="radio"] {

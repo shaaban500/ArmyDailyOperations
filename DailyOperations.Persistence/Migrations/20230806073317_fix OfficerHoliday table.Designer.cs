@@ -4,6 +4,7 @@ using DailyOperations.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DailyOperations.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230806073317_fix OfficerHoliday table")]
+    partial class fixOfficerHolidaytable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,6 +138,7 @@ namespace DailyOperations.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<long?>("HolidayTypeId")
+                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsDeleted")
@@ -1271,7 +1274,9 @@ namespace DailyOperations.Persistence.Migrations
                 {
                     b.HasOne("DailyOperations.Domain.Entities.Holidays.HolidayType", "HolidayType")
                         .WithMany()
-                        .HasForeignKey("HolidayTypeId");
+                        .HasForeignKey("HolidayTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DailyOperations.Domain.Entities.Members.PoliceOfficer", "PoliceOfficer")
                         .WithMany()

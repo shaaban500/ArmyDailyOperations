@@ -23,7 +23,7 @@ namespace DailyOperations.Api.Controllers.Holidays
             var soldierHolidays = await _unitOfWork.SoldierHolidays.GetAllIQueryable();
 
             var result = await soldierHolidays
-                                .Where(sh => sh.HolidayEndDate != null && sh.HolidayStartDate != null)
+                                .Where(sh => sh.HolidayEndDate != null && sh.HolidayStartDate != null && sh.IsFinished)
                                 .Include(x => x.Soldier)
                                 .GroupBy(sh => sh.SoldierId)
                                 .Select(g => g.OrderByDescending(sh => sh.HolidayEndDate).FirstOrDefault())
@@ -60,6 +60,10 @@ namespace DailyOperations.Api.Controllers.Holidays
 
                 model.SoldierHolidays.Add(soldierHolidayViewModel);
             }
+
+
+            var holidayTypes = await _unitOfWork.HolidayTypes.GetAllAsync();
+            model.HolidayTypes = holidayTypes.ToList();
 
             return View(model);
         }
