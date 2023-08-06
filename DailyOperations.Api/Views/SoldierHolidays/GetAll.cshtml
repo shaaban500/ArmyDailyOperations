@@ -48,19 +48,16 @@
             <thead>
                 <tr>
                     <th>
-                        <div class="flex-row center gap1">
-                            <div> الاسم </div>
-                        </div>
+                        الاسم 
                     </th>
                     <th>
-                        <div class="flex-row center gap1">
-                            <div> أيام العمالة </div>
-                        </div>
+                        تاريخ العودة
                     </th>
                     <th>
-                        <div class="flex-column gap2">
-                            <div> إضافة أجازة </div>
-                        </div>
+                        أيام العمالة
+                    </th>
+                    <th>
+                         إضافة أجازة
                     </th>
                 </tr>
             </thead>
@@ -71,6 +68,7 @@
                     {
                         <tr>
                             <td>@Model.SoldierHolidays[i]?.Soldier?.Name</td>
+                            <td>@Model.SoldierHolidays[i]?.SoldierHoliday?.HolidayEndDate?.ToShortDateString()</td>
                             <td>@Model.SoldierHolidays[i]?.DaysSinceHoldiay</td>
                             <td class="center">
                                 <input asp-for="@Model.SoldierHolidays[i].Soldier.Id" hidden />

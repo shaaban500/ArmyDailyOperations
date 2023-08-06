@@ -23,14 +23,19 @@ namespace DailyOperations.Api.Controllers.Holidays
             var soldierHolidays = await _unitOfWork.SoldierHolidays.GetAllIQueryable();
 
             var result = await soldierHolidays
-                                .Where(sh => sh.HolidayEndDate != null)
+                                .Where(sh => sh.HolidayEndDate != null && sh.HolidayStartDate != null)
                                 .Include(x => x.Soldier)
                                 .GroupBy(sh => sh.SoldierId)
                                 .Select(g => g.OrderByDescending(sh => sh.HolidayEndDate).FirstOrDefault())
                                 .ToListAsync();
 
-            if(model.NumberOfDays > 0)
-                result = result.Where(x => (x.HolidayEndDate - x.HolidayStartDate).Value.TotalDays == model.NumberOfDays).ToList();
+
+            var currentDate = DateTime.UtcNow.Date;
+            
+            if (model.NumberOfDays > 0)
+            {
+                result = result.Where(x => (currentDate - x.HolidayEndDate).Value.TotalDays == model.NumberOfDays).ToList();
+            }
 
             foreach (var holiday in result)
             {
@@ -50,6 +55,7 @@ namespace DailyOperations.Api.Controllers.Holidays
                 {
                     Soldier = holiday.Soldier,
                     SoldierHoliday = soldierHoliday,
+                    DaysSinceHoldiay = (currentDate - soldierHoliday.HolidayEndDate).Value.TotalDays,
                 };
 
                 model.SoldierHolidays.Add(soldierHolidayViewModel);
