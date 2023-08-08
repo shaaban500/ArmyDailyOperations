@@ -22,13 +22,20 @@ namespace DailyOperations.Api.Controllers.Holidays
         {
             var officerHolidays = await _unitOfWork.OfficerHolidays.GetAllIQueryable();
 
+            var notWantedHolidays = await _unitOfWork.OfficerHolidays.GetAllAsync(x =>
+                                                   x.HolidayStartDate != null &&
+                                                   x.HolidayEndDate != null &&
+                                                   x.IsFinished != true);
+
             var result = await officerHolidays
-                                .Where(sh => sh.HolidayEndDate != null && sh.HolidayStartDate != null && sh.IsFinished)
                                 .Include(x => x.PoliceOfficer)
+                                .Where(sh => sh.HolidayEndDate != null &&
+                                             sh.HolidayStartDate != null &&
+                                             sh.IsFinished == true &&
+                                             !notWantedHolidays.Select(nwh => nwh.PoliceOfficerId).Contains(sh.PoliceOfficerId))
                                 .GroupBy(sh => sh.PoliceOfficerId)
                                 .Select(g => g.OrderByDescending(sh => sh.HolidayEndDate).FirstOrDefault())
                                 .ToListAsync();
-
 
             var currentDate = DateTime.UtcNow.Date;
 
@@ -88,12 +95,16 @@ namespace DailyOperations.Api.Controllers.Holidays
                     IsFinished = false,
                 };
 
-                var addedHoliday = await _unitOfWork.OfficerHolidays.AddAsync(holidayToAdd);
+                var IsReturned = await _unitOfWork.OfficerHolidays.GetByIdAsync(x => x.Id == holidayToAdd.PoliceOfficerId && x.IsFinished != true);
 
-                addedHoliday.PoliceOfficer = await _unitOfWork.PoliceOfficers.GetByIdAsync(addedHoliday.PoliceOfficerId);
-                allOfficerholidays.Add(addedHoliday);
+                if(IsReturned is null)
+                {
+                    var addedHoliday = await _unitOfWork.OfficerHolidays.AddAsync(holidayToAdd);
+
+                    addedHoliday.PoliceOfficer = await _unitOfWork.PoliceOfficers.GetByIdAsync(addedHoliday.PoliceOfficerId);
+                    allOfficerholidays.Add(addedHoliday);
+                }
             }
-
 
             return View("HolidayPermessions", allOfficerholidays);
         }
@@ -162,7 +173,7 @@ namespace DailyOperations.Api.Controllers.Holidays
             {
                 var officerHoliday = await _unitOfWork.OfficerHolidays.GetByIdAsync(holiday.OfficerHoliday.Id);
 
-                if (officerHoliday is not null)
+                if (officerHoliday is not null && officerHoliday.HolidayEndDate <= DateTime.UtcNow.Date)
                 {
                     officerHoliday.IsFinished = true;
                 }

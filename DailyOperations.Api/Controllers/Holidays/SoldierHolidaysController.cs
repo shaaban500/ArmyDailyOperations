@@ -22,8 +22,18 @@ namespace DailyOperations.Api.Controllers.Holidays
         {
             var soldierHolidays = await _unitOfWork.SoldierHolidays.GetAllIQueryable();
 
+            
+            var notWantedHolidays = await _unitOfWork.SoldierHolidays.GetAllAsync(x => 
+                                                    x.HolidayStartDate != null &&
+                                                    x.HolidayEndDate != null &&
+                                                    x.IsFinished != true);
+
+
             var result = await soldierHolidays
-                                .Where(sh => sh.HolidayEndDate != null && sh.HolidayStartDate != null && sh.IsFinished)
+                                .Where(sh => sh.HolidayEndDate != null &&
+                                             sh.HolidayStartDate != null &&
+                                             sh.IsFinished == true &&
+                                             !notWantedHolidays.Select(nwh => nwh.SoldierId).Contains(sh.SoldierId))
                                 .Include(x => x.Soldier)
                                 .GroupBy(sh => sh.SoldierId)
                                 .Select(g => g.OrderByDescending(sh => sh.HolidayEndDate).FirstOrDefault())
@@ -88,10 +98,15 @@ namespace DailyOperations.Api.Controllers.Holidays
                     IsFinished = false,
                 };
 
-                var addedHoliday = await _unitOfWork.SoldierHolidays.AddAsync(holidayToAdd);
+                var IsReturned = await _unitOfWork.SoldierHolidays.GetByIdAsync(x => x.Id == holidayToAdd.SoldierId && x.IsFinished != true);
 
-                addedHoliday.Soldier = await _unitOfWork.Soldiers.GetByIdAsync(addedHoliday.SoldierId);
-                allSoldierholidays.Add(addedHoliday);
+                if (IsReturned is null)
+                {
+                    var addedHoliday = await _unitOfWork.SoldierHolidays.AddAsync(holidayToAdd);
+
+                    addedHoliday.Soldier = await _unitOfWork.Soldiers.GetByIdAsync(addedHoliday.SoldierId);
+                    allSoldierholidays.Add(addedHoliday);
+                }
             }
 
 
@@ -162,7 +177,7 @@ namespace DailyOperations.Api.Controllers.Holidays
             {
                 var soldierHoliday = await _unitOfWork.SoldierHolidays.GetByIdAsync(holiday.SoldierHoliday.Id);
                 
-                if(soldierHoliday is not null)
+                if(soldierHoliday is not null && soldierHoliday.HolidayEndDate <= DateTime.UtcNow.Date)
                 {
                     soldierHoliday.IsFinished = true;
                 }

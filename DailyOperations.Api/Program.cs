@@ -57,10 +57,7 @@ builder.Services.AddScoped<IShiftTypeServices, ShiftTypeServices>();
 builder.Services.AddScoped<ISeedSoldierHolidaysData, SeedSoldierHolidaysData>();
 builder.Services.AddScoped<ISeedOfficerHolidaysData, SeedOfficerHolidaysData>();
 builder.Services.AddScoped<ISeedAssistantHolidaysData, SeedAssistantHolidaysData>();
-
-
-
-
+builder.Services.AddScoped<IHolidayServices, HolidayServices>();
 
 
 

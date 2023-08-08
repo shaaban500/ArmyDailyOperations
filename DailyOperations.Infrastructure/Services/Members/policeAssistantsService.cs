@@ -2,6 +2,7 @@
 using DailyOperations.Domain.Entities.Members;
 using DailyOperations.Domain.Interfaces;
 using DailyOperations.Domain.Interfaces.Services;
+using DailyOperations.Domain.Interfaces.Services.Holidays;
 using Microsoft.EntityFrameworkCore;
 
 namespace DailyOperations.Infrastructure.Services.Members
@@ -9,9 +10,11 @@ namespace DailyOperations.Infrastructure.Services.Members
     public class policeAssistantsService : IpoliceAssistantsService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public policeAssistantsService(IUnitOfWork unitOfWork)
+        private readonly IHolidayServices _holidayServices;
+        public policeAssistantsService(IUnitOfWork unitOfWork, IHolidayServices holidayServices)
         {
             _unitOfWork = unitOfWork;
+            _holidayServices = holidayServices;
         }
 
         public async Task<List<PoliceAssistant>> GetAll(long operationId)
@@ -40,7 +43,18 @@ namespace DailyOperations.Infrastructure.Services.Members
 
 				var availableAssistants = await policeAssistants.Where(x => !assistantsInOperations.Contains(x.Id) && !assistantsInVehiclesIDs.Contains(x.Id)).ToListAsync();
 
-				return availableAssistants;
+                var allAssistants = new List<PoliceAssistant>();
+
+                foreach (var assistant in availableAssistants)
+                {
+                    if (await _holidayServices.IsAssistantInHoliday(assistant.Id, operationDate) != true)
+                    {
+                        allAssistants.Add(assistant);
+                    }
+                }
+
+                return allAssistants;
+
 			}
 
             return policeAssistants.ToList();

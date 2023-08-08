@@ -3,6 +3,7 @@ using DailyOperations.Domain.Entities;
 using DailyOperations.Domain.Entities.Members;
 using DailyOperations.Domain.Interfaces;
 using DailyOperations.Domain.Interfaces.Services;
+using DailyOperations.Domain.Interfaces.Services.Holidays;
 using Microsoft.EntityFrameworkCore;
 
 namespace DailyOperations.Infrastructure.Services.Members
@@ -10,9 +11,11 @@ namespace DailyOperations.Infrastructure.Services.Members
     public class soldiersService : IsoldiersService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public soldiersService(IUnitOfWork unitOfWork)
+        private readonly IHolidayServices _holidayServices;
+        public soldiersService(IUnitOfWork unitOfWork, IHolidayServices holidayServices)
         {
             _unitOfWork = unitOfWork;
+            _holidayServices = holidayServices;
         }
 
         public async Task AddOrUpdate(Soldier model, string? certificateName, int? extraDuration, List<bool>? hasSkills)
@@ -110,7 +113,19 @@ namespace DailyOperations.Infrastructure.Services.Members
 
 				var availableSoldiers = soldiers.Where(x => !soldiersInOperations.Contains(x.Id) && !soldiersInVehiclesIDs.Contains(x.Id)).ToList();
 
-				return availableSoldiers;
+
+                var allSoldiers = new List<Soldier>();
+
+                foreach (var soldier in availableSoldiers)
+                {
+                    if (await _holidayServices.IsSoldierInHoliday(soldier.Id, operationDate) != true)
+                    {
+                        allSoldiers.Add(soldier);
+                    }
+                }
+
+                return allSoldiers;
+
 			}
 
             return soldiers.ToList();
