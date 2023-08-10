@@ -18,7 +18,7 @@
 
 
 <form class="center" method="post" asp-controller="OfficerHolidays" asp-action="GetAll" enctype="multipart/form-data">
-    <div class="center width30 gap2 mg-bottom50 mg-top50">
+    <div class="center width30 gap2 mg-bottom50 mg-top50 shadow1">
         <div class="center width100 gap2 card-radius card-padding bg-white">
             <div class="width100">
                 <label asp-for="@Model.NumberOfDays"> عدد أيام العمالة </label>
@@ -81,7 +81,7 @@
         </table>
 
 
-        <div class="center width50 gap2 mg-top50 card-radius card-padding bg-white">
+        <div class="center width75 gap2 mg-top50 card-radius card-padding bg-white shadow1">
             <div class="width100">
                 <label> تاريخ بداية الأجازة </label>
                 <input asp-for="@Model.HolidayStartDate" type="date" class="input-box width100" />
@@ -94,6 +94,18 @@
                 <label asp-for="@Model.SelectedHolidayTypeId"> نوع الأجازة</label>
                 <select name="SelectedHolidayTypeId" class="input-box width100" asp-items="@(new SelectList(Model.HolidayTypes, "Id", "Type"))">
                 </select>
+            </div>
+            <div class="width100">
+                <label> المديرية </label>
+                <input asp-for="@Model.GeneralDepartment" type="text" class="input-box width100" />
+            </div>
+            <div class="width100">
+                <label> الإدارة </label>
+                <input asp-for="@Model.InnerDepartment" type="text" class="input-box width100" />
+            </div>
+            <div class="width100">
+                <label> القسم </label>
+                <input asp-for="@Model.SpecialInnerDepartment" type="text" class="input-box width100" />
             </div>
         </div>
 

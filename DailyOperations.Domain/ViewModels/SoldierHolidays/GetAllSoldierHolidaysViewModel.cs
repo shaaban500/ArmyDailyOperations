@@ -22,6 +22,12 @@ namespace DailyOperations.Domain.ViewModels.SoldierHolidays
 
         public DateTime? ReturnDate { get; set; }
 
+
+        // for printing
+        public string GeneralDepartment { get; set; }
+        public string InnerDepartment { get; set; }
+        public string SpecialInnerDepartment { get; set; }
+
         public GetAllSoldierHolidaysViewModel()
         {
             SoldierHolidays = new List<SoldierHolidayViewModel>();

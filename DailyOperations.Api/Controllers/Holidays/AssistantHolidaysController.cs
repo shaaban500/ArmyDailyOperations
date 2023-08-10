@@ -2,6 +2,7 @@
 using DailyOperations.Domain.Interfaces;
 using DailyOperations.Domain.Interfaces.Services.Holidays;
 using DailyOperations.Domain.ViewModels.AssistantHolidays;
+using DailyOperations.Domain.ViewModels.SoldierHolidays;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -106,8 +107,15 @@ namespace DailyOperations.Api.Controllers.Holidays
                 }
             }
 
+            var assistantHolidayForPrinting = new AssistantHolidaysForPrintingViewModel
+            {
+                AssistantHolidays = allAssistantholidays,
+                GeneralDepartment = model.GeneralDepartment,
+                InnerDepartment = model.InnerDepartment,
+                SpecialInnerDepartment = model.SpecialInnerDepartment
+            };
 
-            return View("HolidayPermessions", allAssistantholidays);
+            return View("HolidayPermessions", assistantHolidayForPrinting);
         }
 
 

@@ -109,8 +109,15 @@ namespace DailyOperations.Api.Controllers.Holidays
                 }
             }
 
+            var soldierHolidayForPrinting = new SoldierHolidaysForPrintingViewModel
+            {
+                SoldierHolidays = allSoldierholidays,
+                GeneralDepartment = model.GeneralDepartment,
+                InnerDepartment = model.InnerDepartment,
+                SpecialInnerDepartment = model.SpecialInnerDepartment
+            };
 
-            return View("HolidayPermessions", allSoldierholidays);
+            return View("HolidayPermessions", soldierHolidayForPrinting);
         }
 
 

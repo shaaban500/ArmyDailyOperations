@@ -1,11 +1,11 @@
-﻿@using DailyOperations.Domain.Entities.Holidays;
-@model List<OfficerHoliday>
+﻿@using DailyOperations.Domain.ViewModels.OfficerHolidays;
+@model OfficerHolidaysForPrintingViewModel
 
 <div class="flex-column align-center width100" id="printContent">
 
 
     @{
-        int size = Model.Count;
+        int size = Model.OfficerHolidays.Count;
     }
     @for (int i = 0; i < size;)
     {
@@ -13,12 +13,13 @@
 
             @if (i < size)
             {
-                <div class="flex-column width100 bg-white card-padding border-dark">
+                <div class="flex-column width500px bg-white card-padding border-dark">
                     <div class="center">
                         <div class="flex-row justify-content-between width100">
                             <div class="width100">
-                                <h5> مديرية أمن مطروح </h5>
-                                <h5> إدارة مرور مطروح </h5>
+                                <h5> @Model.GeneralDepartment </h5>
+                                <h5> @Model.InnerDepartment </h5>
+                                <h5> @Model.SpecialInnerDepartment </h5>
                             </div>
                             <div>
                                 <img src="~/logo.png" class="width30px height30px">
@@ -34,7 +35,7 @@
                         <span class="font10px">
                             الاسم /
                             <span class="font10px bold">
-                                @Model[i].PoliceOfficer?.Name
+                                @Model.OfficerHolidays[i].PoliceOfficer?.Name
                             </span>
                         </span>
                     </div>
@@ -47,10 +48,10 @@
                         يصرح للمذكور القيام بأجازة ميدانية
                     </div>
                     <div class="center font10px mg-top10">
-                        من الساعة 6 ص يوم: @Model[i].HolidayStartDate?.ToShortDateString()
+                        من الساعة 6 ص يوم: @Model.OfficerHolidays[i].HolidayStartDate?.ToShortDateString()
                     </div>
                     <div class="center font10px mg-top10">
-                        إالى الساعة 10 م يوم: @Model[i].HolidayEndDate?.ToShortDateString()
+                        إالى الساعة 10 م يوم: @Model.OfficerHolidays[i].HolidayEndDate?.ToShortDateString()
                     </div>
                     <div class="center font10px mg-top10">
                         و هذا تصريح منا بذلك...
@@ -64,13 +65,14 @@
 
             @if (i < size)
             {
-                <div class="flex-column width100 bg-white card-padding border-dark">
+                <div class="flex-column width500px bg-white card-padding border-dark">
 
                     <div class="center">
                         <div class="flex-row justify-content-between width100">
                             <div class="width100">
-                                <h5> مديرية أمن مطروح </h5>
-                                <h5> إدارة مرور مطروح </h5>
+                                <h5> @Model.GeneralDepartment </h5>
+                                <h5> @Model.InnerDepartment </h5>
+                                <h5> @Model.SpecialInnerDepartment </h5>
                             </div>
                             <div>
                                 <img src="~/logo.png" class="width30px height30px">
@@ -86,7 +88,7 @@
                         <span class="font10px">
                             الاسم /
                             <span class="font10px bold">
-                                @Model[i].PoliceOfficer?.Name
+                                @Model.OfficerHolidays[i].PoliceOfficer?.Name
                             </span>
                         </span>
                     </div>
@@ -99,10 +101,10 @@
                         يصرح للمذكور القيام بأجازة ميدانية
                     </div>
                     <div class="center font10px mg-top10">
-                        من الساعة 6 ص يوم: @Model[i].HolidayStartDate?.ToShortDateString()
+                        من الساعة 6 ص يوم: @Model.OfficerHolidays[i].HolidayStartDate?.ToShortDateString()
                     </div>
                     <div class="center font10px mg-top10">
-                        إالى الساعة 10 م يوم: @Model[i].HolidayEndDate?.ToShortDateString()
+                        إالى الساعة 10 م يوم: @Model.OfficerHolidays[i].HolidayEndDate?.ToShortDateString()
                     </div>
                     <div class="center font10px mg-top10">
                         و هذا تصريح منا بذلك...
@@ -115,13 +117,14 @@
             }
             @if (i < size)
             {
-                <div class="flex-column width100 bg-white card-padding border-dark">
+                <div class="flex-column width500px bg-white card-padding border-dark">
 
                     <div class="center">
                         <div class="flex-row justify-content-between width100">
                             <div class="width100">
-                                <h5> مديرية أمن مطروح </h5>
-                                <h5> إدارة مرور مطروح </h5>
+                                <h5> @Model.GeneralDepartment </h5>
+                                <h5> @Model.InnerDepartment </h5>
+                                <h5> @Model.SpecialInnerDepartment </h5>
                             </div>
                             <div>
                                 <img src="~/logo.png" class="width30px height30px">
@@ -137,7 +140,7 @@
                         <span class="font10px">
                             الاسم /
                             <span class="font10px bold">
-                                @Model[i].PoliceOfficer?.Name
+                                @Model.OfficerHolidays[i].PoliceOfficer?.Name
                             </span>
                         </span>
                     </div>
@@ -150,10 +153,10 @@
                         يصرح للمذكور القيام بأجازة ميدانية
                     </div>
                     <div class="center font10px mg-top10">
-                        من الساعة 6 ص يوم: @Model[i].HolidayStartDate?.ToShortDateString()
+                        من الساعة 6 ص يوم: @Model.OfficerHolidays[i].HolidayStartDate?.ToShortDateString()
                     </div>
                     <div class="center font10px mg-top10">
-                        إالى الساعة 10 م يوم: @Model[i].HolidayEndDate?.ToShortDateString()
+                        إالى الساعة 10 م يوم: @Model.OfficerHolidays[i].HolidayEndDate?.ToShortDateString()
                     </div>
                     <div class="center font10px mg-top10">
                         و هذا تصريح منا بذلك...
