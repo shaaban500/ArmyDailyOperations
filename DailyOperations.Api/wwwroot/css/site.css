@@ -17,10 +17,10 @@
     --color-purple-light: rgba(160, 99, 245, 0.2);
     --color-gray: #ccc;
     --color-disabled: #e5e1e138;
-    --card-padding: 1.6rem;
-    --padding-1: 1rem;
+    --card-padding: 1.5rem;
+    --padding-1: 1.5rem;
     --padding-2: 8px;
-    --card-border-radius: 1.6rem;
+    --card-border-radius: 1rem;
     --border-radius-1: 1rem;
     --border-radius-2: 6px;
     --shadow-1: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -322,17 +322,6 @@ main {
     border: 1px solid var(--color-dark);
 }
 /******************** Button *****************/
-.btn {
-    color: var(--color-white);
-    font-size: 1.2rem;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    transition: var(--transtion-300);
-    text-align: center;
-}
-
 
 
 a {
@@ -599,7 +588,7 @@ a {
 
 
 .padding1 {
-    padding: var(--padding-1);
+    padding: var(--padding-1) var(--padding-1);
 }
 
 .padding2 {
@@ -990,22 +979,6 @@ input[type="color"] {
 }
 
 
-@media screen and (max-width: 768px) {
-    .flex-row, nav .container{
-        flex-direction: column;
-        align-items: center;
-    }
-    .center {
-        flex-direction: column;
-        align-items: center;
-    }
-    .gap2 {
-        gap: 0rem;
-    }
-    main {
-        width: 90%;
-    }
-}
 
 .table-size-90 {
     width: 90%;
@@ -1022,3 +995,71 @@ input[type="color"] {
     display:none;
 }
 
+
+@media screen and (min-width: 600px) and (max-width: 1024px) {
+    .flex-row:not(.need-media-row),
+    nav .container:not(.need-media-row) {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flex-row.justify-content-start {
+        align-items: start;
+    }
+
+    .flex-row.justify-content-end {
+        align-items: end;
+    }
+
+    .center:not(.need-media-row) {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flex-row.align-start {
+        align-items: start;
+    }
+
+    .gap2:not(.need-media-row) {
+        gap: 0rem;
+    }
+
+    main {
+        width: 100%;
+        padding: 30px 30px;
+    }
+
+    table{
+        width:100%;
+    }
+
+    header {
+        font-size: 1.5rem;
+    }
+
+    thead {
+        font-size: 1rem;
+    }
+
+    td {
+        font-size: 0.5rem;
+    }
+
+    .font20px {
+        font-size: 15px;
+    }
+
+    .material-symbols-rounded {
+        font-size: 20px !important;
+    }
+
+    .card-padding {
+        padding: 3rem 3rem;
+    }    
+
+  
+    .card-radius {
+        border-radius: 10px;
+    }
+
+}
