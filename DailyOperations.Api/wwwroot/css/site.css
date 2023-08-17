@@ -1026,7 +1026,7 @@ input[type="color"] {
 
     main {
         width: 100%;
-        padding: 30px 30px;
+        padding: 0px 30px;
     }
 
     table{
@@ -1060,6 +1060,26 @@ input[type="color"] {
   
     .card-radius {
         border-radius: 10px;
+    }
+
+    .width25{
+        width: 35%;
+    }
+
+    .width30 {
+        width: 70%;
+    }
+
+    .width300px{
+        width: 250px;
+    }
+
+    .width250px {
+        width: 200px;
+    }
+
+    .width200px {
+        width: 150px;
     }
 
 }

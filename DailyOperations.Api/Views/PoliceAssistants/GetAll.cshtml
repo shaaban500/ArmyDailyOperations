@@ -1,13 +1,13 @@
 ﻿@using DailyOperations.Domain.ViewModels.PoliceAssistants;
 @model GetAllPoliceAssistantViewModel
 
-<header class="center mg-top25 mg-bottom20"> الأمناء و الأفراد </header>
+<header class="center mg-top20 mg-bottom20"> الأمناء و الأفراد </header>
 <div class="center mg-top20" id="officers-body">
     <table class="width100">
         <thead>
             <tr>
                 <th class="width20">
-                    <div class="flex-row center gap1">
+                    <div class="flex-row center gap1 need-media-row">
                         <div>القوة</div>
                         <div class="cursor" onclick="openForm('PowerTypeForm')">
                             <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>
@@ -15,7 +15,7 @@
                     </div>
                 </th>
                 <th class="width20">
-                    <div class="flex-row center gap1">
+                    <div class="flex-row center gap1 need-media-row">
                         <div> الإدارة </div>
                         <div class="cursor" onclick="openForm('DepartmentForm')">
                             <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>
@@ -23,7 +23,7 @@
                     </div>
                 </th>
                 <th class="width20">
-                    <div class="flex-row center gap1">
+                    <div class="flex-row center gap1 need-media-row">
                         <div> الرتبة </div>
                         <div class="cursor" onclick="openForm('AssistantMilitaryDegreeForm')">
                             <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>

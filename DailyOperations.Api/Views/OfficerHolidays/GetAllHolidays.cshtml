@@ -1,14 +1,14 @@
 ﻿@using DailyOperations.Domain.ViewModels.OfficerHolidays;
 @model GetAllOfficerHolidaysViewModel
 
-<div class="center mg-top25 mg-bottom50 gap7">
-    <a asp-controller="OfficerHolidays" asp-action="GetAll" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold">
+<div class="center mg-top25 mg-bottom50 gap7 need-media-row">
+    <a asp-controller="OfficerHolidays" asp-action="GetAll" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold need-media-row">
         الحضور
         <span class="material-symbols-rounded">
             groups
         </span>
     </a>
-    <a asp-controller="OfficerHolidays" asp-action="GetAllHolidays" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold white bg-primary">
+    <a asp-controller="OfficerHolidays" asp-action="GetAllHolidays" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold white bg-primary need-media-row">
         الأجازات
         <span class="material-symbols-rounded">
             hotel
@@ -18,8 +18,8 @@
 
 
 <form class="center" method="post" asp-controller="OfficerHolidays" asp-action="GetAllHolidays" enctype="multipart/form-data">
-    <div class="center width30 gap2 mg-bottom50 mg-top50">
-        <div class="center width100 gap2 card-radius card-padding bg-white">
+    <div class="center width30 gap2 mg-bottom50 mg-top50 need-media-row">
+        <div class="center width100 gap2 card-radius card-padding bg-white need-media-row">
 
             <div class="width100">
                 <label> تاريخ العودة </label>
@@ -100,7 +100,7 @@
         </table>
 
         <div class="center mg-bottom50 mg-top50">
-            <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+            <button type="submit" class="center font20px white bold width300px height50px card-radius bg-primary"> حفظ</button>
         </div>
 
     </div>
@@ -129,7 +129,7 @@
             </div>
 
             <div class="center mg-bottom20 mg-top50">
-                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+                <button type="submit" class="center font20px white bold width300px height50px card-radius bg-primary"> حفظ</button>
             </div>
         </div>
     </div>
