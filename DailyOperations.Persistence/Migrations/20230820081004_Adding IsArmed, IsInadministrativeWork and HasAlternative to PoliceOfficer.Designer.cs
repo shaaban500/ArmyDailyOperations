@@ -4,6 +4,7 @@ using DailyOperations.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DailyOperations.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230820081004_Adding IsArmed, IsInadministrativeWork and HasAlternative to PoliceOfficer")]
+    partial class AddingIsArmedIsInadministrativeWorkandHasAlternativetoPoliceOfficer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -480,6 +482,9 @@ namespace DailyOperations.Persistence.Migrations
                     b.Property<long?>("GeneralDepartmentId")
                         .HasColumnType("bigint");
 
+                    b.Property<bool>("HasAlternative")
+                        .HasColumnType("bit");
+
                     b.Property<long?>("InnerDepartmentId")
                         .HasColumnType("bigint");
 
@@ -504,9 +509,6 @@ namespace DailyOperations.Persistence.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<long?>("PoliceOfficerAlternativeId")
-                        .HasColumnType("bigint");
-
                     b.Property<long?>("PowerTypeId")
                         .HasColumnType("bigint");
 
@@ -520,8 +522,6 @@ namespace DailyOperations.Persistence.Migrations
                     b.HasIndex("InnerDepartmentId");
 
                     b.HasIndex("OfficerMilitaryDegreeId");
-
-                    b.HasIndex("PoliceOfficerAlternativeId");
 
                     b.HasIndex("PowerTypeId");
 
@@ -1383,10 +1383,6 @@ namespace DailyOperations.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DailyOperations.Domain.Entities.Members.PoliceOfficer", "PoliceOfficerAlternative")
-                        .WithMany()
-                        .HasForeignKey("PoliceOfficerAlternativeId");
-
                     b.HasOne("DailyOperations.Domain.Entities.Members.PowerType", "PowerType")
                         .WithMany()
                         .HasForeignKey("PowerTypeId");
@@ -1396,8 +1392,6 @@ namespace DailyOperations.Persistence.Migrations
                     b.Navigation("InnerDepartment");
 
                     b.Navigation("OfficerMilitaryDegree");
-
-                    b.Navigation("PoliceOfficerAlternative");
 
                     b.Navigation("PowerType");
                 });

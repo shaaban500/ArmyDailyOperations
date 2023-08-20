@@ -1,6 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DailyOperations.Domain.Entities.Operations;
 using DailyOperations.Domain.Entities.Shared;
 
 namespace DailyOperations.Domain.Entities.Members
@@ -16,13 +17,22 @@ namespace DailyOperations.Domain.Entities.Members
         [ForeignKey("OfficerMilitaryDegreeId")]
         public OfficerMilitaryDegree OfficerMilitaryDegree { get; set; }
 
-        public long? DepartmentId { get; set; }
-        [ForeignKey("DepartmentId")]
-        public Department? Department { get; set; }
-
         public long? PowerTypeId { get; set; }
         [ForeignKey("PowerTypeId")]
         public PowerType? PowerType { get; set; }
 
+        public long? GeneralDepartmentId { get; set; }
+        public GeneralDepartment? GeneralDepartment { get; set; }
+
+        public long? InnerDepartmentId { get; set; }
+        public InnerDepartment? InnerDepartment { get; set; }
+
+        public bool IsArmed { get; set; }
+        public bool IsInadministrativeWork { get; set; }
+
+        
+        public long? PoliceOfficerAlternativeId { get; set; }
+        [ForeignKey("PoliceOfficerAlternativeId")]
+        public PoliceOfficer? PoliceOfficerAlternative { get; set; } 
     }
 }

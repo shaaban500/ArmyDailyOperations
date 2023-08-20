@@ -63,12 +63,12 @@ namespace DailyOperations.Persistence.Repositories.Members
                 entity = _context.Set<T>().Where(e => e.Id == (long) id && e.IsDeleted != true);
             }
 
-            if (filter != null)
+            if (entity != null && filter != null)
             {
                 entity = entity.Where(filter);
             }
 
-            if (includes != null && includes?.Length > 0)
+            if (entity != null && includes != null && includes?.Length > 0)
             {
                 foreach (var include in includes)
                 {

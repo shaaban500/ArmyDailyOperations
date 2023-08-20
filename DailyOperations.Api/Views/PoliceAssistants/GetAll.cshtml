@@ -49,7 +49,7 @@
                 {
                     <tr>
                         <td>@obj.PowerType.Name</td>
-                        <td>@obj.Department.Name</td>
+                        @*<td>@obj.Department.Name</td>*@
                         <td>@obj.AssistantsMilitaryDegree.Degree</td>
                         <td>@obj.Name</td>
                         <td>@obj.Phone</td>
@@ -88,13 +88,13 @@
                 <select name="PoliceAssistant.PowerTypeId" class="input-box width100" asp-items="@(new SelectList(Model.PowerTypes, "Id", "Name"))">
                 </select>
             </div>
-
+@*
             <div class="mg-top25 width80">
                 <label asp-for="@Model.PoliceAssistant.DepartmentId">الإدارة</label>
                 <select name="PoliceAssistant.DepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.Departments, "Id", "Name"))">
                 </select>
             </div>
-
+*@
             <div class="mg-top25 width80">
                 <label asp-for="@Model.PoliceAssistant.AssistantsMilitaryDegreeId"> الرتبة</label>
                 <select name="PoliceAssistant.AssistantsMilitaryDegreeId" class="input-box width100" asp-items="@(new SelectList(Model.AssistantsMilitaryDegrees, "Id", "Degree"))">

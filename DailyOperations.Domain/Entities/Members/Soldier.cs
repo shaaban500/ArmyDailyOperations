@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DailyOperations.Domain.Entities.Members;
+using DailyOperations.Domain.Entities.Operations;
 using DailyOperations.Domain.Entities.Shared;
 
 namespace DailyOperations.Domain.Entities
@@ -29,5 +30,10 @@ namespace DailyOperations.Domain.Entities
 
         public List<Skill>? Skills { get; set; }
 
+        public long? GeneralDepartmentId { get; set; }
+        public GeneralDepartment? GeneralDepartment { get; set; }
+
+        public long? InnerDepartmentId { get; set; }
+        public InnerDepartment? InnerDepartment { get; set; }
     }
 }

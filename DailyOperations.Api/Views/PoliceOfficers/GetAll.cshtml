@@ -2,11 +2,11 @@
 @model GetAllPoliceOfficersViewModel
 
 <header class="center mg-top20 mg-bottom20"> الضباط </header>
-<div class="center mg-top50" id="officers-body">
+<div class="center mg-top20" id="officers-body">
     <table class="width100">
         <thead>
             <tr>
-                <th class="width20"> 
+                <th> 
                     <div class="flex-row center gap1 need-media-row">
                         <div>القوة</div>
                         <div class="cursor" onclick="openForm('PowerTypeForm')">
@@ -14,15 +14,23 @@
                         </div>
                     </div>
                 </th>
-                <th class="width20">
+                <th>
                     <div class="flex-row center gap1 need-media-row">
                         <div> الإدارة </div>
-                        <div class="cursor" onclick="openForm('DepartmentForm')">
+                        <div class="cursor" onclick="openForm('GeneralDepartmentForm')">
                             <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>
                         </div>
                     </div> 
                 </th>
-                <th class="width20"> 
+                <th>
+                    <div class="flex-row center gap1 need-media-row">
+                        <div> القسم </div>
+                        <div class="cursor" onclick="openForm('InnerDepartmentForm')">
+                            <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>
+                        </div>
+                    </div> 
+                </th>
+                <th> 
                     <div class="flex-row center gap1 need-media-row">
                         <div> الرتبة </div>
                         <div class="cursor" onclick="openForm('OfficerMilitaryDegreeForm')">
@@ -32,7 +40,9 @@
                 </th>
                 <th> الاسم </th>
                 <th> التليفون</th>
-                <th class="width10">
+                <th> نوع العمل </th>
+                <th> نوع السلاح </th>
+                <th >
                     <div class="center">
                         <a asp-controller="PoliceOfficers" asp-action="AddOrUpdate" onclick="openForm('PoliceOfficersForm')">
                             <span class="material-symbols-rounded primary cursor" style="font-size:38px;font-weight:500;">add_circle</span>
@@ -48,11 +58,14 @@
                 @foreach (var obj in Model.PoliceOfficers)
                 {
                     <tr>
-                        <td>@obj.PowerType.Name</td>
-                        <td>@obj.Department.Name</td>
-                        <td>@obj.OfficerMilitaryDegree.Degree</td>
-                        <td>@obj.Name</td>
-                        <td>@obj.Phone</td>
+                        <td>@obj?.PowerType?.Name</td>
+                        <td>@obj?.GeneralDepartment?.Department</td>
+                        <td>@obj?.InnerDepartment?.Department</td>
+                        <td>@obj?.OfficerMilitaryDegree?.Degree</td>
+                        <td>@obj?.Name</td>
+                        <td>@obj?.Phone</td>
+                        <td>@(obj?.IsInadministrativeWork == true ? "إداري" : "غير إداري")</td>
+                        <td>@(obj?.IsArmed == true ? "سلاح" : "بدون سلاح")</td>
                         <td>
                             <div class="center gap2">
                                 <a asp-controller="PoliceOfficers" asp-route-id="@obj.Id" asp-action="Delete">
@@ -73,7 +86,7 @@
 <form method="post" asp-controller="PoliceOfficers" asp-action="AddOrUpdate" enctype="multipart/form-data"> @*onsubmit="return validateProjectForm()">*@
     <div class="form-fees gap0" id="PoliceOfficersForm">
         <div class="flex-row justify-content-start">
-            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('PoliceOfficersForm')">
+            <span class="material-symbols-rounded danger large-font cursor" id="close" onclick="closeForm('PoliceOfficersForm')">
                 close
             </span>
         </div>
@@ -82,37 +95,88 @@
 
             <input hidden asp-for="PoliceOfficer.Id" id="officerId" />
             
-            <div class="mg-top50 width80">
-                <label asp-for="@Model.PoliceOfficer.PowerTypeId"> القوة</label>
-                <select name="PoliceOfficer.PowerTypeId" class="input-box width100" asp-items="@(new SelectList(Model.PowerTypes, "Id", "Name"))">
-                </select>
+            <div class="center gap2 width90">
+                <div class="mg-top20 width100">
+                    <label asp-for="@Model.PoliceOfficer.PowerTypeId"> القوة</label>
+                    <select name="PoliceOfficer.PowerTypeId" class="input-box width100" asp-items="@(new SelectList(Model.PowerTypes, "Id", "Name"))">
+                    </select>
+                </div>
+            
+                <div class="mg-top20 width100">
+                    <label asp-for="@Model.PoliceOfficer.OfficerMilitaryDegreeId"> الرتبة</label>
+                    <select name="PoliceOfficer.OfficerMilitaryDegreeId" class="input-box width100" asp-items="@(new SelectList(Model.OfficersMililaryDegrees, "Id", "Degree"))">
+                    </select>
+                </div>
+            
+                <div class="mg-top20 width100">
+                    <label asp-for="@Model.PoliceOfficer.Phone">التليفون</label>
+                    <input id="project-name" asp-for="@Model.PoliceOfficer.Phone" class="input-box width100" type="text" placeholder="ادخل رقم الهاتف" />
+                </div>
+            </div>
+            
+
+            <div class="center gap2 width90">
+                <div class="mg-top20 width100">
+                    <label asp-for="@Model.PoliceOfficer.Name">الاسم</label>
+                    <input id="project-name" asp-for="@Model.PoliceOfficer.Name" class="input-box width100" type="text" placeholder="ادخل الاسم" />
+                </div>
+            
+                <div class="mg-top20 width100">
+                    <label asp-for="@Model.PoliceOfficer.PoliceOfficerAlternativeId"> البديل</label>
+                    <select name="PoliceOfficer.PoliceOfficerAlternativeId" class="input-box width100" asp-items="@(new SelectList(Model.PoliceOfficers, "Id", "Name"))">
+                        <option></option>
+                    </select>
+                </div>
             </div>
 
-            <div class="mg-top50 width80">
-                <label asp-for="@Model.PoliceOfficer.DepartmentId">الإدارة</label>
-                <select name="PoliceOfficer.DepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.Departments, "Id", "Name"))">
-                </select>
+            <div class="center gap2 width90">
+                <div class="mg-top20 width100">
+                    <label asp-for="@Model.PoliceOfficer.GeneralDepartmentId"> الإدارة</label>
+                    <select name="PoliceOfficer.GeneralDepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.GeneralDepartments, "Id", "Department"))">
+                    </select>
+                </div>
+
+                <div class="mg-top20 width100">
+                    <label asp-for="@Model.PoliceOfficer.InnerDepartmentId"> القسم</label>
+                    <select name="PoliceOfficer.InnerDepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.InnerDepartments, "Id", "Department"))">
+                    </select>
+                </div>
             </div>
-            
-            <div class="mg-top50 width80">
-                <label asp-for="@Model.PoliceOfficer.OfficerMilitaryDegreeId"> الرتبة</label>
-                <select name="PoliceOfficer.OfficerMilitaryDegreeId" class="input-box width100" asp-items="@(new SelectList(Model.OfficersMililaryDegrees, "Id", "Degree"))">
-                </select>
+
+
+            <div class="mg-top20 width90">
+                <div class="center gap7">
+                    <label class="bold"> السلاح: </label>
+                    <label>
+                        @Html.RadioButtonFor(m => m.PoliceOfficer.IsArmed, true)
+                        <span> مسلح </span>
+                    </label>
+
+                    <label>
+                        @Html.RadioButtonFor(m => m.PoliceOfficer.IsArmed, false)
+                        <span> بدون سلاح </span>
+                    </label>
+                </div>
             </div>
-            
-            <div class="mg-top50 width80">
-                <label asp-for="@Model.PoliceOfficer.Name">الاسم</label>
-                <input id="project-name" asp-for="@Model.PoliceOfficer.Name" class="input-box width100" type="text" placeholder="ادخل الاسم" />
+                
+            <div class="mg-top20 width90">
+                <div class="center gap7">
+                    <label class="bold"> نوع العمل: </label>
+                    <label>
+                        @Html.RadioButtonFor(m => m.PoliceOfficer.IsInadministrativeWork, true)
+                        <span> إداري </span>
+                    </label>
+
+                    <label>
+                        @Html.RadioButtonFor(m => m.PoliceOfficer.IsInadministrativeWork, false)
+                        <span> غير إداري </span>
+                    </label>
+                </div>
             </div>
-            
-            
-            <div class="mg-top50 width80">
-                <label asp-for="@Model.PoliceOfficer.Phone">التليفون</label>
-                <input id="project-name" asp-for="@Model.PoliceOfficer.Phone" class="input-box width100" type="text" placeholder="ادخل رقم الهاتف" />
-            </div>
-            
+
+
             <div class="center mg-bottom20 mg-top50">
-                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+                <button type="submit" class="center font20px white bold width300px height50px card-radius bg-primary"> حفظ</button>
             </div>
         </div>
     </div>
@@ -123,7 +187,7 @@
 <form method="post" asp-controller="PowerTypes" asp-action="AddOrUpdate" enctype="multipart/form-data">
     <div class="form-fees gap0" id="PowerTypeForm">
         <div class="flex-row justify-content-start">
-            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('PowerTypeForm')">
+            <span class="material-symbols-rounded danger large-font cursor" id="close" onclick="closeForm('PowerTypeForm')">
                 close
             </span>
         </div>
@@ -137,7 +201,7 @@
             </div>
 
             <div class="center mg-bottom20 mg-top50">
-                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+                <button type="submit" class="center font20px white bold width300px height50px card-radius bg-primary"> حفظ</button>
             </div>
         </div>
     </div>
@@ -146,25 +210,46 @@
 
 
 
-<form method="post" asp-controller="Departments" asp-action="AddOrUpdate" enctype="multipart/form-data">
-    <div class="form-fees gap0" id="DepartmentForm">
-        <div class="flex-row justify-content-start">
-            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('DepartmentForm')">
+
+
+<form method="post" asp-controller="PoliceOfficers" asp-action="GeneralDepartment" enctype="multipart/form-data">
+    <div class="form-fees gap0" id="GeneralDepartmentForm">
+        <div class="flex-row justify-content-start cursor">
+            <span class="material-symbols-rounded danger large-font cursor" id="close" onclick="closeForm('GeneralDepartmentForm')">
                 close
             </span>
         </div>
         <div class="flex-column align-center">
-            <span id="Departments-error" class="center danger font2rem mg-bottom20 bold"></span>
+            <span id="vehicleTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
 
-            @*<input hidden asp-for="@Model.PowerType.Id" id="powerTypeId" />*@
-
-            <div class="mg-top50 width80">
-                <label asp-for="@Model.Department.Name">الإدارة</label>
-                <input asp-for="@Model.Department.Name" class="input-box width100" type="text" placeholder="ادخل اسم الإدارة" />
+            <div class="margin-input width80">
+                <label asp-for="GeneralDepartment.Department"> الإدارة </label>
+                <input asp-for="GeneralDepartment.Department" class="input-box width100" type="text" placeholder="ادخل اسم الإدارة" />
             </div>
+            <div class="center mg-bottom20 mg-top20">
+                <button type="submit" class="center font20px white bold width300px height50px card-radius bg-primary"> حفظ</button>
+            </div>
+        </div>
+    </div>
+</form>
 
-            <div class="center mg-bottom20 mg-top50">
-                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+
+<form method="post" asp-controller="PoliceOfficers" asp-action="InnerDepartment" enctype="multipart/form-data">
+    <div class="form-fees gap0" id="InnerDepartmentForm">
+        <div class="flex-row justify-content-start cursor">
+            <span class="material-symbols-rounded danger large-font cursor" id="close" onclick="closeForm('InnerDepartmentForm')">
+                close
+            </span>
+        </div>
+        <div class="flex-column align-center">
+            <span id="vehicleTypes-error" class="center danger font2rem mg-bottom20 bold"></span>
+
+            <div class="margin-input width80">
+                <label asp-for="InnerDepartment.Department"> القسم </label>
+                <input asp-for="InnerDepartment.Department" class="input-box width100" type="text" placeholder="ادخل اسم القسم" />
+            </div>
+            <div class="center mg-bottom20 mg-top20">
+                <button type="submit" class="center font20px white bold width300px height50px card-radius bg-primary"> حفظ</button>
             </div>
         </div>
     </div>
@@ -175,7 +260,7 @@
 <form method="post" asp-controller="OfficerMilitaryDegrees" asp-action="AddOrUpdate" enctype="multipart/form-data">
     <div class="form-fees gap0" id="OfficerMilitaryDegreeForm">
         <div class="flex-row justify-content-start">
-            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('OfficerMilitaryDegreeForm')">
+            <span class="material-symbols-rounded danger large-font cursor" id="close" onclick="closeForm('OfficerMilitaryDegreeForm')">
                 close
             </span>
         </div>
@@ -190,7 +275,7 @@
             </div>
 
             <div class="center mg-bottom20 mg-top50">
-                <button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+                <button type="submit" class="center font20px white bold width300px height50px card-radius bg-primary"> حفظ</button>
             </div>
         </div>
     </div>

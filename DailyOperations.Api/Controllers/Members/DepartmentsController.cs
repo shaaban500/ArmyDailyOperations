@@ -20,12 +20,12 @@ namespace DailyOperations.Api.Controllers
         }
 
 
-        public async Task<IActionResult> AddOrUpdate(GetAllPoliceOfficersViewModel model)
-        {
-            await _departmentServices.AddOrUpdate(model.Department);
+        //public async Task<IActionResult> AddOrUpdate(GetAllPoliceOfficersViewModel model)
+        //{
+        //    await _departmentServices.AddOrUpdate(model);
 
-            return RedirectToAction("Index", "Home");
-        }
+        //    return RedirectToAction("Index", "Home");
+        //}
 
         public async Task<IActionResult> Delete(long id)
         {

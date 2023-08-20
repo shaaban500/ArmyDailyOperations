@@ -22,7 +22,8 @@ namespace DailyOperations.Infrastructure.Services.Members
             var includes = new Expression<Func<PoliceAssistant, object>>[]
                                             {
                                                 p => p.PowerType,
-                                                p => p.Department,
+                                                p => p.InnerDepartment,
+                                                p => p.GeneralDepartment,
                                                 p => p.AssistantsMilitaryDegree,
                                             };
             Func<IQueryable<PoliceAssistant>, IOrderedQueryable<PoliceAssistant>> orderBy = q => q.OrderByDescending(md => md.AssistantsMilitaryDegree.DisplayOrder).ThenBy(x => x.Name);
@@ -89,7 +90,8 @@ namespace DailyOperations.Infrastructure.Services.Members
 			var includes = new Expression<Func<PoliceAssistant, object>>[]
 											{
 												p => p.PowerType,
-												p => p.Department,
+                                                p => p.InnerDepartment,
+												p => p.GeneralDepartment,
 												p => p.AssistantsMilitaryDegree,
 											};
 			Func<IQueryable<PoliceAssistant>, IOrderedQueryable<PoliceAssistant>> orderBy = q => q.OrderByDescending(md => md.AssistantsMilitaryDegree.DisplayOrder).ThenBy(x => x.Name);

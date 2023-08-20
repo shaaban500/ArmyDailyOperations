@@ -1,4 +1,4 @@
-﻿using DailyOperations.Domain.Entities.Shared;
+﻿ using DailyOperations.Domain.Entities.Shared;
 
 namespace DailyOperations.Domain.Entities.Members
 {

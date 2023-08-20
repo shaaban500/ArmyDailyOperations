@@ -3,6 +3,7 @@ using DailyOperations.Domain.Entities.Members;
 using DailyOperations.Domain.Interfaces;
 using DailyOperations.Domain.Interfaces.Services.Holidays;
 using DailyOperations.Domain.Interfaces.Services.Members;
+using DailyOperations.Domain.ViewModels.PoliceOfficers;
 using Microsoft.EntityFrameworkCore;
 
 namespace DailyOperations.Infrastructure.Services.Members
@@ -22,7 +23,8 @@ namespace DailyOperations.Infrastructure.Services.Members
             var includes = new Expression<Func<PoliceOfficer, object>>[]
                                             {
                                                 p => p.PowerType,
-                                                p => p.Department,
+                                                p => p.InnerDepartment,
+                                                p => p.GeneralDepartment,
                                                 p => p.OfficerMilitaryDegree,
                                             };
             Func<IQueryable<PoliceOfficer>, IOrderedQueryable<PoliceOfficer>> orderBy = q => q.OrderByDescending(md => md.OfficerMilitaryDegree.DisplayOrder).ThenBy(x => x.Name);
@@ -58,15 +60,15 @@ namespace DailyOperations.Infrastructure.Services.Members
 			return policeOfficers.ToList();
         }
 
-        public async Task AddOrUpdate(PoliceOfficer model)
+        public async Task AddOrUpdate(GetAllPoliceOfficersViewModel model)
         {
-            if (model.Id == 0)
+            if (model.PoliceOfficer.Id == 0)
             {
-                var policeOfficer = await _unitOfWork.PoliceOfficers.AddAsync(model);
+                var policeOfficer = await _unitOfWork.PoliceOfficers.AddAsync(model.PoliceOfficer);
             }
             else
             {
-                var policeOfficer = await _unitOfWork.PoliceOfficers.UpdateAsync(model);
+                var policeOfficer = await _unitOfWork.PoliceOfficers.UpdateAsync(model.PoliceOfficer);
             }
         }
 
@@ -86,7 +88,8 @@ namespace DailyOperations.Infrastructure.Services.Members
 			var includes = new Expression<Func<PoliceOfficer, object>>[]
 											{
 												p => p.PowerType,
-												p => p.Department,
+												p => p.InnerDepartment,
+                                                p => p.GeneralDepartment,
 												p => p.OfficerMilitaryDegree,
 											};
 			Func<IQueryable<PoliceOfficer>, IOrderedQueryable<PoliceOfficer>> orderBy = q => q.OrderByDescending(md => md.OfficerMilitaryDegree.DisplayOrder).ThenBy(x => x.Name);
@@ -94,5 +97,10 @@ namespace DailyOperations.Infrastructure.Services.Members
 
 			return policeOfficers.ToList();
 		}
-	}
+
+        public Task AddOrUpdate(PoliceOfficer model)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
