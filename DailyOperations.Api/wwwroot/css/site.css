@@ -1024,6 +1024,10 @@ input[type="color"] {
         gap: 0rem;
     }
 
+    .gap5, .gap7{
+        gap:2rem;
+    }
+
     main {
         width: 100%;
         padding: 0px 30px;
@@ -1082,4 +1086,96 @@ input[type="color"] {
         width: 150px;
     }
 
+}
+
+
+
+
+@media screen and (min-width: 100px) and (max-width: 599px) {
+    .flex-row:not(.need-media-row), .center:not(.need-media-row), nav.container:not(.need-media-row) {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flex-row.justify-content-start {
+        align-items: start;
+    }
+
+    .flex-row.justify-content-end {
+        align-items: end;
+    }
+
+    .flex-row.align-start {
+        align-items: start;
+    }
+
+    .gap2:not(.need-media-row) {
+        gap: 0rem;
+    }
+
+    .gap5, .gap7{
+        gap: 1rem;
+    }
+
+    main {
+        width: 95%;
+        padding: 0px 10px;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    header {
+        font-size: 1rem;
+    }
+
+    thead {
+        font-size: 10px;
+    }
+
+    td {
+        font-size: 2px;
+    }
+
+    th, td {
+        padding: 3px 3px;
+    }
+
+    .font20px {
+        font-size: 8px;
+    }
+
+    .material-symbols-rounded {
+        font-size: 10px !important;
+    }
+
+    .card-padding {
+        padding: 3rem 3rem;
+    }
+
+
+    .card-radius {
+        border-radius: 10px;
+    }
+
+    .width25 {
+        width: 35%;
+    }
+
+    .width30 {
+        width: 70%;
+    }
+
+    .width300px {
+        width: 200px;
+    }
+
+    .width250px {
+        width: 150px;
+    }
+
+    .width200px {
+        width: 100px;
+    }
 }

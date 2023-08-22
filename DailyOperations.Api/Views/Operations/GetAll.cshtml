@@ -121,10 +121,17 @@
 <div id="service"> 
 	<form method="post" asp-controller="Operations" asp-action="AddOperationForMembers" enctype="multipart/form-data" class="bg-white shadow1 card-radius height-fit card-padding mg-bottom50">
 		<input hidden asp-for="@Model.OperationId" />
-		<div class="center gap1 width100" id="record">
+		
+		<div class="width10">
+			<label asp-for="@Model.PoliceOfficerId">الأقسام</label>
+			<select id="DepartmentId" name="InnerDepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.InnerDepartments, "Id", "Department"))">
+			</select>
+		</div>
+
+		<div class="center gap1 width100 mg-top20" id="record">
 			<div class="width100">
 				<label asp-for="@Model.PoliceOfficerId">ضابط</label>
-				<select name="PoliceOfficerId" asp-for="@Model.PoliceOfficerId" class="input-box width100">
+				<select id="OfficerId" name="PoliceOfficerId" asp-for="@Model.PoliceOfficerId" class="input-box width100">
 					<option></option>
 					@foreach(var officer in Model.PoliceOfficers)
 					{
@@ -132,7 +139,6 @@
 					}
 				</select>
 			</div>
-
 			<div class="width100">
 				<label asp-for="@Model.PoliceAssistantId">أمين شرطة</label>
 				<select name="PoliceAssistantId" asp-for="@Model.PoliceAssistantId" class="input-box width100">
@@ -740,6 +746,9 @@
     }
 
 }
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
 
 
 

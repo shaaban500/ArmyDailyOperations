@@ -510,3 +510,30 @@ function GetDriverData() {
     console.log('Driver ID field value:', document.getElementById('Driver').value);
     console.log('Driver type ID field value:', document.getElementById('DriverType').value);
 }
+
+
+
+
+$(document).ready(function () {
+    $('#DepartmentId').on('change', function () {
+        var DepartmentId = $(this).val();
+        var Officers = $('#OfficerId');
+
+        Officers.empty();
+        Officers.append('<option></option>');
+
+        if (DepartmentId !== '') {
+            $.ajax({
+                url: '/PoliceOfficers/GetAllByDepartment?id=' + DepartmentId,
+                success: function (allOfficers) {
+                    $.each(allOfficers, function (i, officer) {
+                        Officers.append($('<option>').attr('value', officer.id).text(officer.name));
+                    });
+                },
+                error: function () {
+                    alert("An error occurred while retrieving officers.");
+                }
+            });
+        }
+    });
+});

@@ -47,7 +47,15 @@ namespace DailyOperations.Api.Controllers.Members
             return View(policeOficersViewModel);
         }
 
-        public async Task<IActionResult> AddOrUpdate(GetAllPoliceOfficersViewModel model)
+
+		public async Task<IActionResult> GetAllByDepartment(long id)
+        {
+            var officers = await _unitOfWork.PoliceOfficers.GetAllAsync(x => x.InnerDepartmentId == id);
+            return Ok(officers);
+        }
+
+
+		public async Task<IActionResult> AddOrUpdate(GetAllPoliceOfficersViewModel model)
         {
             await _policeOfficersService.AddOrUpdate(model);
 
