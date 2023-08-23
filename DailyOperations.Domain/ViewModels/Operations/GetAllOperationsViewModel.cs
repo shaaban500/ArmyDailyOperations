@@ -8,9 +8,11 @@ namespace DailyOperations.Domain.ViewModels.Operations
     {
 		// table
         public DailyOperationViewModel DailyOperationViewModel { get; set; }
+		public List<Tuple<string, int>> Accusations { get; set; }
+ 
 
-		// add 
-		public GeneralDepartment GeneralDepartment { get; set; }
+        // add 
+        public GeneralDepartment GeneralDepartment { get; set; }
 		public InnerDepartment InnerlDepartment { get; set; }
         public DailyOperation DailyOperation { get; set; }
         public ShiftType ShiftType { get; set; }
@@ -22,7 +24,6 @@ namespace DailyOperations.Domain.ViewModels.Operations
         public OperationInstruction OperationInstruction { get; set; }
 
         // dropdown lists
-
 
         public List<GeneralDepartment> GeneralDepartments { get; set; }
         public List<InnerDepartment> InnerDepartments { get; set; }
@@ -87,6 +88,7 @@ namespace DailyOperations.Domain.ViewModels.Operations
             OperationOfficersViewModel = new List<OperationOfficerViewModel>();
             OperationSoldiersViewModel = new List<OperationSoldierViewModel>();
             OperationAssistantsViewModel = new List<OperationAssistantViewModel>();
+            Accusations = new List<Tuple<string, int>>();
 
 			// dropdown lists
 			GeneralDepartments = new List<GeneralDepartment>();

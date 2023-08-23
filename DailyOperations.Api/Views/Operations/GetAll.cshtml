@@ -270,8 +270,8 @@
 		</header>
 
 <div id="signs">
-		<div class="center">
-			<div class="flex-column width50 bg-white card-radius height-fit shadow1 card-padding mg-bottom50">
+	<div class="center">
+		<div class="flex-column width50 bg-white card-radius height-fit shadow1 card-padding mg-bottom50">
 			<div class="center gap2 mg-bottom10 width100">
 				<div class="width250px">
 					<label> الوظيفة </label>
@@ -285,7 +285,7 @@
 					<label> الاسم </label>
 					<input class="input-box width100" id="name" />
 				</div>
-				<button id="add-btn" class="padding1 width250px btn center gap2 font20px card-radius height50px cursor width250px shadow1 white bg-primary bold mg-top25 need-media-row">
+				<button id="add-btn" class="padding1 width300px center gap2 font20px card-radius height50px cursor width250px shadow1 white bg-primary bold mg-top25 need-media-row">
 					إضافة الإمضاء
 					<span class="material-symbols-rounded">
 						add_circle
@@ -295,6 +295,44 @@
 		</div>
 	</div>
 </div>
+
+
+		<header class="center mg-top20 mg-bottom20 gap2 cursor" onclick="expand('add-accusations')">
+			<div class="center gap2 width25 bg-white card-radius height50px padding1" id="accusationsspans">
+				<div>
+					إضافة التهم
+				</div>
+				<span class="material-symbols-rounded" style="font-weight:900; font-size:30px">
+					expand_more
+				</span>
+				<span class="material-symbols-rounded" style="font-weight:900; font-size:30px; display:none;">
+					expand_less
+				</span>
+			</div>
+		</header>
+
+
+		<div id="add-accusations">
+			<div class="center mg-bottom50">
+				<div class="flex-column width50 bg-white card-radius height-fit shadow1 card-padding mg-bottom50">
+					<div class="center gap2 mg-bottom10 width100">
+						<div class="center gap2">
+							<div class="width100">
+								<label for="StringValue"> التهمة </label>
+								<input type="text" id="StringValue" class="input-box width100"/>
+							</div>
+							<div class="width100">
+								<label for="IntValue"> العدد </label>
+								<input type="text" id="IntValue" class="input-box width100"/>
+							</div>
+							<button id="AddAccusation" class="padding1 width250px btn center gap2 font20px card-radius height50px cursor width250px shadow1 white bg-primary bold mg-top25 need-media-row" onclick="addAccusation()"> إضافة </button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
 
 	<div class="flex-column width100" id="printContent">
 		<div class="flex-row align-start">
@@ -510,7 +548,21 @@
 				</tbody>
 			</table>
 
+			<header class="center mg-bottom20 mg-top50"> بيان المتهمين </header>
+			<table id="accusations" class="width50 mg-bottom50">
+				<thead>
+					<tr>
+						<th> التهمة </th>
+						<th> العدد </th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+
+
 		</div>
+				
 
 		<div id="signatures" class="flex-column font20px bold">
 		</div>

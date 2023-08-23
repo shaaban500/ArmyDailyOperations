@@ -537,3 +537,16 @@ $(document).ready(function () {
         }
     });
 });
+
+
+function addAccusation() {
+    var stringValue = $('#StringValue').val();
+    var intValue = $('#IntValue').val();
+
+    if (stringValue && intValue) {
+        var newRow = '<tr><td>' + stringValue + '</td><td>' + intValue + '</td></tr>';
+        $('#accusations tbody').append(newRow);
+        $('#StringValue').val('');
+        $('#IntValue').val('');
+    }
+}
