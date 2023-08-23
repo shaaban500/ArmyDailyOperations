@@ -15,7 +15,8 @@ namespace DailyOperations.Api.Controllers.Members
 
         public IActionResult Index()
         {
-            return View();
+            ViewBag.Title = "مديرية أمن.....";
+			return View();
         }
 
         public IActionResult Privacy()

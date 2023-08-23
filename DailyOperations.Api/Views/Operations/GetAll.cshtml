@@ -334,12 +334,50 @@
 
 
 
-	<div class="flex-column width100" id="printContent">
-		<div class="flex-row align-start">
-			<div class="font20px bold">@Model.DailyOperationViewModel.Operation.GeneralDepartment.Department</div>
+		<header class="center mg-top20 mg-bottom20 gap2 cursor" onclick="expand('add-logo')">
+			<div class="center gap2 width25 bg-white card-radius height50px padding1" id="logospans">
+				<div>
+					إضافة الشعار
+				</div>
+				<span class="material-symbols-rounded" style="font-weight:900; font-size:30px">
+					expand_more
+				</span>
+				<span class="material-symbols-rounded" style="font-weight:900; font-size:30px; display:none;">
+					expand_less
+				</span>
+			</div>
+		</header>
+
+
+		<div id="add-logo">
+			<div class="center mg-bottom50">
+				<div class="flex-column width50 bg-white card-radius height-fit shadow1 card-padding mg-bottom50">
+					<div class="center gap2 mg-bottom10 width100">
+						<div class="center gap2">
+							<input type="file" id="photoInput" />
+							<button id="AddLogo" class="padding1 width250px btn center gap2 font20px card-radius height50px cursor width250px shadow1 white bg-primary bold mg-top25 need-media-row" onclick="addLogo()"> إضافة شعار </button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="flex-row align-start">
-			<div class="font20px bold">@Model.DailyOperationViewModel.Operation.InnerDepartment.Department</div>
+
+
+
+	<div class="flex-column width100" id="printContent">
+		<div class="flex-row justify-content-between need-media-row">
+			<div class="">
+				<div class="flex-row align-start">
+					<div class="font20px bold"> @ViewBag.Title </div>
+				</div>
+				<div class="flex-row align-start">
+					<div class="font20px bold">@Model.DailyOperationViewModel.Operation.GeneralDepartment.Department</div>
+				</div>
+				<div class="flex-row align-start">
+					<div class="font20px bold">@Model.DailyOperationViewModel.Operation.InnerDepartment.Department</div>
+				</div>
+			</div>
+			<img id="logo" alt="Logo" class="width10 height10"/>
 		</div>
 		<div class="center align-start">
 			<div class="font20px bold"> يومية @Model.DailyOperationViewModel.Operation.DailyOperation.DailyOperationName</div>

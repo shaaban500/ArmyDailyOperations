@@ -1092,7 +1092,7 @@ input[type="color"] {
 
 
 @media screen and (min-width: 100px) and (max-width: 599px) {
-    .flex-row:not(.need-media-row), .center:not(.need-media-row), nav.container:not(.need-media-row) {
+    .flex-row:not(.need-media-row), .center:not(.need-media-row), nav.container{
         flex-direction: column;
         align-items: center;
     }
@@ -1114,7 +1114,7 @@ input[type="color"] {
     }
 
     .gap5, .gap7{
-        gap: 1rem;
+        gap: 10px;
     }
 
     main {
@@ -1127,7 +1127,7 @@ input[type="color"] {
     }
 
     header {
-        font-size: 1rem;
+        font-size: 12px;
     }
 
     thead {
@@ -1135,11 +1135,11 @@ input[type="color"] {
     }
 
     td {
-        font-size: 2px;
+        font-size: 1px;
     }
 
     th, td {
-        padding: 3px 3px;
+        padding: 2px 2px;
     }
 
     .font20px {
@@ -1168,14 +1168,17 @@ input[type="color"] {
     }
 
     .width300px {
-        width: 200px;
+        width: 150px;
     }
 
     .width250px {
-        width: 150px;
+        width: 125px;
     }
 
     .width200px {
         width: 100px;
+    }
+    nav img.logo {
+        width: 3rem;
     }
 }

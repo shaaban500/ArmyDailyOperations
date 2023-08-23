@@ -52,7 +52,7 @@
             gap: 2rem;
             width: 96%;
             direction: rtl;
-            background-image: url("/background-logo.png");
+            //background-image: url("/background-logo.png");
             background-size: contain;
             background-repeat: repeat-y;
             background-position: center center;
@@ -550,3 +550,22 @@ function addAccusation() {
         $('#IntValue').val('');
     }
 }
+
+
+
+function addLogo() {
+    var fileInput = document.getElementById('photoInput');
+    if (fileInput.files && fileInput.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            document.getElementById('logo').src = event.target.result;
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+}
+
+
+
+window.onbeforeunload = function () {
+    return "الإمضاءات و التهم و الشعارات قد تفقد عند مغادرة الصفحة !!";
+};
