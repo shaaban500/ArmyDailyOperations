@@ -114,7 +114,10 @@ namespace DailyOperations.Api.Controllers.Holidays
                 SoldierHolidays = allSoldierholidays,
                 GeneralDepartment = model.GeneralDepartment,
                 InnerDepartment = model.InnerDepartment,
-                SpecialInnerDepartment = model.SpecialInnerDepartment
+                SpecialInnerDepartment = model.SpecialInnerDepartment,
+                MilitaryDegree = model.MilitaryDegree,
+                Name = model.Name,
+                Job = model.Job
             };
 
             return View("HolidayPermessions", soldierHolidayForPrinting);
