@@ -427,7 +427,14 @@
 
 								</td>
 								<td> @operation?.OperationOfficer?.OperationType?.Type </td>
-								<td> @operation?.OperationOfficer?.OperationDescription?.Description </td>
+								<td class="gap1"> 
+									@operation?.OperationOfficer?.OperationDescription?.Description
+									<a target="_blank" href="https://www.google.com/maps?q=@operation?.OperationOfficer?.OperationDescription?.Longitude,@operation?.OperationOfficer?.OperationDescription?.Latitude" class="delete">
+										<span class="material-symbols-rounded green">
+											distance
+										</span>
+									</a>
+								</td>
 								<td> @operation?.OperationOfficer?.OperationInstruction?.Instruction </td>
 								<td> @operation?.OperationVehicle?.Vehicle?.VehicleType?.Type </td>
 								<td> @operation?.OperationVehicle?.Vehicle?.VehicleLetters @operation?.OperationVehicle?.Vehicle?.VehicleNumbers </td>
@@ -476,7 +483,14 @@
 									</div>
 								</td>
 								<td> @operation?.OperationType?.Type </td>
-								<td> @operation?.OperationDescription?.Description </td>
+								<td class="gap1"> 
+									@operation?.OperationDescription?.Description
+									<a target="_blank" href="https://www.google.com/maps?q=@operation?.OperationDescription?.Longitude,@operation?.OperationDescription?.Latitude" class="delete">
+										<span class="material-symbols-rounded green">
+											distance
+										</span>
+									</a>	
+								</td>
 								<td> @operation?.OperationInstruction?.Instruction </td>
 								<td class="danger cursor delete">
 									<a asp-controller="OperationAssistants" asp-action="Delete" asp-route-id="@operation.Id" asp-route-operationId="@Model.OperationId">
@@ -522,7 +536,14 @@
 									</div>
 								</td>
 								<td> @operation?.OperationType?.Type </td>
-								<td> @operation?.OperationDescription?.Description </td>
+								<td class="gap1">
+									@operation?.OperationDescription?.Description
+									<a target="_blank" href="https://www.google.com/maps?q=@operation?.OperationDescription?.Longitude,@operation?.OperationDescription?.Latitude" class="delete">
+										<span class="material-symbols-rounded green">
+											distance
+										</span>
+									</a>	
+								</td>
 								<td> @operation?.OperationInstruction?.Instruction </td>
 								<td class="danger cursor delete">
 									<a asp-controller="OperationSoldiers" asp-action="Delete" asp-route-id="@operation.Id" asp-route-operationId="@Model.OperationId">
@@ -565,7 +586,14 @@
 									</div>
 								</td>
 								<td> @operation?.OperationVehicle?.OperationType?.Type </td>
-								<td> @operation?.OperationVehicle?.OperationDescription?.Description</td>
+								<td class="gap1">
+									@operation?.OperationVehicle?.OperationDescription?.Description
+									<a target="_blank" href="https://www.google.com/maps?q=@operation?.OperationVehicle?.OperationDescription?.Longitude,@operation?.OperationVehicle?.OperationDescription?.Latitude" class="delete">
+										<span class="material-symbols-rounded green">
+											distance
+										</span>
+									</a>
+								</td>
 								<td> @operation?.OperationVehicle?.OperationInstruction?.Instruction </td>
 								<td> @operation?.OperationVehicle?.Vehicle?.VehicleType?.Type</td>
 								<td> @operation?.OperationVehicle?.Vehicle?.VehicleNumbers @operation?.OperationVehicle?.Vehicle?.VehicleLetters  </td>
@@ -787,6 +815,14 @@
 			<div class="margin-input width80">
 				<label asp-for="OperationDescription.Description"> وصف الخدمة </label>
 				<input asp-for="OperationDescription.Description" class="input-box width100" type="text" />
+			</div>
+			<div class="margin-input width80">
+				<label asp-for="OperationDescription.Longitude"> إحداثيات الخدمة 1 </label>
+				<input asp-for="OperationDescription.Longitude" class="input-box width100" type="text" />
+			</div>
+			<div class="margin-input width80">
+				<label asp-for="OperationDescription.Latitude"> إحداثيات الخدمة 2 </label>
+				<input asp-for="OperationDescription.Latitude" class="input-box width100" type="text" />
 			</div>
 			<input hidden asp-for="@Model.OperationId" />
 			<div class="center mg-bottom20 mg-top20">
