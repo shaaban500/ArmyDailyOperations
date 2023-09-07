@@ -35,7 +35,7 @@ namespace DailyOperations.Api.Controllers.Members
             var generalDepartments = await _unitOfWork.GeneralDepartments.GetAllAsync();
             var innerDepartments = await _unitOfWork.InnerDepartments.GetAllAsync();
 
-            var policeOficersViewModel = new GetAllPoliceOfficersViewModel
+            var policeOfficersViewModel = new GetAllPoliceOfficersViewModel
             {
                 PoliceOfficers = policeOfficers.ToList(),
                 OfficersMililaryDegrees = await _officersMilitaryDegreesService.GetAll(),
@@ -44,7 +44,7 @@ namespace DailyOperations.Api.Controllers.Members
                 InnerDepartments = innerDepartments.ToList(),
             };
 
-            return View(policeOficersViewModel);
+            return View(policeOfficersViewModel);
         }
 
 
@@ -94,5 +94,11 @@ namespace DailyOperations.Api.Controllers.Members
             return RedirectToAction(nameof(GetAll));
         }
 
+
+        public async Task<IActionResult> CountPoliceOfficers(long operatinId, DateTime dateFrom, DateTime dateTo)
+        {
+            var officers = await _policeOfficersService.GetAll(operatinId, dateFrom, dateTo);
+            return Ok(officers);
+        }
     }
 }

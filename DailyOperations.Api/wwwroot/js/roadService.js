@@ -539,6 +539,32 @@ $(document).ready(function () {
 });
 
 
+
+function GetOfficersCount(operationId)
+{
+
+    var dateFrom = document.getElementById('dateFrom').value;
+    var dateTo = document.getElementById('dateTo').value;
+
+    var Officers = $('#OfficerId');
+
+    Officers.empty();
+    Officers.append('<option></option>');
+
+    $.ajax({
+        url: '/PoliceOfficers/CountPoliceOfficers?operationId=' + operationId + '&dateFrom=' + dateFrom + '&dateTo=' + dateTo,
+        success: function (allOfficers) {
+            $.each(allOfficers, function (i, officer) {
+                Officers.append($('<option>').attr('value', officer.id).text(officer.name + ' (' + officer.count + ')'));
+            });
+        },
+        error: function () {
+            alert("An error occurred while retrieving officers.");
+        }
+    });
+}
+
+
 function addAccusation() {
     var stringValue = $('#StringValue').val();
     var intValue = $('#IntValue').val();

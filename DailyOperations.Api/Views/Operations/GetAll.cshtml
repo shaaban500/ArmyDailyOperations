@@ -119,14 +119,34 @@
 		</div>
 	</header>
 <div id="service"> 
+		<div class="center width100 gap7 mg-top25 ">
+			<div class="bg-white shadow1 card-radius height-fit card-padding mg-bottom50">
+				<label asp-for="@Model.PoliceOfficerId">الأقسام</label>
+				<select id="DepartmentId" name="InnerDepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.InnerDepartments, "Id", "Department"))">
+				</select>
+			</div>
+
+			<div class="flex-row gap2 bg-white shadow1 card-radius height-fit card-padding mg-bottom50">
+					<span class="bold font20px primary"> <span> عدد الخدمات: </span></span>
+				<div class="width100">
+					<label> التاريخ من: </label>
+					<input id="dateFrom" type="date" class="input-box"/>
+				</div>
+				<div class="width100">
+					<label> التاريخ حتي: </label>
+					<input id="dateTo" type="date" class="input-box"/>
+				</div>
+				<button type="submit" class="bg-primary height-fit padding1 radius50 mg-top10 cursor white" onclick="GetOfficersCount(@Model.OperationId)">
+					<span class="material-symbols-rounded">
+						search
+					</span>
+				</button>
+			</div>
+		</div>
+
 	<form method="post" asp-controller="Operations" asp-action="AddOperationForMembers" enctype="multipart/form-data" class="bg-white shadow1 card-radius height-fit card-padding mg-bottom50">
 		<input hidden asp-for="@Model.OperationId" />
 		
-		<div class="width10">
-			<label asp-for="@Model.PoliceOfficerId">الأقسام</label>
-			<select id="DepartmentId" name="InnerDepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.InnerDepartments, "Id", "Department"))">
-			</select>
-		</div>
 
 		<div class="center gap1 width100 mg-top20" id="record">
 			<div class="width100">
@@ -429,7 +449,7 @@
 								<td> @operation?.OperationOfficer?.OperationType?.Type </td>
 								<td class="gap1"> 
 									@operation?.OperationOfficer?.OperationDescription?.Description
-									<a target="_blank" href="https://www.google.com/maps?q=@operation?.OperationOfficer?.OperationDescription?.Longitude,@operation?.OperationOfficer?.OperationDescription?.Latitude" class="delete">
+									<a target="_blank" href="https://www.google.com/maps?q=@operation?.OperationOfficer?.OperationDescription?.Longitude,@operation?.OperationOfficer?.OperationDescription?.Latitude" class="delete padding2">
 										<span class="material-symbols-rounded green">
 											distance
 										</span>

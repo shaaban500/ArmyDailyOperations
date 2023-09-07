@@ -6,6 +6,7 @@ namespace DailyOperations.Domain.Interfaces.Services.Members
     public interface IPoliceOfficersService : ICRUDServices<PoliceOfficer>
     {
         Task<List<PoliceOfficer>> GetAll(long operationId);
-        Task AddOrUpdate(GetAllPoliceOfficersViewModel model);
+        Task<List<PoliceOfficerViewModel>> GetAll(long operationId, DateTime dateFrom, DateTime dateTo);
+		Task AddOrUpdate(GetAllPoliceOfficersViewModel model);
     }
 }
