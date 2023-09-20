@@ -592,6 +592,24 @@ function addLogo() {
 
 
 
-window.onbeforeunload = function () {
-    return "الإمضاءات و التهم و الشعارات قد تفقد عند مغادرة الصفحة !!";
-};
+let editedText = '';
+
+// Function to capture changes in the text editor
+function handleTextChange() {
+const textEditor = document.querySelector('.editor');
+editedText = textEditor.textContent;
+}
+
+// Attach the event listener to the text editor
+document.querySelector('.editor').addEventListener('input', handleTextChange);
+
+
+    function preventSubmit(event) {
+        event.preventDefault();
+
+    // Update the hidden input field with the edited text
+    document.querySelector('[name="OperationDescription.Description"]').value = editedText;
+
+    // Manually trigger the form submission
+    document.querySelector('form').submit();
+  }

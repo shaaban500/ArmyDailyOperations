@@ -321,6 +321,10 @@ main {
 .border-dark {
     border: 1px solid var(--color-dark);
 }
+
+.border-grey {
+    border: 1px solid var(--color-gray);
+}
 /******************** Button *****************/
 
 
@@ -1185,4 +1189,28 @@ input[type="color"] {
     nav img.logo {
         width: 3rem;
     }
+
 }
+
+.editor {
+    min-height: 10px;
+    width: 100%;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.editor-commands ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+    .editor-commands ul li {
+        display: inline;
+        margin-right: 10px;
+        width: 10px;
+        height: 10px;
+    }
+
+        .editor-commands ul li button {
+            font-family: 'Material Icons';
+        }

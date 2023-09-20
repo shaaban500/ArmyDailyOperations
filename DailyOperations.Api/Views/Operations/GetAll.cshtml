@@ -119,7 +119,7 @@
 		</div>
 	</header>
 <div id="service"> 
-		<div class="center width100 gap7 mg-top25 ">
+		@*<div class="center width100 gap7 mg-top25 ">
 			<div class="bg-white shadow1 card-radius height-fit card-padding mg-bottom50">
 				<label asp-for="@Model.PoliceOfficerId">الأقسام</label>
 				<select id="DepartmentId" name="InnerDepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.InnerDepartments, "Id", "Department"))">
@@ -142,7 +142,7 @@
 					</span>
 				</button>
 			</div>
-		</div>
+		</div>*@
 
 	<form method="post" asp-controller="Operations" asp-action="AddOperationForMembers" enctype="multipart/form-data" class="bg-white shadow1 card-radius height-fit card-padding mg-bottom50">
 		<input hidden asp-for="@Model.OperationId" />
@@ -317,7 +317,7 @@
 </div>
 
 
-		<header class="center mg-top20 mg-bottom20 gap2 cursor" onclick="expand('add-accusations')">
+		@*<header class="center mg-top20 mg-bottom20 gap2 cursor" onclick="expand('add-accusations')">
 			<div class="center gap2 width25 bg-white card-radius height50px padding1" id="accusationsspans">
 				<div>
 					إضافة التهم
@@ -329,10 +329,10 @@
 					expand_less
 				</span>
 			</div>
-		</header>
+		</header>*@
 
 
-		<div id="add-accusations">
+		@*<div id="add-accusations">
 			<div class="center mg-bottom50">
 				<div class="flex-column width50 bg-white card-radius height-fit shadow1 card-padding mg-bottom50">
 					<div class="center gap2 mg-bottom10 width100">
@@ -350,7 +350,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>*@
 
 
 
@@ -634,7 +634,7 @@
 				</tbody>
 			</table>
 
-			<header class="center mg-bottom20 mg-top50"> بيان المتهمين </header>
+			@*<header class="center mg-bottom20 mg-top50"> بيان المتهمين </header>
 			<table id="accusations" class="width50 mg-bottom50">
 				<thead>
 					<tr>
@@ -644,7 +644,7 @@
 				</thead>
 				<tbody>
 				</tbody>
-			</table>
+			</table>*@
 
 
 		</div>
@@ -834,7 +834,8 @@
 
 			<div class="margin-input width80">
 				<label asp-for="OperationDescription.Description"> وصف الخدمة </label>
-				<input asp-for="OperationDescription.Description" class="input-box width100" type="text" />
+				@Html.Partial("_TedxtEditor")
+				<input contenteditable="true" asp-for="OperationDescription.Description" class="input-box width100" type="text" />
 			</div>
 			<div class="margin-input width80">
 				<label asp-for="OperationDescription.Longitude"> إحداثيات الخدمة 1 </label>
@@ -846,7 +847,7 @@
 			</div>
 			<input hidden asp-for="@Model.OperationId" />
 			<div class="center mg-bottom20 mg-top20">
-				<button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+				<button onclick="preventSubmit(event)" type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
 			</div>
 		</div>
 	</div>
