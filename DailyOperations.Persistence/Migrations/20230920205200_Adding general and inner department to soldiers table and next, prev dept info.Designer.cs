@@ -4,6 +4,7 @@ using DailyOperations.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DailyOperations.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230920205200_Adding general and inner department to soldiers table and next, prev dept info")]
+    partial class Addinggeneralandinnerdepartmenttosoldierstableandnextprevdeptinfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1217,10 +1219,13 @@ namespace DailyOperations.Persistence.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("DepartmentId")
+                    b.Property<long?>("EducationTypeId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("EducationTypeId")
+                    b.Property<long?>("GeneralDepartmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("InnerDepartmentId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsDeleted")
@@ -1230,10 +1235,10 @@ namespace DailyOperations.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<long?>("NextDepartmentId")
+                    b.Property<long>("NextDepartmentId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("NextMovingDate")
+                    b.Property<DateTime>("NextMovingDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Phone")
@@ -1243,10 +1248,10 @@ namespace DailyOperations.Persistence.Migrations
                     b.Property<long?>("PowerTypeId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("PreviousDepartmentId")
+                    b.Property<long>("PreviousDepartmentId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("PreviousMovingDate")
+                    b.Property<DateTime>("PreviousMovingDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("RecruitmentEndDate")
@@ -1260,9 +1265,11 @@ namespace DailyOperations.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId");
-
                     b.HasIndex("EducationTypeId");
+
+                    b.HasIndex("GeneralDepartmentId");
+
+                    b.HasIndex("InnerDepartmentId");
 
                     b.HasIndex("NextDepartmentId");
 
@@ -1671,29 +1678,39 @@ namespace DailyOperations.Persistence.Migrations
 
             modelBuilder.Entity("DailyOperations.Domain.Entities.Soldier", b =>
                 {
-                    b.HasOne("DailyOperations.Domain.Entities.Members.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId");
-
                     b.HasOne("DailyOperations.Domain.Entities.Members.EducationType", "EducationType")
                         .WithMany()
                         .HasForeignKey("EducationTypeId");
 
-                    b.HasOne("DailyOperations.Domain.Entities.Members.Department", "NextDepartment")
+                    b.HasOne("DailyOperations.Domain.Entities.Operations.GeneralDepartment", "GeneralDepartment")
                         .WithMany()
-                        .HasForeignKey("NextDepartmentId");
+                        .HasForeignKey("GeneralDepartmentId");
+
+                    b.HasOne("DailyOperations.Domain.Entities.Operations.InnerDepartment", "InnerDepartment")
+                        .WithMany()
+                        .HasForeignKey("InnerDepartmentId");
+
+                    b.HasOne("DailyOperations.Domain.Entities.Operations.InnerDepartment", "NextDepartment")
+                        .WithMany()
+                        .HasForeignKey("NextDepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DailyOperations.Domain.Entities.Members.PowerType", "PowerType")
                         .WithMany()
                         .HasForeignKey("PowerTypeId");
 
-                    b.HasOne("DailyOperations.Domain.Entities.Members.Department", "PreviousDepartment")
+                    b.HasOne("DailyOperations.Domain.Entities.Operations.InnerDepartment", "PreviousDepartment")
                         .WithMany()
-                        .HasForeignKey("PreviousDepartmentId");
-
-                    b.Navigation("Department");
+                        .HasForeignKey("PreviousDepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("EducationType");
+
+                    b.Navigation("GeneralDepartment");
+
+                    b.Navigation("InnerDepartment");
 
                     b.Navigation("NextDepartment");
 

@@ -3,38 +3,41 @@
 
 <header class="center mg-top20 mg-bottom20"> المجندين </header>
 
+<div class="flex-row justify-content-end mg-bottom10 mg-top20 cursor" onclick="openForm('SoldierForm')">
+    <button class="center gap3 btn width200px height50px card-radius bg-primary font20px white bold">
+        <span class="material-symbols-rounded white cursor" style="font-size:25px;font-weight:500;">add_box</span>
+        إضافة
+    </button>
+</div>
+
 <div class="center mg-top20" id="officers-body">
     <table class="width100">
         <thead>
             <tr>
-                <th>
-                    <div class="flex-row center gap1 need-media-row">
-                        <div>القوة</div>
+                <th class="border-top-right-radius">
+                    <div class="flex-row center gap3 need-media-row">
                         <div class="cursor" onclick="openForm('PowerTypeForm')">
-                            <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>
+                            <span class="material-symbols-rounded gold cursor" style="font-size:25px;font-weight:500;">add_box</span>
                         </div>
+                        <div>القوة</div>
                     </div>
                 </th>
                 <th>
-                    <div class="flex-row center gap1 need-media-row">
-                        <div> الإدارة </div>
+                    <div class="flex-row center gap3 need-media-row">
                         <div class="cursor" onclick="openForm('DepartmentForm')">
-                            <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>
+                            <span class="material-symbols-rounded gold cursor" style="font-size:25px;font-weight:500;">add_box</span>
                         </div>
+                        <div> الإدارة </div>
                     </div>
                 </th>
                 <th> الاسم </th>
                 <th> التليفون </th>
                 <th> تاريخ التجنيد </th>
                 <th> تاريخ التسليم </th>
+                <th> الإدارة السابقة </th>
+                <th> تاريخ النقل </th>
                 <th> المؤهل </th>
-                <th>
-                    <div class="center">
-                        <div class="cursor" onclick="openForm('SoldierForm')">
-                            <span class="material-symbols-rounded primary cursor" style="font-size:38px;font-weight:500;">add_circle</span>
-                        </div>
-                    </div>
-
+                <th class="border-top-left-radius">
                 </th>
             </tr>
         </thead>
@@ -45,29 +48,31 @@
                 {
                     <tr>
                         <td>@obj.PowerType?.Name</td>
-                        @*<td>@obj.Department?.Name</td>*@
+                        <td>@obj.Department?.Name</td>
                         <td>@obj.Name</td>
                         <td>@obj.Phone</td>
                         <td>@obj.RecruitmentStartDate?.ToShortDateString()</td>
                         <td>@obj.RecruitmentEndDate?.ToShortDateString()</td>
-                        <td class="dropdown">
-                            <span class="dropbtn">
+                        <td>@obj.PreviousDepartment?.Name</td>
+                        <td>@obj.PreviousMovingDate?.ToShortDateString()</td>
+                        <td class="font10px">
+                            <span class="bold gold">
                                 @obj.EducationType?.Type
                             </span>
-                            <span class="dropdown-content">
+                            <ul>
                                 @if(obj != null)
                                 {
                                     @foreach(var skill in obj.Skills)
                                     {
-                                        <span> @skill.Name </span>
+                                        <li> @skill.Name </li>
                                     }
                                 }
-                            </span>
+                            </ul>
                         </td>
                         <td>
                             <div class="center gap2">
                                 <a asp-controller="Soldiers" asp-route-id="@obj?.Id" asp-action="Delete">
-                                    <span class="material-symbols-rounded danger">delete_forever</span>
+                                    <span class="material-symbols-rounded danger">delete</span>
                                 </a>
                             </div>
                         </td>
@@ -81,77 +86,96 @@
 
 
 
+
 <form method="post" asp-controller="Soldiers" asp-action="AddOrUpdate" enctype="multipart/form-data">
-    <div class="form-fees gap0" id="SoldierForm">
-        <div class="flex-row justify-content-start">
-            <span class="material-symbols-rounded danger large-font" id="close" onclick="closeForm('SoldierForm')">
+    <div class="form-fees gap0 width60" id="SoldierForm">
+        <div class="flex-row justify-content-start mg-right40px mg-top40">
+            <span class="material-symbols-rounded primary large-font bold cursor" id="close" onclick="closeForm('SoldierForm')">
                 close
             </span>
         </div>
         <div class="flex-column align-center gap2">
-            <span id="SoldierError" class="center danger font2rem mg-bottom20 bold"></span>
+            <span id="SoldierError" class="center danger font2rem bold"></span>
 
             @*<input hidden asp-for="Soldier.Id" id="VehicleId" />*@
             
-            <div class="center gap1 width90">
-                <div class="mg-top20 width50">
+            <div class="center gap3 width90">
+                <div class="mg-top10 width50">
                     <label asp-for="Soldier.Name"> الاسم </label>
                     <input asp-for="Soldier.Name" class="input-box width100" type="text" placeholder="أدخل اسم المجند" />
                 </div>
 
-                <div class="mg-top20 width50">
+                <div class="mg-top10 width50">
                     <label asp-for="Soldier.Phone"> التليفون </label>
                     <input asp-for="Soldier.Phone" class="input-box width100" type="text" placeholder="أدخل تليفون المجند" />
                 </div>
             </div>
 
-            <div class="center gap1 width90">
-                <div class="mg-top20 width50">
+            <div class="center gap3 width90">
+                <div class="mg-top10 width50">
                     <label asp-for="Soldier.EducationTypeId"> نوع المؤهل </label>
                     <select name="Soldier.EducationTypeId" class="input-box width100" asp-items="@(new SelectList(Model.EducationTypes, "Id", "Type"))">
                     </select>
                 </div>
 
-                <div class="mg-top20 width50" id="CertificateName">
+                <div class="mg-top10 width50" id="CertificateName">
                     <label asp-for="CertificateName"> الشهادة </label>
                     <input asp-for="CertificateName" class="input-box width100" type="text" placeholder="أدخل اسم شهادة المؤهل" />
                 </div>
             </div>
 
-            <div class="center gap1 width90">
-                <div class="mg-top20 width80">
+
+            <div class="center gap3 width90">
+                <div class="mg-top10 width80">
+                    <label asp-for="Soldier.PreviousDepartmentId">القسم السابق </label>
+                    <select name="Soldier.PreviousDepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.Departments, "Id", "Department"))">
+                    </select>
+                </div>
+
+                 <div class="mg-top10 width80">
+                    <label asp-for="Soldier.PreviousMovingDate"> تاريخ النقل  </label>
+                    <input asp-for="Soldier.PreviousMovingDate" class="input-box width100" type="date" />
+                </div>
+            </div>
+
+
+
+            <div class="center gap3 width90">
+                <div class="mg-top10 width80">
                     <label asp-for="Soldier.PowerTypeId"> القوة</label>
                     <select name="Soldier.PowerTypeId" class="input-box width100" asp-items="@(new SelectList(Model.PowerTypes, "Id", "Name"))">
                     </select>
                 </div>
 
-                @*<div class="mg-top20 width80">
+                <div class="mg-top10 width80">
                     <label asp-for="Soldier.DepartmentId">الإدارة</label>
-                    <select name="Soldier.DepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.Departments, "Id", "Name"))">
+                    <select name="Soldier.DepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.Departments, "Id", "Department"))">
                     </select>
-                </div>*@
+                </div>
+
             </div>
 
-            <div class="center gap1 width90">
-                <div class="mg-top20 width80">
+
+            <div class="center gap3 width90">
+                <div class="mg-top10 width80">
                     <label asp-for="Soldier.RecruitmentStartDate"> تاريخ التجنيد </label>
                     <input asp-for="Soldier.RecruitmentStartDate" class="input-box width100" type="date" />
                 </div>
 
-                <div class="mg-top20 width80">
+                <div class="mg-top10 width80">
                     <label asp-for="Soldier.RecruitmentEndDate"> تاريخ التسليم </label>
                     <input asp-for="Soldier.RecruitmentEndDate" class="input-box width100" type="date" />
                 </div>
 
-                <div class="mg-top20 width80">
+                <div class="mg-top10 width80">
                     <label asp-for="ExtraDuration">  مدة إضافية </label>
                     <input asp-for="ExtraDuration" class="input-box width100" type="text" />
                 </div>
             </div>
 
 
-            <div class="mg-top20 width90 mg-bottom20">
-                <label class="center">  المهارات </label>
+            <div class="mg-top10 width90">
+                <label class="gold">  المهارات </label>
                 <div class="flex-row width100 justify-content-between align-center">
                     @foreach (var skill in Model.Skills)
                     {
@@ -159,15 +183,15 @@
                          {
                             <div class="flex-row gap1 mg-top20 align-center">
                                 <input type="checkbox" asp-for="HasSkill[Convert.ToInt32(skill.Id - 1)]" />
-                                <div class="font20px"> @skill.Name </div>
+                                <div class="font20px primary"> @skill.Name </div>
                             </div>
                         }
                     }
                 </div>
             </div>
 
-            <div class="center mg-bottom50 mg-top50">
-                <button type="submit" class="center btn width500px height50px card-radius bg-primary"> حفظ</button>
+            <div class="center mg-bottom40 mg-top50 ">
+                <button type="submit" class="center btn width250px height50px card-radius bg-primary font20px white bold"> حفظ</button>
             </div>
         </div>
     </div>

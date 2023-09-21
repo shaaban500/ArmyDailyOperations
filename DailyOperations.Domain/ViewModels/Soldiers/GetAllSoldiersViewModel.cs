@@ -1,5 +1,6 @@
 ﻿using DailyOperations.Domain.Entities;
 using DailyOperations.Domain.Entities.Members;
+using DailyOperations.Domain.Entities.Operations;
 
 namespace DailyOperations.Domain.ViewModels.Soldiers
 {

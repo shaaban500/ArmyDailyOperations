@@ -6,16 +6,12 @@ using DailyOperations.Domain.Entities.Shared;
 
 namespace DailyOperations.Domain.Entities
 {
-    public class Soldier : BaseEntity, IMember
+    public class Soldier : BaseEntity
     {
         [MaxLength(100)]
         public string? Name { get; set; }
         [MaxLength(15)]
         public string? Phone { get; set; }
-
-        public long? DepartmentId { get; set; }
-        [ForeignKey("DepartmentId")]
-        public Department? Department { get; set; }
 
         public long? PowerTypeId { get; set; }
         [ForeignKey("PowerTypeId")]
@@ -30,10 +26,21 @@ namespace DailyOperations.Domain.Entities
 
         public List<Skill>? Skills { get; set; }
 
-        public long? GeneralDepartmentId { get; set; }
-        public GeneralDepartment? GeneralDepartment { get; set; }
+        // current dept info
+        public long? DepartmentId { get; set; }
+        public Department? Department { get; set; }
 
-        public long? InnerDepartmentId { get; set; }
-        public InnerDepartment? InnerDepartment { get; set; }
-    }
+
+        // prev dept info
+		public long? PreviousDepartmentId { get; set; }
+		public Department? PreviousDepartment { get; set; }
+        public DateTime? PreviousMovingDate  { get; set; }
+
+
+		// next dept info
+		public long? NextDepartmentId { get; set; }
+        public Department? NextDepartment { get; set; }
+		public DateTime? NextMovingDate { get; set; }
+
+	}
 }
