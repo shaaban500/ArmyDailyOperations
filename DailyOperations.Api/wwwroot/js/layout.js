@@ -17,16 +17,21 @@ function closeForm(formName) {
 
 function expand(id) {
     const element = document.getElementById(id);
-    const isExpanded = element.style.display === 'block' || element.style.display === 'flex';
-    const spans = document.querySelectorAll(`#${id}spans > span`);
+    const spans = document.querySelectorAll(`#${id}spans  span`);
+
+    const isExpanded = element.style.display === 'block' || element.style.display === '';
 
     if (isExpanded) {
         element.style.display = 'none';
+        spans[1].style.display = 'flex';
         spans[0].style.display = 'none';
-        spans[1].style.display = 'block';
+        spans[0].style.justifyContent = 'flex-start';
+        spans[1].style.justifyContent = 'flex-start';
     } else {
         element.style.display = 'block';
-        spans[0].style.display = 'block';
         spans[1].style.display = 'none';
+        spans[0].style.display = 'flex';
+        spans[0].style.justifyContent = 'flex-start';
+        spans[1].style.justifyContent = 'flex-start';
     }
 }

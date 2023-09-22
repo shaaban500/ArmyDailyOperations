@@ -3,27 +3,23 @@
 
 <div class="flex-column align-center">
 
-	<div id="operation" class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" onclick="expand('operation')">
+	<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" onclick="expand('operation')">
 		<div class="flex-row font1-5rem width100 bold gold height50px" id="operationspans">
 			<div class="flex-row justify-content-start width100">
 				إنشاء يومية جديدة	 
 			</div> 
-			<div class="flex-row justify-content-end width100">
-				<span class="material-symbols-rounded" style="font-weight:900; font-size:40px">
-					arrow_drop_up
-				</span>
-			</div>
-			<div class="flex-row justify-content-end width100 hide">
-				<span class="material-symbols-rounded" style="font-weight:900; font-size:40px; display:none;">
-					arrow_drop_down
-				</span>
-			</div>
+			<span class="material-symbols-rounded flex-row justify-content-end width100" style="font-weight:900; font-size:40px">
+				arrow_drop_up
+			</span>
+			<span class="material-symbols-rounded flex-row justify-content-end width100" style="font-weight:900; font-size:40px; display:none;">
+				arrow_drop_down
+			</span>
 		</div>
 
 		<div class="center width100">
 			<div class="line width100"></div>
 		</div>
-		
+	<div id="operation">
 		<form method="post" asp-controller="Operations" asp-action="AddOrUpdate" enctype="multipart/form-data">
 			<div class="flex-column gap1 mg-top10 align-center width100">
 				<span class="font20px danger"> اختيار اليومية و القطاع و التوقيت أولا</span>
@@ -108,6 +104,7 @@
 			</div>
 		</form>
 	</div>
+	</div>
 
 </div>
 
@@ -116,21 +113,17 @@
 {
 <div class="flex-column align-center">
 
-	<div id="service"  class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" onclick="expand('operation')"> 
-		<div id="servicespans" class="flex-row font1-5rem width100 bold gold height50px" onclick="expand('service')">
+	<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" onclick="expand('service')">
+		<div class="flex-row font1-5rem width100 bold gold height50px" id="servicespans">
 			<div class="flex-row justify-content-start width100">
 					إضافة خدمة
 			</div>
-			<div class="flex-row justify-content-end width100">
-				<span class="material-symbols-rounded" style="font-weight:900; font-size:40px">
-					arrow_drop_up
-				</span>
-			</div>
-			<div class="flex-row justify-content-end width100 hide">
-				<span class="material-symbols-rounded" style="font-weight:900; font-size:40px; display:none;">
-					arrow_drop_down
-				</span>
-			</div>
+			<span class="material-symbols-rounded flex-row justify-content-end width100" style="font-weight:900; font-size:40px">
+				arrow_drop_up
+			</span>
+			<span class="material-symbols-rounded flex-row justify-content-end width100" style="font-weight:900; font-size:40px; display:none;">
+				arrow_drop_down
+			</span>
 		</div>
 
 		<div class="center width100">
@@ -161,7 +154,7 @@
 				</button>
 			</div>
 		</div>*@
-
+	<div id="service">
 		<form method="post" asp-controller="Operations" asp-action="AddOperationForMembers" enctype="multipart/form-data">
 		<input hidden asp-for="@Model.OperationId" />
 		
@@ -292,6 +285,8 @@
 
 	</form>
 	</div>
+	
+	</div>
 </div>
 
 
@@ -303,16 +298,12 @@
 			<div class="flex-row justify-content-start width100">
 				إضافة الإمضاء
 			</div>
-			<div class="flex-row justify-content-end width100">
-				<span class="material-symbols-rounded" style="font-weight:900; font-size:40px">
-					arrow_drop_up
-				</span>
-			</div>
-			<div class="flex-row justify-content-end width100 hide">
-				<span class="material-symbols-rounded" style="font-weight:900; font-size:40px; display:none;">
-					arrow_drop_down
-				</span>
-			</div>
+			<span class="material-symbols-rounded flex-row justify-content-end width100" style="font-weight:900; font-size:40px">
+				arrow_drop_up
+			</span>
+			<span class="material-symbols-rounded flex-row justify-content-end width100" style="font-weight:900; font-size:40px; display:none;">
+				arrow_drop_down
+			</span>
 		</div>
 
 		<div class="center width100">
@@ -385,33 +376,35 @@
 		</div>*@
 
 
-
-		<header class="center mg-top20 mg-bottom20 gap2 cursor" onclick="expand('add-logo')">
-			<div class="center gap2 width25 bg-white card-radius height50px padding1" id="logospans">
-				<div>
+			
+	<div class="flex-column align-center">
+		<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" onclick="expand('logo')">
+			<div class="flex-row font1-5rem width100 bold gold height50px" id="logospans">
+				<div class="flex-row justify-content-start width100">
 					إضافة الشعار
 				</div>
-				<span class="material-symbols-rounded" style="font-weight:900; font-size:30px">
-					expand_more
+				<span class="material-symbols-rounded flex-row justify-content-end width100" style="font-weight:900; font-size:40px">
+					arrow_drop_up
 				</span>
-				<span class="material-symbols-rounded" style="font-weight:900; font-size:30px; display:none;">
-					expand_less
+				<span class="material-symbols-rounded flex-row justify-content-end width100" style="font-weight:900; font-size:40px; display:none;">
+					arrow_drop_down
 				</span>
 			</div>
-		</header>
-		<div id="add-logo">
-			<div class="center mg-bottom50">
-				<div class="flex-column width50 bg-white card-radius height-fit shadow1 card-padding mg-bottom50">
-					<div class="center gap2 mg-bottom10 width100">
-						<div class="center gap2">
-							<input type="file" id="photoInput" />
-							<button id="AddLogo" class="padding1 width250px btn center gap2 font20px card-radius height50px cursor width250px shadow1 white bg-primary bold mg-top25 need-media-row" onclick="addLogo()"> إضافة شعار </button>
-						</div>
+
+			<div class="center width100">
+				<div class="line width100"></div>
+			</div>
+
+			<div id="logo" class="mg-top10">
+				<div class="center gap2 width100">
+					<div class="center gap2">
+						<input type="file" id="photoInput" class="width90"/>
+						<button id="AddLogo" class="center gap2 padding1 width500px card-radius height60px cursor shadow1 white font20px bg-primary bold need-media-row" onclick="addLogo()"> إضافة شعار </button>
 					</div>
 				</div>
 			</div>
 		</div>
-
+	</div>
 
 
 	<div class="flex-column width100" id="printContent">
