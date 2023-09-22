@@ -37,10 +37,10 @@ namespace DailyOperations.Infrastructure.Services.Members
 				var operationDate = operation.Date;
 
 				var operationAssistants = await _unitOfWork.OperationPoliceAssistants.GetAllAsync(x => x.Operation.Date == operationDate);
-                var assistantsInOperations = await operationAssistants.Select(x => x.PoliceAssistantId).ToListAsync();
+                var assistantsInOperations = operationAssistants.Select(x => x.PoliceAssistantId).ToList();
 
 				var assistantsAsDrivers = await _unitOfWork.OperationVehicles.GetAllAsync(x => x.DriverType == 2 && x.Operation.Date == operationDate);
-				var assistantsInVehiclesIDs = await assistantsAsDrivers.Select(x => x.DriverId).ToListAsync();
+				var assistantsInVehiclesIDs = assistantsAsDrivers.Select(x => x.DriverId).ToList();
 
 				var availableAssistants = await policeAssistants.Where(x => !assistantsInOperations.Contains(x.Id) && !assistantsInVehiclesIDs.Contains(x.Id)).ToListAsync();
 

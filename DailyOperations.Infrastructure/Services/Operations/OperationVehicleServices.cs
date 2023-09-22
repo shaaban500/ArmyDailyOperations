@@ -51,6 +51,8 @@ namespace DailyOperations.Infrastructure.Services.Operations
 
 		public async Task<List<OperationVehicleViewModel>> GetAll(long operationId)
 		{
+			var soldiers = await _unitOfWork.Soldiers.GetAllAsync();
+
 			var operationVehiclesIncludes = new Expression<Func<OperationVehicle, object>>[]
 			{
 				p => p.Vehicle,
@@ -91,7 +93,8 @@ namespace DailyOperations.Infrastructure.Services.Operations
 				}
 				else if(driverType == 3)
 				{
-					var soldier = await _unitOfWork.Soldiers.GetByIdAsync(driverId);
+					var soldier = soldiers.Where(x => x.Id == driverId).FirstOrDefault();
+					//var soldier = await _unitOfWork.Soldiers.GetByIdAsync(driverId);
 					operationVehicleViewModel.DriverName = $"مجند / {soldier?.Name}";
 				}
 
@@ -106,21 +109,21 @@ namespace DailyOperations.Infrastructure.Services.Operations
 				}
 
 
-				if (relatedOperationType == 1)
-				{
-					var operationOfficer = await _unitOfWork.OperationOfficers.GetByIdAsync(relatedOperationId);
-					operationVehicleViewModel.OfficerName = $"{operationOfficer?.PoliceOfficer.OfficerMilitaryDegree.Degree} / {operationOfficer?.PoliceOfficer.Name}";
-				}
-				else if (relatedOperationType == 2)
-				{
-					var operationAssistant = await _unitOfWork.OperationPoliceAssistants.GetByIdAsync(relatedOperationId);
-					operationVehicleViewModel.OfficerName = $"{operationAssistant?.PoliceAssistant.AssistantsMilitaryDegree.Degree} / {operationAssistant?.PoliceAssistant.Name}";
-				}
-				else if (relatedOperationType == 3)
-				{
-					var operationSoldier = await _unitOfWork.OperationSoldiers.GetByIdAsync(relatedOperationId);
-					operationVehicleViewModel.OfficerName = $"مجند / {operationSoldier?.Soldier.Name}";
-				}
+				//if (relatedOperationType == 1)
+				//{
+				//	var operationOfficer = await _unitOfWork.OperationOfficers.GetByIdAsync(relatedOperationId);
+				//	operationVehicleViewModel.OfficerName = $"{operationOfficer?.PoliceOfficer.OfficerMilitaryDegree.Degree} / {operationOfficer?.PoliceOfficer.Name}";
+				//}
+				//else if (relatedOperationType == 2)
+				//{
+				//	var operationAssistant = await _unitOfWork.OperationPoliceAssistants.GetByIdAsync(relatedOperationId);
+				//	operationVehicleViewModel.OfficerName = $"{operationAssistant?.PoliceAssistant.AssistantsMilitaryDegree.Degree} / {operationAssistant?.PoliceAssistant.Name}";
+				//}
+				//else if (relatedOperationType == 3)
+				//{
+				//	var operationSoldier = await _unitOfWork.OperationSoldiers.GetByIdAsync(relatedOperationId);
+				//	operationVehicleViewModel.OfficerName = $"مجند / {operationSoldier?.Soldier.Name}";
+				//}
 
 				allOperationVehicles.Add(operationVehicleViewModel);
 			}

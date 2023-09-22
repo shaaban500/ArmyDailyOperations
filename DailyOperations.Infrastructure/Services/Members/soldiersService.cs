@@ -101,32 +101,32 @@ namespace DailyOperations.Infrastructure.Services.Members
 
 			var operation = await _unitOfWork.Operations.GetByIdAsync(operationId);
 			
-            if (operation != null)
-			{
-				var operationDate = operation.Date;
+   //         if (operation != null)
+			//{
+			//	var operationDate = operation.Date;
 
-				var operationSoldiers = await _unitOfWork.OperationSoldiers.GetAllAsync(x => x.Operation.Date == operationDate);
-				var soldiersInOperations = await operationSoldiers.Select(x => x.SoldierId).ToListAsync();
+			//	var operationSoldiers = await _unitOfWork.OperationSoldiers.GetAllAsync(x => x.Operation.Date == operationDate);
+			//	var soldiersInOperations = await operationSoldiers.Select(x => x.SoldierId).ToListAsync();
 
-				var soldiersAsDrivers = await _unitOfWork.OperationVehicles.GetAllAsync(x => x.DriverType == 3 && x.Operation.Date == operationDate);
-				var soldiersInVehiclesIDs = await soldiersAsDrivers.Select(x => x.DriverId).ToListAsync();
+			//	var soldiersAsDrivers = await _unitOfWork.OperationVehicles.GetAllAsync(x => x.DriverType == 3 && x.Operation.Date == operationDate);
+			//	var soldiersInVehiclesIDs = await soldiersAsDrivers.Select(x => x.DriverId).ToListAsync();
 
-				var availableSoldiers = soldiers.Where(x => !soldiersInOperations.Contains(x.Id) && !soldiersInVehiclesIDs.Contains(x.Id)).ToList();
+			//	var availableSoldiers = soldiers.ToList().Where(x => !soldiersInOperations.Contains(x.Id) && !soldiersInVehiclesIDs.Contains(x.Id)).ToList();
 
 
-                var allSoldiers = new List<Soldier>();
+   //             var allSoldiers = new List<Soldier>();
 
-                foreach (var soldier in availableSoldiers)
-                {
-                    if (await _holidayServices.IsSoldierInHoliday(soldier.Id, operationDate) != true)
-                    {
-                        allSoldiers.Add(soldier);
-                    }
-                }
+   //             foreach (var soldier in availableSoldiers)
+   //             {
+   //                 if (await _holidayServices.IsSoldierInHoliday(soldier.Id, operationDate) != true)
+   //                 {
+   //                     allSoldiers.Add(soldier);
+   //                 }
+   //             }
 
-                return allSoldiers;
+   //             return allSoldiers;
 
-			}
+			//}
 
             return soldiers.ToList();
 		}

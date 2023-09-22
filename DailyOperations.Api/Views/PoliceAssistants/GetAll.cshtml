@@ -48,8 +48,8 @@
                 @foreach (var obj in Model.policeAssistants)
                 {
                     <tr>
-                        <td>@obj.PowerType.Name</td>
-                        @*<td>@obj.Department.Name</td>*@
+                        <td>@obj.PowerType?.Name</td>
+                        <td>@obj.InnerDepartment?.Department</td>
                         <td>@obj.AssistantsMilitaryDegree.Degree</td>
                         <td>@obj.Name</td>
                         <td>@obj.Phone</td>

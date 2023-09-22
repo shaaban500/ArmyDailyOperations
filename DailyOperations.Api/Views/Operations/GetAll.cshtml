@@ -532,7 +532,6 @@
 					<tr>
 						<th> الرتبة </th>
 						<th> الاسم </th>
-						<th> نوع الخدمة </th>
 						<th> وصف الخدمة </th>
 						<th> تعليمات الخدمة </th>
 					</tr>
@@ -555,7 +554,6 @@
 										</div>
 									</div>
 								</td>
-								<td> @operation?.OperationType?.Type </td>
 								<td class="gap1">
 									@operation?.OperationDescription?.Description
 									<a target="_blank" href="https://www.google.com/maps?q=@operation?.OperationDescription?.Longitude,@operation?.OperationDescription?.Latitude" class="delete">
@@ -583,7 +581,6 @@
 				<thead>
 					<tr>
 						<th> قائد المركبة </th>
-						<th> نوع الخدمة </th>
 						<th> وصف الخدمة </th>
 						<th> تعليمات الخدمة </th>
 						<th> نوع المركبة </th>
@@ -605,7 +602,6 @@
 										</div>
 									</div>
 								</td>
-								<td> @operation?.OperationVehicle?.OperationType?.Type </td>
 								<td class="gap1">
 									@operation?.OperationVehicle?.OperationDescription?.Description
 									<a target="_blank" href="https://www.google.com/maps?q=@operation?.OperationVehicle?.OperationDescription?.Longitude,@operation?.OperationVehicle?.OperationDescription?.Latitude" class="delete">
@@ -834,8 +830,7 @@
 
 			<div class="margin-input width80">
 				<label asp-for="OperationDescription.Description"> وصف الخدمة </label>
-				@Html.Partial("_TedxtEditor")
-				<input contenteditable="true" asp-for="OperationDescription.Description" class="input-box width100" type="text" />
+				<input asp-for="OperationDescription.Description" class="input-box width100" type="text" />
 			</div>
 			<div class="margin-input width80">
 				<label asp-for="OperationDescription.Longitude"> إحداثيات الخدمة 1 </label>
@@ -847,7 +842,7 @@
 			</div>
 			<input hidden asp-for="@Model.OperationId" />
 			<div class="center mg-bottom20 mg-top20">
-				<button onclick="preventSubmit(event)" type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
+				<button type="submit" class="center btn width300px height50px card-radius bg-primary"> حفظ</button>
 			</div>
 		</div>
 	</div>
