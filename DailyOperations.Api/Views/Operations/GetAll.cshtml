@@ -1,124 +1,142 @@
 ﻿@using DailyOperations.Domain.ViewModels.Operations;
-@model GetAllOperationsViewModel
+@model GetAllOperationsViewModel;
 
-<div class="flex-column">
-	<header class="center mg-top20 mg-bottom20 gap2 cursor" onclick="expand('operation')">
-		<div class="center gap2 width25 bg-white card-radius height50px padding1" id="operationspans">
-			<div>
+<div class="flex-column align-center">
+
+	<div id="operation" class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" onclick="expand('operation')">
+		<div class="flex-row font1-5rem width100 bold gold height50px" id="operationspans">
+			<div class="flex-row justify-content-start width100">
 				إنشاء يومية جديدة	 
 			</div> 
-			<span class="material-symbols-rounded" style="font-weight:900; font-size:30px">
-				expand_more
-			</span>
-			<span class="material-symbols-rounded" style="font-weight:900; font-size:30px; display:none;">
-				expand_less
-			</span>
-		</div>
-	</header>
-
-<div id="operation">
-	<form method="post" asp-controller="Operations" asp-action="AddOrUpdate" enctype="multipart/form-data">
-		<div class="flex-column align-center width100 bg-white card-radius height-fit card-padding mg-top10 shadow1 mg-bottom50">
-			<span class="font20px mg-bottom20 danger"> اختيار اليومية و القطاع و التوقيت أولا</span>
-			<div class="center gap1 width100">
-
-				<div class="width100">
-					<span class="material-symbols-rounded cursor" onclick="openForm('GeneralDepartmentForm')">
-						add_circle
-					</span>
-					<label asp-for="@Model.GeneralDepartmentId"> الإدارة </label>
-					<select name="GeneralDepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.GeneralDepartments, "Id", "Department"))">
-					</select>
-				</div>
-				<div class="width100">
-					<span class="material-symbols-rounded cursor" onclick="openForm('InnerDepartmentForm')">
-						add_circle
-					</span>
-					<label asp-for="@Model.InnerDepartmentId"> القسم </label>
-					<select name="InnerDepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.InnerDepartments, "Id", "Department"))">
-					</select>
-				</div>
-				<div class="width100">
-					<span class="material-symbols-rounded cursor" onclick="openForm('DailyOperationForm')">
-						add_circle
-					</span>
-					<label asp-for="@Model.DailyOperationId"> اليومية </label>
-					<select name="DailyOperationId" class="input-box width100" asp-items="@(new SelectList(Model.DailyOperations, "Id", "DailyOperationName"))">
-					</select>
-				</div>
-				<div class="width100">
-					<span class="material-symbols-rounded cursor" onclick="openForm('ShiftTypeForm')">
-						add_circle
-					</span>
-					<label asp-for="@Model.ShiftTypeId"> الفترة </label>
-					<select name="ShiftTypeId" class="input-box width100" asp-items="@(new SelectList(Model.ShiftTypes, "Id", "Type"))">
-					</select>
-				</div>
-				<div class="width100">
-					<label asp-for="@Model.Date"> التاريخ </label>
-					<input asp-for="@Model.Date" class="input-box width100" type="date">
-				</div>
-				<div class="width100">
-					<label asp-for="@Model.SelectedTimeFrom">التوقيت من:</label>
-					<select name="SelectedTimeFrom" class="input-box width100" asp-items="@(new SelectList(Model.Times.Select(t => new { Value = t, Text = GetTimeText(t) }), "Value", "Text", Model.SelectedTimeFrom))">
-					</select>
-				</div>
-	
-				<div class="width100">
-					<label asp-for="@Model.SelectedTimeTo">التوقيت إلى:</label>
-					<select name="SelectedTimeTo" class="input-box width100" asp-items="@(new SelectList(Model.Times.Select(t => new { Value = t, Text = GetTimeText(t) }), "Value", "Text", Model.SelectedTimeTo))">
-					</select>
-				</div>
-				<div class="width100">
-					<span class="material-symbols-rounded cursor" onclick="openForm('SectorForm')">
-						add_circle
-					</span>
-					<label asp-for="@Model.SectorId"> القطاع </label>
-					<select name="SectorId" class="input-box width100" asp-items="@(new SelectList(Model.Sectors, "Id", "SectorName"))">
-					</select>
-				</div>
-				<div class="width100">
-					<span class="material-symbols-rounded cursor" onclick="openForm('SectorPlaceForm')">
-						add_circle
-					</span>
-					<label asp-for="@Model.SectorPlaceToId">من:</label>
-					<select name="SectorPlaceToId" class="input-box width100" asp-items="@(new SelectList(Model.SectorPlaces, "Id", "SectorPlaceName"))">
-					</select>
-				</div>
-				<div class="width100">
-					<label asp-for="@Model.SectorPlaceFromId">إلى:</label>
-					<select name="SectorPlaceFromId" class="input-box width100" asp-items="@(new SelectList(Model.SectorPlaces, "Id", "SectorPlaceName"))">
-					</select>
-				</div>
-			</div>
-				<button type="submit" class="center gap2 font20px card-radius height50px cursor width300px shadow1 white bg-primary bold mg-top20 mg-bottom10 need-media-row">
-				حفظ إعدادات اليومية
-				<span class="material-symbols-rounded">
-					save
+			<div class="flex-row justify-content-end width100">
+				<span class="material-symbols-rounded" style="font-weight:900; font-size:40px">
+					arrow_drop_up
 				</span>
-			</button>
+			</div>
+			<div class="flex-row justify-content-end width100 hide">
+				<span class="material-symbols-rounded" style="font-weight:900; font-size:40px; display:none;">
+					arrow_drop_down
+				</span>
+			</div>
 		</div>
-	</form>
-</div>
 
+		<div class="center width100">
+			<div class="line width100"></div>
+		</div>
+		
+		<form method="post" asp-controller="Operations" asp-action="AddOrUpdate" enctype="multipart/form-data">
+			<div class="flex-column gap1 mg-top10 align-center width100">
+				<span class="font20px danger"> اختيار اليومية و القطاع و التوقيت أولا</span>
+
+					<div class="center gap3 width100">
+						<div class="width100">
+							<span class="material-symbols-rounded cursor gold" onclick="openForm('GeneralDepartmentForm')">
+								add_box
+							</span>
+							<label asp-for="@Model.GeneralDepartmentId"> الإدارة </label>
+							<select name="GeneralDepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.GeneralDepartments, "Id", "Department"))">
+							</select>
+						</div>
+						<div class="width100">
+							<span class="material-symbols-rounded cursor gold" onclick="openForm('InnerDepartmentForm')">
+								add_box
+							</span>
+							<label asp-for="@Model.InnerDepartmentId"> القسم </label>
+							<select name="InnerDepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.InnerDepartments, "Id", "Department"))">
+							</select>
+						</div>
+						<div class="width100">
+							<span class="material-symbols-rounded cursor gold" onclick="openForm('DailyOperationForm')">
+								add_box
+							</span>
+							<label asp-for="@Model.DailyOperationId"> اليومية </label>
+							<select name="DailyOperationId" class="input-box width100" asp-items="@(new SelectList(Model.DailyOperations, "Id", "DailyOperationName"))">
+							</select>
+						</div>
+						<div class="width100">
+							<span class="material-symbols-rounded cursor gold" onclick="openForm('ShiftTypeForm')">
+								add_box
+							</span>
+							<label asp-for="@Model.ShiftTypeId"> الفترة </label>
+							<select name="ShiftTypeId" class="input-box width100" asp-items="@(new SelectList(Model.ShiftTypes, "Id", "Type"))">
+							</select>
+						</div>
+						<div class="width100">
+							<label asp-for="@Model.Date"> التاريخ </label>
+							<input asp-for="@Model.Date" class="input-box width100" type="date">
+						</div>
+					</div>
+
+					
+					<div class="center gap3 width100">
+						<div class="width100">
+							<label asp-for="@Model.SelectedTimeFrom">التوقيت من:</label>
+							<select name="SelectedTimeFrom" class="input-box width100" asp-items="@(new SelectList(Model.Times.Select(t => new { Value = t, Text = GetTimeText(t) }), "Value", "Text", Model.SelectedTimeFrom))">
+							</select>
+						</div>
+	
+						<div class="width100">
+							<label asp-for="@Model.SelectedTimeTo">التوقيت إلى:</label>
+							<select name="SelectedTimeTo" class="input-box width100" asp-items="@(new SelectList(Model.Times.Select(t => new { Value = t, Text = GetTimeText(t) }), "Value", "Text", Model.SelectedTimeTo))">
+							</select>
+						</div>
+						<div class="width100">
+							<span class="material-symbols-rounded cursor gold" onclick="openForm('SectorForm')">
+								add_box
+							</span>
+							<label asp-for="@Model.SectorId"> القطاع </label>
+							<select name="SectorId" class="input-box width100" asp-items="@(new SelectList(Model.Sectors, "Id", "SectorName"))">
+							</select>
+						</div>
+						<div class="width100">
+							<span class="material-symbols-rounded cursor gold" onclick="openForm('SectorPlaceForm')">
+							add_box
+						</span>
+							<label asp-for="@Model.SectorPlaceToId">من:</label>
+							<select name="SectorPlaceToId" class="input-box width100" asp-items="@(new SelectList(Model.SectorPlaces, "Id", "SectorPlaceName"))">
+							</select>
+						</div>
+						<div class="width100">
+							<label asp-for="@Model.SectorPlaceFromId">إلى:</label>
+							<select name="SectorPlaceFromId" class="input-box width100" asp-items="@(new SelectList(Model.SectorPlaces, "Id", "SectorPlaceName"))">
+							</select>
+						</div>
+					</div>
+					<button type="submit" class="center gap2 font20px card-radius height60px cursor width300px shadow1 white bg-primary bold need-media-row">
+						حفظ إعدادات اليومية
+					</button>
+			</div>
+		</form>
+	</div>
+
+</div>
 
 
 @if(Model.DailyOperationViewModel is not null && Model.DailyOperationViewModel.Operation is not null && Model.DailyOperationViewModel.Operation.GeneralDepartment is not null && Model.OperationId != 0) 
 {
-	<header class="center mg-top20 mg-bottom20 gap2 cursor" onclick="expand('service')">
-		<div class="center gap2 width25 bg-white card-radius height50px padding1" id="servicespans">
-			<div>
-				إضافة خدمة
+<div class="flex-column align-center">
+
+	<div id="service"  class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" onclick="expand('operation')"> 
+		<div id="servicespans" class="flex-row font1-5rem width100 bold gold height50px" onclick="expand('service')">
+			<div class="flex-row justify-content-start width100">
+					إضافة خدمة
 			</div>
-			<span class="material-symbols-rounded" style="font-weight:900; font-size:30px">
-				expand_more
-			</span>
-			<span class="material-symbols-rounded" style="font-weight:900; font-size:30px; display:none;">
-				expand_less
-			</span>
+			<div class="flex-row justify-content-end width100">
+				<span class="material-symbols-rounded" style="font-weight:900; font-size:40px">
+					arrow_drop_up
+				</span>
+			</div>
+			<div class="flex-row justify-content-end width100 hide">
+				<span class="material-symbols-rounded" style="font-weight:900; font-size:40px; display:none;">
+					arrow_drop_down
+				</span>
+			</div>
 		</div>
-	</header>
-<div id="service"> 
+
+		<div class="center width100">
+			<div class="line width100"></div>
+		</div>
+
 		@*<div class="center width100 gap7 mg-top25 ">
 			<div class="bg-white shadow1 card-radius height-fit card-padding mg-bottom50">
 				<label asp-for="@Model.PoliceOfficerId">الأقسام</label>
@@ -144,172 +162,186 @@
 			</div>
 		</div>*@
 
-	<form method="post" asp-controller="Operations" asp-action="AddOperationForMembers" enctype="multipart/form-data" class="bg-white shadow1 card-radius height-fit card-padding mg-bottom50">
+		<form method="post" asp-controller="Operations" asp-action="AddOperationForMembers" enctype="multipart/form-data">
 		<input hidden asp-for="@Model.OperationId" />
 		
+		<div class="flex-column gap1 mg-top10 align-center width100" id="record">
+			<div class="center gap3 width100">
+				<div class="width100">
+					<label asp-for="@Model.PoliceOfficerId">ضابط</label>
+					<select id="OfficerId" name="PoliceOfficerId" asp-for="@Model.PoliceOfficerId" class="input-box width100">
+						<option></option>
+						@foreach(var officer in Model.PoliceOfficers)
+						{
+							<option value="@officer.Id">  @officer.Name - @officer.OfficerMilitaryDegree.Degree </option>
+						}
+					</select>
+				</div>
+				<div class="width100">
+					<label asp-for="@Model.PoliceAssistantId">أمين شرطة</label>
+					<select name="PoliceAssistantId" asp-for="@Model.PoliceAssistantId" class="input-box width100">
+						<option></option>
+						@foreach(var policeAssistant in Model.PoliceAssistants)
+						{
+							<option value="@policeAssistant.Id"> @policeAssistant.Name - @policeAssistant.AssistantsMilitaryDegree.Degree</option>
+						}
+					</select>
+				</div>
 
-		<div class="center gap1 width100 mg-top20" id="record">
-			<div class="width100">
-				<label asp-for="@Model.PoliceOfficerId">ضابط</label>
-				<select id="OfficerId" name="PoliceOfficerId" asp-for="@Model.PoliceOfficerId" class="input-box width100">
-					<option></option>
-					@foreach(var officer in Model.PoliceOfficers)
-					{
-						<option value="@officer.Id">  @officer.Name - @officer.OfficerMilitaryDegree.Degree </option>
-					}
-				</select>
-			</div>
-			<div class="width100">
-				<label asp-for="@Model.PoliceAssistantId">أمين شرطة</label>
-				<select name="PoliceAssistantId" asp-for="@Model.PoliceAssistantId" class="input-box width100">
-					<option></option>
-					@foreach(var policeAssistant in Model.PoliceAssistants)
-					{
-						<option value="@policeAssistant.Id"> @policeAssistant.Name - @policeAssistant.AssistantsMilitaryDegree.Degree</option>
-					}
-				</select>
-			</div>
-
-			<div class="width100">
-				<label asp-for="@Model.SoldierId"> مجند </label>
-				<select name="SoldierId" class="input-box width100" asp-items="@(new SelectList(Model.Soldiers, "Id", "Name"))">
-					<option></option>
-				</select>
-			</div>
-			<div class="width100">
-				<span class="material-symbols-rounded cursor" onclick="openForm('OperationTypeForm')">
-					add_circle
-				</span>
-				<label asp-for="@Model.OperationTypeId"> نوع الخدمة</label>
-				<select name="OperationTypeId" class="input-box width100" asp-items="@(new SelectList(Model.OperationTypes, "Id", "Type"))">
-				</select>
-			</div>
-
-			<div class="width100">
-				<span class="material-symbols-rounded cursor" onclick="openForm('OperationDescriptionForm')">
-					add_circle
-				</span>
-				<label asp-for="@Model.OperationDescriptionId">وصف الخدمة</label>
-				<select name="OperationDescriptionId" class="input-box width100" asp-items="@(new SelectList(Model.OperationDescriptions, "Id", "Description"))">
-				</select>
+				<div class="width100">
+					<label asp-for="@Model.SoldierId"> مجند </label>
+					<select name="SoldierId" class="input-box width100" asp-items="@(new SelectList(Model.Soldiers, "Id", "Name"))">
+						<option></option>
+					</select>
+				</div>
+				<div class="width100">
+					<span class="material-symbols-rounded cursor gold" onclick="openForm('OperationTypeForm')">
+						add_box
+					</span>
+					<label asp-for="@Model.OperationTypeId"> نوع الخدمة</label>
+					<select name="OperationTypeId" class="input-box width100" asp-items="@(new SelectList(Model.OperationTypes, "Id", "Type"))">
+					</select>
+				</div>
 			</div>
 
-			<div class="width100">
-				<span class="material-symbols-rounded cursor" onclick="openForm('OperationInstructionForm')">
-					add_circle
-				</span>
-				<label asp-for="@Model.OperationInstructionId">التعليمات </label>
-				<select name="OperationInstructionId" class="input-box width100" asp-items="@(new SelectList(Model.OperationInstructions, "Id", "Instruction"))">
-				</select>
-			</div>
+			<div class="center gap3 width100">
+				<div class="width100">
+					<span class="material-symbols-rounded cursor gold" onclick="openForm('OperationDescriptionForm')">
+						add_box
+					</span>
+					<label asp-for="@Model.OperationDescriptionId">وصف الخدمة</label>
+					<select name="OperationDescriptionId" class="input-box width100" asp-items="@(new SelectList(Model.OperationDescriptions, "Id", "Description"))">
+					</select>
+				</div>
+
+				<div class="width100">
+					<span class="material-symbols-rounded cursor gold" onclick="openForm('OperationInstructionForm')">
+						add_box
+					</span>
+					<label asp-for="@Model.OperationInstructionId">التعليمات </label>
+					<select name="OperationInstructionId" class="input-box width100" asp-items="@(new SelectList(Model.OperationInstructions, "Id", "Instruction"))">
+					</select>
+				</div>
 			
-			<div class="width100">
-				<label asp-for="@Model.OperationTimeFrom">التوقيت من:</label>
-				<select name="OperationTimeFrom" class="input-box width100" asp-items="@(new SelectList(Model.Times.Select(t => new { Value = t, Text = GetTimeText(t) }), "Value", "Text", Model.OperationTimeFrom))">
-					<option></option>
-				</select>
+				<div class="width100">
+					<label asp-for="@Model.OperationTimeFrom">التوقيت من:</label>
+					<select name="OperationTimeFrom" class="input-box width100" asp-items="@(new SelectList(Model.Times.Select(t => new { Value = t, Text = GetTimeText(t) }), "Value", "Text", Model.OperationTimeFrom))">
+						<option></option>
+					</select>
+				</div>
+
+				<div class="width100">
+					<label asp-for="@Model.OperationTimeTo">التوقيت إلى:</label>
+					<select name="OperationTimeTo" class="input-box width100" asp-items="@(new SelectList(Model.Times.Select(t => new { Value = t, Text = GetTimeText(t) }), "Value", "Text", Model.OperationTimeTo))">
+						<option></option>
+					</select>
+				</div>
 			</div>
 
-			<div class="width100">
-				<label asp-for="@Model.OperationTimeTo">التوقيت إلى:</label>
-				<select name="OperationTimeTo" class="input-box width100" asp-items="@(new SelectList(Model.Times.Select(t => new { Value = t, Text = GetTimeText(t) }), "Value", "Text", Model.OperationTimeTo))">
-					<option></option>
-				</select>
+			<div class="center gap3 width100">
+				<div class="width100">
+					<label asp-for="@Model.VehicleTypeId"> نوع المركبة</label>
+					<select name="VehicleTypeId" class="input-box width100" asp-items="@(new SelectList(Model.VehicleTypes, "Id", "Type"))">
+					</select>
+				</div>
+
+				<div class="width100">
+					<label asp-for="@Model.VehicleId">المركبة</label>
+					<select name="VehicleId" class="input-box width100" asp-for="@Model.VehicleId">
+						<option></option>
+						@foreach (var vehicle in Model.Vehicles)
+						{
+							<option value="@vehicle?.Id"> @vehicle?.VehicleType?.Type (@vehicle?.VehicleLetters - @vehicle?.VehicleNumbers) </option>
+						}
+					</select>
+				</div>
+
+				<div class="width100">
+					<label asp-for="@Model.DriverData">قائد المركبة</label>
+					<select name="DriverData" class="input-box width100" onchange="GetDriverData()" id="DriverSelect">
+						<option></option>
+						@foreach (var officer in Model.PoliceOfficers)
+						{
+									<option value="@officer.Id|1"> @officer.Name - @officer.OfficerMilitaryDegree.Degree</option>
+						}
+
+						@foreach (var assistant in Model.PoliceAssistants)
+						{
+							<option value="@assistant.Id|2">@assistant.Name - @assistant.AssistantsMilitaryDegree.Degree</option>
+						}
+
+						@foreach (var soldier in Model.Soldiers)
+						{
+							<option value="@soldier.Id|3">@soldier.Name - مجند</option>
+						}
+					</select>
+				</div>
 			</div>
-
-			<div class="width100">
-				<label asp-for="@Model.VehicleTypeId"> نوع المركبة</label>
-				<select name="VehicleTypeId" class="input-box width100" asp-items="@(new SelectList(Model.VehicleTypes, "Id", "Type"))">
-				</select>
-			</div>
-
-			<div class="width100">
-				<label asp-for="@Model.VehicleId">المركبة</label>
-				<select name="VehicleId" class="input-box width100" asp-for="@Model.VehicleId">
-					<option></option>
-					@foreach (var vehicle in Model.Vehicles)
-					{
-						<option value="@vehicle?.Id"> @vehicle?.VehicleType?.Type (@vehicle?.VehicleLetters - @vehicle?.VehicleNumbers) </option>
-					}
-				</select>
-			</div>
-
-			<div class="width100">
-				<label asp-for="@Model.DriverData">قائد المركبة</label>
-				<select name="DriverData" class="input-box width100" onchange="GetDriverData()" id="DriverSelect">
-					<option></option>
-					@foreach (var officer in Model.PoliceOfficers)
-					{
-								<option value="@officer.Id|1"> @officer.Name - @officer.OfficerMilitaryDegree.Degree</option>
-					}
-
-					@foreach (var assistant in Model.PoliceAssistants)
-					{
-						<option value="@assistant.Id|2">@assistant.Name - @assistant.AssistantsMilitaryDegree.Degree</option>
-					}
-
-					@foreach (var soldier in Model.Soldiers)
-					{
-						<option value="@soldier.Id|3">@soldier.Name - مجند</option>
-					}
-				</select>
-			</div>
-
-		</div>
-
-		<div class="center gap5 mg-top20 mg-bottom10 need-media-row">
-			<button type="submit"class="center gap2 font20px card-radius height50px cursor width200px shadow1 white bg-primary bold need-media-row">
-				حفظ
-				<span class="material-symbols-rounded">
-					save
-				</span>
-			</button>
-			<div class="center gap2 font20px card-radius height50px cursor width200px shadow1 white bg-primary bold need-media-row" id="printButton" onclick="printDivContent()">
-				طباعة
-				<span class="material-symbols-rounded">
-					print
-				</span>
+			<div class="center gap2">  
+				<button type="submit" class="center gap2 font20px card-radius height60px cursor width200px shadow1 white bg-primary bold need-media-row">
+					حفظ
+				</button>
+				<div class="center gap2 font20px card-radius height60px cursor width200px shadow1 white bg-primary bold need-media-row" id="printButton" onclick="printDivContent()">
+					<span class="material-symbols-rounded">
+						print
+					</span>
+					طباعة
+				</div>
 			</div>
 		</div>
 
 	</form>
+	</div>
 </div>
 
-		<header class="center mg-top20 mg-bottom20 gap2 cursor" onclick="expand('signs')">
-			<div class="center gap2 width25 bg-white card-radius height50px padding1" id="signsspans">
-				<div>
-					إضافة الإمضاء
-				</div>
-				<span class="material-symbols-rounded" style="font-weight:900; font-size:30px">
-					expand_more
-				</span>
-				<span class="material-symbols-rounded" style="font-weight:900; font-size:30px; display:none;">
-					expand_less
+
+
+<div class="flex-column align-center">
+
+	<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" onclick="expand('signs')">
+		<div class="flex-row font1-5rem width100 bold gold height50px" id="signsspans">
+			<div class="flex-row justify-content-start width100">
+				إضافة الإمضاء
+			</div>
+			<div class="flex-row justify-content-end width100">
+				<span class="material-symbols-rounded" style="font-weight:900; font-size:40px">
+					arrow_drop_up
 				</span>
 			</div>
-		</header>
+			<div class="flex-row justify-content-end width100 hide">
+				<span class="material-symbols-rounded" style="font-weight:900; font-size:40px; display:none;">
+					arrow_drop_down
+				</span>
+			</div>
+		</div>
 
-<div id="signs">
-	<div class="center">
-		<div class="flex-column width50 bg-white card-radius height-fit shadow1 card-padding mg-bottom50">
-			<div class="center gap2 mg-bottom10 width100">
-				<div class="width250px">
+		<div class="center width100">
+			<div class="line width100"></div>
+		</div>
+
+		<div id="signs">
+			<div class="center gap3 width100 mg-top10">
+				<div class="width100">
 					<label> الوظيفة </label>
-					<input class="input-box width100" id="job"/>
+					<input class="input-box width100" id="job" />
 				</div>
-				<div class="width250px">
+				<div class="width100">
 					<label> الرتبة </label>
 					<input class="input-box width100" id="degree" />
 				</div>
-				<div class="width250px">
+				<div class="width100">
 					<label> الاسم </label>
 					<input class="input-box width100" id="name" />
 				</div>
-				<button id="add-btn" class="padding1 width300px center gap2 font20px card-radius height50px cursor width250px shadow1 white bg-primary bold mg-top25 need-media-row">
-					إضافة الإمضاء
-					<span class="material-symbols-rounded">
-						add_circle
+				<button class="center gap2 padding1 width500px card-radius height60px cursor shadow1 white font20px bg-primary bold need-media-row">
+					<span class="material-symbols-rounded width100">
+						add_box
 					</span>
+					<div class="width100">
+						<span class="width100">
+							إضافة الإمضاء
+						</span>
+					</div>
 				</button>
 			</div>
 		</div>
@@ -367,8 +399,6 @@
 				</span>
 			</div>
 		</header>
-
-
 		<div id="add-logo">
 			<div class="center mg-bottom50">
 				<div class="flex-column width50 bg-white card-radius height-fit shadow1 card-padding mg-bottom50">
@@ -412,7 +442,8 @@
 			<div class="font20px bold"> التاريخ:  @Model.DailyOperationViewModel.Operation.Date.ToShortDateString() </div>
 		</div>
 
-		<div class="flex-column align-center width100">
+		<div>
+		@*
 			<header class="center mg-bottom20 mg-top10"> يومية الضباط </header>
 			<table class="width100 mg-bottom50">
 				<thead>
@@ -523,9 +554,11 @@
 						}
 					}
 				</tbody>
-			</table>
+			</table>*@
+			</div>
 
-
+}
+		<div class="flex-column align-center width100">
 			<header class="center mg-bottom20 mg-top50"> يومية المجندين </header>
 			<table class="width100 mg-bottom50">
 				<thead>
@@ -578,7 +611,8 @@
 				</tbody>
 			</table>
 
-			<header class="center mg-bottom20 mg-top50"> يومية المركبات </header>
+		<div>
+			@*<header class="center mg-bottom20 mg-top50"> يومية المركبات </header>
 			<table class="width100 mg-bottom50">
 				<thead>
 					<tr>
@@ -632,7 +666,7 @@
 						}
 					}
 				</tbody>
-			</table>
+			</table>*@
 
 			@*<header class="center mg-bottom20 mg-top50"> بيان المتهمين </header>
 			<table id="accusations" class="width50 mg-bottom50">
@@ -648,6 +682,7 @@
 
 
 		</div>
+	</div>
 				
 
 		<div id="signatures" class="flex-column font20px bold">
@@ -834,7 +869,6 @@
 
 			<div class="margin-input width80">
 				<label asp-for="OperationDescription.Description"> وصف الخدمة </label>
-				@Html.Partial("_TedxtEditor")
 				<input contenteditable="true" asp-for="OperationDescription.Description" class="input-box width100" type="text" />
 			</div>
 			<div class="margin-input width80">

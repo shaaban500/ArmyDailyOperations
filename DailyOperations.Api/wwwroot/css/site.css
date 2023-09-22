@@ -531,6 +531,10 @@ a {
     font-size: 2rem;
 }
 
+.font1-5rem {
+    font-size: 1.5rem;
+}
+
 .font60px {
     font-size: 60px;
 }
@@ -1132,7 +1136,11 @@ input[type="color"] {
     }
 
     .width30 {
-        width: 70%;
+        width: 30%;
+    }
+
+    .width95 {
+        width: 95%;
     }
 
     .width300px{

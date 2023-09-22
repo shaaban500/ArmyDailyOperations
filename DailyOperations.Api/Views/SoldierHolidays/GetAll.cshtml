@@ -22,20 +22,20 @@
         <div class="flex-row justify-content-start width100 gap0 card-radius need-media-row">
             <div class="width30">
                 <label asp-for="@Model.NumberOfDays" class="gold"> عدد أيام العمالة </label>
-                <input asp-for="@Model.NumberOfDays" type="number" class="padding-right70 input-box width100" style="height:60px;border-radius:15px;" placeholder="أدخل عدد أيام العمالة..."/>
+                <input asp-for="@Model.NumberOfDays" type="number" class="input-box width100" style="height:60px;border-radius:15px;" placeholder="أدخل عدد أيام العمالة..." />
             </div>
-        
-            <button type="submit" class="bg-transperant bold primary padding1 mg-top20 radius50 cursor transform-left-80">
+
+            <button type="submit" class="bg-transperant bold primary padding1 mg-top20 radius50 cursor">
                 <span class="material-symbols-rounded primary bold700 hover" style="font-size:35px">
                     search
                 </span>
             </button>
+        </div>
 
-            <div class="flex-column justify-content-end">
-                <div class="center width300px gap1 mg-top10">
-                    <input id="check-all" class="" type="checkbox" />
-                    <label> تحديد الكل </label>
-                </div>
+        <div class="flex-column justify-content-end">
+            <div class="center width300px gap1 mg-top10">
+                <input id="check-all" class="" type="checkbox" />
+                <label> تحديد الكل </label>
             </div>
         </div>
     </div>
@@ -131,9 +131,6 @@
                 <button type="submit" class="center font20px white bold width100px height50px card-radius bg-primary"> حفظ</button>
             </div>
         </div>
-    
-
-
     </div>
 
 </form>
