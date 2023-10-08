@@ -4,61 +4,40 @@
     printWindow.document.write("<html><head><title>Print</title>");
     printWindow.document.write('<style>');
     printWindow.document.write(`
-        :root {
-            --color-white: #ffffff;
-            --color-primary: blue;
-            --color-gray: #ccc;
-            --color-disabled: #e5e1e138;
-            --card-padding: 1.6rem;
-            --padding-1: 1rem;
-            --padding-2: 8px;
-            --card-border-radius: 1.6rem;
-            --border-radius-1: 1rem;
-            --border-radius-2: 6px;
-            --transtion-300: all 300ms linear;
+
+        html{
+            direction: rtl;
         }
-
-
-        * {
-            margin: 0;
-            padding: 0;
-            outline: 0;
-            border: 0;
-            appearance: none;
-            text-decoration: none;
-            list-style: none;
-            box-sizing: border-box;
-            font-family: "Tajawal", sans-serif;
-        }
-
-
-        html {
-            font-size: 12px;
-        }
-
 
         body {
-            min-height: 100vh;
-            color: black;
+            page-break-after: always; 
+        }
+         table {
+            border-collapse: collapse; 
+            overflow: hidden; 
+            border-spacing: 0;
+            width: 100%;
+        }
+        
+        th, td {
+            text-align: center;
+            padding: 10px 10px;
+            min-height: 30px;
+            border: 1px solid gray;
+        }
+        
+        thead, th {
+            font-size: 22px;
+            font-weight: normal;
+            background-color: #D3D3D3;
+        }
+        
+        
+        td{
+            font-size: 18px;
         }
 
-        header {
-            font-weight: 700;
-            font-size: 2rem;
-            color: var(--color-primary);
-        }
-
-        main {
-            gap: 2rem;
-            width: 96%;
-            direction: rtl;
-            //background-image: url("/background-logo.png");
-            background-size: contain;
-            background-repeat: repeat-y;
-            background-position: center center;
-        }
-
-       .flex-column {
+        .flex-column {
             display: flex;
             flex-direction: column;
         }
@@ -68,18 +47,28 @@
             flex-direction: row;
         }
 
+
         .center {
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
+        .align-center {
+            align-items: center;
+        }
+
+        
         .justify-content-between {
-            justify-content:space-between;
+            justify-content: space-between;
         }
 
         .gap2 {
             gap: 2rem;
+        }
+
+        .gap3 {
+            gap: 3rem;
         }
 
         .gap0 {
@@ -90,69 +79,51 @@
             gap: 1rem;
         }
 
-        .align-end {
-            align-items: flex-end;
+        .width100 {
+            width: 100%;
+        }
+ 
+        .width50 {
+            width: 50%;
+        }
+
+        .mg-top50 {
+            margin-top: 20px;
+        }
+
+        .mg-top40 {
+            margin-top: 20px;
+        }
+
+        .mg-top20 {
+            margin-top: 20px;
+        }
+
+        .mg-top25 {
+            margin-top: 20px;
+        }
+
+        .mg-top10 {
+            margin-top: 10px;
+        }
+
+        .mg-top5 {
+            margin-top: 5px;
+        }
+
+        .mg-bottom50 {
+            margin-bottom: 20px;
+        }
+
+        .mg-bottom40 {
+            margin-bottom: 20px;
         }
 
 
-        .align-start {
-            align-items: flex-start;
+        .mg-bottom20 {
+            margin-bottom: 20px;
         }
 
-        .align-center {
-            align-items: center;
-        }
-
-        .justify-around {
-            justify-content: space-around;
-        }
-
-        .justify-content-end {
-            justify-content: end;
-        }
-
-        .justify-content-start {
-            justify-content: start;
-        }
-
-        .align-content-end {
-            align-content: flex-end;
-        }
-
-        .align-content-start {
-            align-content: flex-start;
-        }
-
-        table {
-          border-spacing: 0;
-          width: 100%;
-          background-color: transparent;    
-        }
-
-
-        th, td {
-            text-align: center;
-            border: var(--color-gray) solid 1px;
-            padding: 1px 1px;
-        }
-
-        thead {
-            font-size: 1.2rem;
-            color: blue;
-            font-weight: 700;
-            height: 50px;
-        }
-
-        td {
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        tr {
-            page-break-inside: avoid;
-        }
-
-       
         .width100 {
             width: 100%;
         }
@@ -169,6 +140,9 @@
             width: 75%;
         }
 
+        .width60 {
+            width: 60%;
+        }
 
         .width50 {
             width: 50%;
@@ -194,8 +168,8 @@
             width: 10%;
         }
 
-        .height-fit{
-            height:fit-content;
+        .height-fit {
+            height: fit-content;
         }
 
         .height100 {
@@ -243,195 +217,28 @@
             height: 10%;
         }
 
-        .width100px {
-            width: 100px;
+        .font20px, header {
+            font-size: 22px;
         }
 
-        .width200px {
-            width: 200px;
+        .page-break-inside{
+            page-break-inside: avoid;
         }
 
-        .width300px {
-            width: 300px;
+        .no-print{
+          display: none !important;
         }
 
-        .width400px {
-            width: 400px;
+        .border-black {
+            border: 1px solid black;
         }
 
-        .width500px {
-            width: 500px;
-        }
-
-        .height100px {
-            height: 100px;
-        }
-
-        .height200px {
-            height: 200px;
-        }
-
-        .height300px {
-            height: 300px;
-        }
-
-        .height400px {
-            height: 400px;
-        }
-
-        .height50px {
-            height: 50px;
-        }
-
-        .height60px {
-            height: 60px;
-        }
-
-        .height75px {
-            height: 75px;
-        }
-
-        .height500px {
-            height: 500px;
-        }
-
-        .height120px {
-            height: 120px;
-        }
-
-        .font20px {
-            font-size: 20px;
-        }
-
-        .font50px {
-            font-size: 50px;
-        }
-
-        .font40px {
-            font-size: 40px;
-        }
-
-        .font30px {
-            font-size: 30px !important;
-        }
-
-        .font2rem {
-            font-size: 2rem;
-        }
-
-        .font60px {
-            font-size: 60px;
-        }
-
-        .font70px {
-            font-size: 70px;
-        }
-
-        .font80px {
-            font-size: 80px;
-        }
-
-        .font100px {
-            font-size: 100px;
-            font-weight: bolder;
-        }
-
+        
         .bold {
             font-weight: 900 !important;
         }
 
-        .background-graylight {
-            background: var(--color-gray-light);
-        }
-
-        .mg-top50 {
-            margin-top: 50px;
-        }
-
-        .mg-top20 {
-            margin-top: 20px;
-        }
-
-        .mg-top10 {
-            margin-top: 10px;
-        }
-
-        .mg-top5 {
-            margin-top: 5px;
-        }
-
-        .mg-bottom50 {
-            margin-bottom: 50px;
-        }
-
-        .mg-bottom20 {
-            margin-bottom: 20px;
-        }
-
-        .radius50 {
-            border-radius: 50%;
-        }
-
-        .z-index100 {
-            z-index: 100;
-        }
-
-        .pos-abs {
-            position: absolute;
-        }
-
-
-        .padding1 {
-            padding: var(--padding-1);
-        }
-
-        .padding2 {
-            padding: var(--padding-2);
-        }
-
-        .padding20-50 {
-            padding: 20px 50px;
-        }
-
-        .padding10-50 {
-            padding: 10px 50px;
-        }
-
-        .card-padding {
-            padding: var(--card-padding);
-        }
-
-        .card-radius {
-            border-radius: var(--card-border-radius);
-        }
-
-        
-        .mg-right30px {
-            margin-right: 30px;
-        }
-
-        .mg-right100px {
-            margin-right: 100px;
-        }
-
-        .mg-right200px {
-            margin-right: 200px;
-        }
-
-        .mg-right300px {
-            margin-right: 300px;
-        }
-
-        .padding5 {
-            padding: 5px;
-        }
-
-        .delete {
-          display: none;
-        }
-
-
-`);
+    `);
     printWindow.document.write("</style>");
     printWindow.document.write("</head><body><main class=\"watermark\">");
     printWindow.document.write(printContent.innerHTML);
@@ -584,7 +391,7 @@ function addLogo() {
     if (fileInput.files && fileInput.files[0]) {
         var reader = new FileReader();
         reader.onload = function (event) {
-            document.getElementById('logo').src = event.target.result;
+            document.getElementById('logo-photo').src = event.target.result;
         };
         reader.readAsDataURL(fileInput.files[0]);
     }

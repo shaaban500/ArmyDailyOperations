@@ -15,18 +15,18 @@ function closeForm(formName) {
 }
 
 
-function expand(id) {
-    const element = document.getElementById(id);
-    const isExpanded = element.style.display === 'block' || element.style.display === 'flex';
-    const spans = document.querySelectorAll(`#${id}spans > span`);
+//function expand(id) {
+//    const element = document.getElementById(id);
+//    const isExpanded = element.style.display === 'block' || element.style.display === 'flex';
+//    const spans = document.querySelectorAll(`#${id}spans > span`);
 
-    if (isExpanded) {
-        element.style.display = 'none';
-        spans[0].style.display = 'none';
-        spans[1].style.display = 'block';
-    } else {
-        element.style.display = 'block';
-        spans[0].style.display = 'block';
-        spans[1].style.display = 'none';
-    }
-}
+//    if (isExpanded) {
+//        element.style.display = 'none';
+//        spans[0].style.display = 'none';
+//        spans[1].style.display = 'block';
+//    } else {
+//        element.style.display = 'block';
+//        spans[0].style.display = 'none';
+//        spans[1].style.display = 'none';
+//    }
+//}

@@ -1,19 +1,19 @@
 ﻿using System.Linq.Expressions;
-using DailyOperations.Domain.Entities;
 using DailyOperations.Domain.Entities.Operations;
 using DailyOperations.Domain.Interfaces;
 using DailyOperations.Domain.Interfaces.Services.Operations;
 using DailyOperations.Domain.ViewModels.Operations;
+using Microsoft.EntityFrameworkCore;
 
 namespace DailyOperations.Infrastructure.Services.Operations
 {
-    public class OperatinSoldierServices : IOperatinSoldierServices
-    {
-        private readonly IUnitOfWork _unitOfWork;
-        public OperatinSoldierServices(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
+	public class OperatinSoldierServices : IOperatinSoldierServices
+	{
+		private readonly IUnitOfWork _unitOfWork;
+		public OperatinSoldierServices(IUnitOfWork unitOfWork)
+		{
+			_unitOfWork = unitOfWork;
+		}
 
 		public async Task<OperatinSoldier> Add(GetAllOperationsViewModel model)
 		{
@@ -44,11 +44,8 @@ namespace DailyOperations.Infrastructure.Services.Operations
 			{
 				OperationId = model.OperationId,
 				OperationDescriptionId = model.OperationDescriptionId,
-				OperationInstructionId = model.OperationInstructionId,
 				OperationTypeId = model.OperationTypeId,
 				SoldierId = model.SoldierId,
-				TimeFrom = model.OperationTimeFrom == 0 ? operation.ShiftTimeFrom : model.OperationTimeFrom,
-				TimeTo = model.OperationTimeTo == 0 ? operation.ShiftTimeTo : model.OperationTimeTo,
 			};
 
 			var addedOperationSoldier = await _unitOfWork.OperationSoldiers.AddAsync(operationSoldier);
@@ -56,21 +53,43 @@ namespace DailyOperations.Infrastructure.Services.Operations
 			return addedOperationSoldier;
 		}
 
-		public async Task<List<OperatinSoldier>> GetAll(long operationId)
+		public async Task<List<GroupedSoldierOperationsViewModel>> GetAll(long operationId)
 		{
 			var operationSoldiersIncludes = new Expression<Func<OperatinSoldier, object>>[]
 			{
 				p => p.OperationDescription,
-				p => p.OperationInstruction,
 				p => p.OperationType,
 				p => p.Soldier,
 			};
 
 			var operationSoldiers = await _unitOfWork.OperationSoldiers.GetAllAsync(x => x.OperationId == operationId, null, operationSoldiersIncludes);
 
-            return operationSoldiers.ToList();
-        }
-		
+			// grouping by operation type
+
+			var operationSoldiersList = await operationSoldiers.ToListAsync();
+			var operationTypes = operationSoldiersList.Select(x => x.OperationType).Distinct();
+			
+			var groupedSoldierOperations = new List<GroupedSoldierOperationsViewModel>();
+
+			foreach(var operationType in operationTypes)
+			{
+				var operationSoldierModel = new GroupedSoldierOperationsViewModel
+				{
+					OperationType = operationType,
+					OperatinSoldiers = new List<OperatinSoldier>()
+				};
+				
+				foreach (var operation in operationSoldiersList.Where(x => x.OperationTypeId == operationType.Id))
+				{
+					operationSoldierModel.OperatinSoldiers.Add(operation);
+				}
+
+				groupedSoldierOperations.Add(operationSoldierModel);
+			}
+
+			return groupedSoldierOperations;
+		}
+
 		public async Task<List<OperatinSoldier>> Search(long soldierId, DateTime? dateFrom, DateTime? dateTo)
 		{
 			var operationSoldiersIncludes = new Expression<Func<OperatinSoldier, object>>[]
@@ -78,7 +97,6 @@ namespace DailyOperations.Infrastructure.Services.Operations
 				p => p.Soldier,
 				p => p.OperationType,
 				p => p.OperationDescription,
-				p => p.OperationInstruction,
 				p => p.Soldier.PowerType,
 				p => p.Soldier.Department,
 				operation => operation.Operation.DailyOperation,
@@ -107,7 +125,7 @@ namespace DailyOperations.Infrastructure.Services.Operations
 		}
 
 		public async Task Delete(long id)
-        {
+		{
 			var operationSoldier = await _unitOfWork.OperationSoldiers.GetByIdAsync(id);
 
 			if (operationSoldier != null)
@@ -118,16 +136,16 @@ namespace DailyOperations.Infrastructure.Services.Operations
 		}
 
 		public Task AddOrUpdate(OperatinSoldier model)
-        {
-            throw new NotImplementedException();
-        }
+		{
+			throw new NotImplementedException();
+		}
 
 
-        public async Task<List<OperatinSoldier>> GetAll()
-        {
-            var operationSoldiers = await _unitOfWork.OperationSoldiers.GetAllAsync();
-            return operationSoldiers.ToList();
-        }
+		public async Task<List<OperatinSoldier>> GetAll()
+		{
+			var operationSoldiers = await _unitOfWork.OperationSoldiers.GetAllAsync();
+			return operationSoldiers.ToList();
+		}
 
 	}
 }

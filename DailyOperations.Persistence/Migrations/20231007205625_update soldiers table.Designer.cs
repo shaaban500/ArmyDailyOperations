@@ -4,6 +4,7 @@ using DailyOperations.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DailyOperations.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231007205625_update soldiers table")]
+    partial class updatesoldierstable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -832,11 +834,20 @@ namespace DailyOperations.Persistence.Migrations
                     b.Property<long>("OperationId")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("OperationInstructionId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("OperationTypeId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("SoldierId")
                         .HasColumnType("bigint");
+
+                    b.Property<int?>("TimeFrom")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TimeTo")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -846,6 +857,8 @@ namespace DailyOperations.Persistence.Migrations
                     b.HasIndex("OperationDescriptionId");
 
                     b.HasIndex("OperationId");
+
+                    b.HasIndex("OperationInstructionId");
 
                     b.HasIndex("OperationTypeId");
 
@@ -1447,6 +1460,12 @@ namespace DailyOperations.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DailyOperations.Domain.Entities.OperationInstruction", "OperationInstruction")
+                        .WithMany()
+                        .HasForeignKey("OperationInstructionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DailyOperations.Domain.Entities.OperationType", "OperationType")
                         .WithMany()
                         .HasForeignKey("OperationTypeId")
@@ -1462,6 +1481,8 @@ namespace DailyOperations.Persistence.Migrations
                     b.Navigation("Operation");
 
                     b.Navigation("OperationDescription");
+
+                    b.Navigation("OperationInstruction");
 
                     b.Navigation("OperationType");
 

@@ -21,12 +21,5 @@ namespace DailyOperations.Domain.Entities.Operations
         public long OperationDescriptionId { get; set; }
         [ForeignKey("OperationDescriptionId")]
         public OperationDescription OperationDescription { get; set; }
-        
-        public long OperationInstructionId { get; set; }
-        [ForeignKey("OperationInstructionId")]
-        public OperationInstruction OperationInstruction { get; set; }
-
-        public int? TimeFrom { get; set; }
-        public int? TimeTo { get; set; }
     }
 }
