@@ -383,6 +383,16 @@ a {
     height: fit-content;
 }
 
+
+.width15 {
+    width: 15%;
+}
+
+
+.height15 {
+    height: 15%;
+}
+
 .height100 {
     height: 100%;
 }
@@ -1312,3 +1322,4 @@ input[type="color"] {
 .page-break-inside{
     page-break-inside: avoid;
 }
+

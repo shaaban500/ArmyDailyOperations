@@ -1,5 +1,4 @@
 ﻿using DailyOperations.Domain.Entities;
-using DailyOperations.Domain.Entities.Members;
 using DailyOperations.Domain.Entities.Operations;
 
 namespace DailyOperations.Domain.ViewModels.Operations
@@ -8,10 +7,15 @@ namespace DailyOperations.Domain.ViewModels.Operations
     {
 		// table
         public DailyOperationViewModel DailyOperationViewModel { get; set; }
- 
 
-        // add 
-        public GeneralDepartment GeneralDepartment { get; set; }
+        // total printing
+        public int TotalSoldiersCount { get; set; }
+		public int TotalHolidayCount { get; set; }
+		public int TotalInWorkCount { get; set; }
+
+
+		// add 
+		public GeneralDepartment GeneralDepartment { get; set; }
 		public InnerDepartment InnerlDepartment { get; set; }
         public DailyOperation DailyOperation { get; set; }
         public ShiftType ShiftType { get; set; }

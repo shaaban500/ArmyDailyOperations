@@ -1,7 +1,7 @@
 ﻿@using DailyOperations.Domain.ViewModels.SoldierHolidays;
 @model GetAllSoldierHolidaysViewModel
 
-<div class="center mg-top25 mg-bottom50 gap7 need-media-row">
+<div class="center mg-top25 mg-bottom50 gap2 need-media-row">
     <a asp-controller="SoldierHolidays" asp-action="GetAll" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold white bg-primary need-media-row">
         الحضور
         <span class="material-symbols-rounded">
@@ -18,37 +18,39 @@
 
 
 <form class="center" method="post" asp-controller="SoldierHolidays" asp-action="GetAll" enctype="multipart/form-data">
-    <div class="center width30 gap2 mg-bottom50 mg-top50 need-media-row">
-        <div class="center width100 gap2 card-radius card-padding bg-white need-media-row">
-            <div class="width100">
-                <label asp-for="@Model.NumberOfDays"> عدد أيام العمالة </label>
-                <input asp-for="@Model.NumberOfDays" type="text" class="input-box width100" />
+    <div class="center width75 gap7 mg-bottom50 mg-top50 need-media-row padding20-30 bg-white card-radius">
+        <div class="flex-row justify-content-start width100 gap0 card-radius need-media-row">
+            <div class="width30">
+                <label asp-for="@Model.NumberOfDays" class="gold"> عدد أيام العمالة </label>
+                <input asp-for="@Model.NumberOfDays" type="number" class="input-box width100" style="height:60px;border-radius:15px;" placeholder="أدخل عدد أيام العمالة..." />
             </div>
-        
-            <button type="submit" class="bg-primary height-fit padding1 radius50 mg-top25 cursor white">
-                <span class="material-symbols-rounded">
+
+            <button type="submit" class="bg-transperant bold primary padding1 mg-top20 radius50 cursor">
+                <span class="material-symbols-rounded primary bold700 hover" style="font-size:35px">
                     search
                 </span>
             </button>
-
         </div>
-        <div class="center width300px gap1 mg-top10">
-            <label> تحديد الكل </label>
-            <input id="check-all" class="" type="checkbox" />
+
+        <div class="flex-column justify-content-end">
+            <div class="center width300px gap1 mg-top10">
+                <input id="check-all" class="" type="checkbox" />
+                <label> تحديد الكل </label>
+            </div>
         </div>
     </div>
 </form>
 
 
 <form method="post" asp-controller="SoldierHolidays" asp-action="Add" enctype="multipart/form-data">
-   
-    
+
+
     <div class="flex-column align-center">
         <table class="width75">
             <thead>
                 <tr>
                     <th>
-                        الاسم 
+                        الاسم
                     </th>
                     <th>
                         تاريخ العودة
@@ -57,14 +59,14 @@
                         أيام العمالة
                     </th>
                     <th>
-                         إضافة أجازة
+                        إضافة أجازة
                     </th>
                 </tr>
             </thead>
             <tbody>
                 @if (Model.SoldierHolidays is not null && Model.SoldierHolidays.Count() > 0)
                 {
-                    @for(int i = 0 ; i < Model.SoldierHolidays.Count ; i++)
+                    @for (int i = 0; i < Model.SoldierHolidays.Count; i++)
                     {
                         <tr>
                             <td>@Model.SoldierHolidays[i]?.Soldier?.Name</td>
@@ -80,52 +82,55 @@
             </tbody>
         </table>
 
-    
-        <div class="center width75 gap2 mg-top50 card-radius card-padding bg-white shadow1">
-            <div class="width100">
-                <label> تاريخ بداية الأجازة </label>
-                <input asp-for="@Model.HolidayStartDate" type="date" class="input-box width100"/>
+
+        <div class="flex-column align-center width75 gap3 mg-top50 card-radius padding30 bg-white shadow1">
+            <div class="center gap3 width100">
+                <div class="width100">
+                    <label> تاريخ بداية الأجازة </label>
+                    <input asp-for="@Model.HolidayStartDate" type="date" class="input-box width100" />
+                </div>
+                <div class="width100">
+                    <label> تاريخ نهاية الأجازة </label>
+                    <input asp-for="@Model.HolidayEndDate" type="date" class="input-box width100" />
+                </div>
+                <div class="width100">
+                    <label asp-for="@Model.SelectedHolidayTypeId"> نوع الأجازة</label>
+                    <select name="SelectedHolidayTypeId" class="input-box width100" asp-items="@(new SelectList(Model.HolidayTypes, "Id", "Type"))">
+                    </select>
+                </div>
             </div>
-            <div class="width100">
-                <label> تاريخ نهاية الأجازة </label>
-                <input asp-for="@Model.HolidayEndDate" type="date" class="input-box width100"/>
+            <div class="center gap3 width100">
+                <div class="width100">
+                    <label> المديرية </label>
+                    <input asp-for="@Model.GeneralDepartment" type="text" class="input-box width100" />
+                </div>
+                <div class="width100">
+                    <label> الإدارة </label>
+                    <input asp-for="@Model.InnerDepartment" type="text" class="input-box width100" />
+                </div>
+                <div class="width100">
+                    <label> القسم </label>
+                    <input asp-for="@Model.SpecialInnerDepartment" type="text" class="input-box width100" />
+                </div>
             </div>
-            <div class="width100">
-                <label asp-for="@Model.SelectedHolidayTypeId"> نوع الأجازة</label>
-                <select name="SelectedHolidayTypeId" class="input-box width100" asp-items="@(new SelectList(Model.HolidayTypes, "Id", "Type"))">
-                </select>
+            <div class="center gap3 width100">
+                <div class="width100">
+                    <label> الرتبة </label>
+                    <input asp-for="@Model.MilitaryDegree" type="text" class="input-box width100" />
+                </div>
+                <div class="width100">
+                    <label> الاسم </label>
+                    <input asp-for="@Model.Name" type="text" class="input-box width100" />
+                </div>
+                <div class="width100">
+                    <label> الوظيفة </label>
+                    <input asp-for="@Model.Job" type="text" class="input-box width100" />
+                </div>
             </div>
-            <div class="width100">
-                <label> المديرية </label>
-                <input asp-for="@Model.GeneralDepartment" type="text" class="input-box width100" />
-            </div>
-            <div class="width100">
-                <label> الإدارة </label>
-                <input asp-for="@Model.InnerDepartment" type="text" class="input-box width100" />
-            </div>
-            <div class="width100">
-                <label> القسم </label>
-                <input asp-for="@Model.SpecialInnerDepartment" type="text" class="input-box width100" />
-            </div>
-            <div class="width100">
-                <label> الرتبة </label>
-                <input asp-for="@Model.MilitaryDegree" type="text" class="input-box width100" />
-            </div>
-            <div class="width100">
-                <label> الاسم </label>
-                <input asp-for="@Model.Name" type="text" class="input-box width100" />
-            </div>
-            <div class="width100">
-                <label> الوظيفة </label>
-                <input asp-for="@Model.Job" type="text" class="input-box width100" />
+            <div class="flex-row justify-content-end width100">
+                <button type="submit" class="center font20px white bold width100px height50px card-radius bg-primary"> حفظ</button>
             </div>
         </div>
-    
-
-        <div class="center mg-bottom50 mg-top50">
-            <button type="submit" class="center font20px white bold width300px height50px card-radius bg-primary"> حفظ</button>
-        </div>
-
     </div>
 
 </form>

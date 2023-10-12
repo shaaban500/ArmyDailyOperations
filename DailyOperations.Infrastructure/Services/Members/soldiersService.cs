@@ -145,5 +145,11 @@ namespace DailyOperations.Infrastructure.Services.Members
 
 			return soldiers.ToList();
 		}
+
+		public async Task<int> GetCount()
+		{
+			return await _unitOfWork.Soldiers.GetCountAsync();
+		}
+
 	}
 }

@@ -44,5 +44,17 @@ namespace DailyOperations.Infrastructure.Services.Holidays
             return assistantHoliday != null;
         }
 
-    }
+		public async Task<int> GetHolidaysCount(long operationId)
+		{
+            var operation = await _unitOfWork.Operations.GetByIdAsync(operationId);
+
+            int count = 0;
+            if(operation is not null)
+            {
+                count = await _unitOfWork.SoldierHolidays.GetCountAsync(x => x.HolidayEndDate >= operation.Date && x.HolidayStartDate <= operation.Date);
+            }
+            
+            return count;
+        }
+	}
 }

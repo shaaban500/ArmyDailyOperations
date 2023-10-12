@@ -1,7 +1,7 @@
 ﻿@using DailyOperations.Domain.ViewModels.SoldierHolidays;
 @model GetAllSoldierHolidaysViewModel
 
-<div class="center mg-top25 mg-bottom50 gap7 need-media-row">
+<div class="center mg-top25 mg-bottom50 gap2 need-media-row">
     <a asp-controller="SoldierHolidays" asp-action="GetAll" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold need-media-row">
         الحضور
         <span class="material-symbols-rounded">
@@ -18,23 +18,24 @@
 
 
 <form class="center" method="post" asp-controller="SoldierHolidays" asp-action="GetAllHolidays" enctype="multipart/form-data">
-    <div class="center width30 gap2 mg-bottom50 mg-top50 need-media-row">
-        <div class="center width100 gap2 card-radius card-padding bg-white need-media-row">
-
-            <div class="width100">
+    <div class="center width75 gap7 mg-bottom50 mg-top50 need-media-row padding20-30 bg-white card-radius">
+        <div class="flex-row justify-content-start width100 gap0 card-radius need-media-row">
+            <div class="width30">
                 <label> تاريخ العودة </label>
-                <input asp-for="@Model.ReturnDate" type="date" class="input-box width100" />
+                <input asp-for="@Model.ReturnDate" type="date" class="input-box width100" style="height:60px;border-radius:15px;" />
             </div>
 
-            <button type="submit" class="bg-primary height-fit padding1 radius50 mg-top25 cursor white">
-                <span class="material-symbols-rounded">
+            <button type="submit" class="bg-transperant bold primary padding1 mg-top20 radius50 cursor">
+                <span class="material-symbols-rounded primary bold700 hover" style="font-size:35px">
                     search
                 </span>
             </button>
         </div>
-        <div class="center width300px gap1 mg-top10">
-                <label> تحديد الكل </label>
+        <div class="flex-column justify-content-end">
+            <div class="center width300px gap1 mg-top10">
                 <input id="check-all" class="" type="checkbox" />
+                <label> تحديد الكل </label>
+            </div>
         </div>
     </div>
 </form>
@@ -82,8 +83,8 @@
                             </td>
                             <td>
                                 <div class="center" onclick="openForm('ReturnForm', 'hiddenInput', @Model.SoldierHolidays[i].SoldierHoliday.Id)">
-                                    <span class="material-symbols-rounded green cursor" style="font-size:35px;">
-                                        edit_note
+                                    <span class="material-symbols-rounded gold cursor" style="font-size:28px;">
+                                        edit_square
                                     </span>
                                 </div>
                             </td>
@@ -99,8 +100,8 @@
             </tbody>
         </table>
 
-        <div class="center mg-bottom50 mg-top50">
-            <button type="submit" class="center font20px white bold width300px height50px card-radius bg-primary"> حفظ</button>
+        <div class="center width100 mg-top25">
+            <button type="submit" class="center font20px white bold width200px height50px card-radius bg-primary"> حفظ</button>
         </div>
 
     </div>
@@ -117,7 +118,7 @@
                 close
             </span>
         </div>
-        <input id="hiddenInput" hidden asp-for="@Model.SoldierHolidayId"/>
+        <input id="hiddenInput" hidden asp-for="@Model.SoldierHolidayId" />
         <div class="flex-column align-center">
             <div class="width80">
                 <label> تاريخ بداية الأجازة </label>

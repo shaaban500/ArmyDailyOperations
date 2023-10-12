@@ -6,6 +6,6 @@ namespace DailyOperations.Domain.Interfaces.Services
     {
         Task AddOrUpdate(Soldier model, string? certificateName, int? extraDuration, List<bool>? hasSkills);
         Task<List<Soldier>> GetAll(long operationId);
-        
-    }
+        Task<int> GetCount();
+	}
 }

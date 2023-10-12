@@ -21,7 +21,7 @@
 		</div>
 		<div id="operation">
 			<form method="post" asp-controller="Operations" asp-action="AddOrUpdate" enctype="multipart/form-data">
-				<div class="flex-column gap1 mg-top10 align-center width100">
+				<div class="flex-column gap3 mg-top10 align-center width100">
 					<span class="font20px danger"> اختيار اليومية و القطاع و التوقيت أولا</span>
 
 					<div class="center gap3 width100">
@@ -135,7 +135,7 @@
 				<form method="post" asp-controller="Operations" asp-action="AddOperationForMembers" enctype="multipart/form-data">
 					<input hidden asp-for="@Model.OperationId" />
 
-					<div class="flex-column gap1 mg-top10 align-center width100" id="record">
+					<div class="flex-column gap3 mg-top10 align-center width100" id="record">
 						<div class="center gap3 width100">
 							<div class="width100">
 								<label asp-for="@Model.SoldierId"> مجند </label>
@@ -265,42 +265,53 @@
 
 	<div class="flex-column width100" id="printContent">
 		<div class="flex-row justify-content-between need-media-row">
-			<div class="">
-				<div class="flex-row align-start">
-					<div class="font20px bold"> @ViewBag.Title </div>
+			<div class="flex-column">
+				<div class="center gap1">
+					<div class="font20px bold" id="title"> @ViewBag.Title </div>
+					<span class="material-symbols-rounded danger no-print cursor" onclick="disablePrint('title')"> print_disabled </span>
 				</div>
-				<div class="flex-row align-start">
-					<div class="font20px bold">@Model.DailyOperationViewModel.Operation.GeneralDepartment.Department</div>
+				<div class="flex-row gap1">
+					<div class="font20px bold" id="dept">@Model.DailyOperationViewModel.Operation.GeneralDepartment.Department</div>
+					<span class="material-symbols-rounded danger no-print cursor" onclick="disablePrint('dept')"> print_disabled </span>
 				</div>
-				<div class="flex-row align-start">
-					<div class="font20px bold">@Model.DailyOperationViewModel.Operation.InnerDepartment.Department</div>
+				<div class="flex-row gap1">
+					<div class="font20px bold" id="indept">@Model.DailyOperationViewModel.Operation.InnerDepartment.Department</div>
+					<span class="material-symbols-rounded danger no-print cursor" onclick="disablePrint('indept')"> print_disabled </span>
 				</div>
 			</div>
 			<img id="logo-photo" alt="Logo" class="width10 height10" />
 		</div>
-		<div class="center align-start">
-			<div class="font20px bold"> يومية @Model.DailyOperationViewModel.Operation.DailyOperation.DailyOperationName</div>
+		<div class="center align-start gap1">
+			<div class="font20px bold" id="daily"> يومية @Model.DailyOperationViewModel.Operation.DailyOperation.DailyOperationName</div>
+			<span class="material-symbols-rounded danger no-print cursor" onclick="disablePrint('daily')"> print_disabled </span>
 		</div>
-		<div class="center align-start">
-			<div class="font20px bold">  @Model.DailyOperationViewModel.Operation.ShiftType.Type من: @GetTimeText(Model.DailyOperationViewModel.Operation.ShiftTimeFrom) إلى: @GetTimeText(Model.DailyOperationViewModel.Operation.ShiftTimeTo) </div>
+		<div class="center align-start gap1">
+			<div class="font20px bold" id="fromto">  @Model.DailyOperationViewModel.Operation.ShiftType.Type من: @GetTimeText(Model.DailyOperationViewModel.Operation.ShiftTimeFrom) إلى: @GetTimeText(Model.DailyOperationViewModel.Operation.ShiftTimeTo) </div>
+			<span class="material-symbols-rounded danger no-print cursor" onclick="disablePrint('fromto')"> print_disabled </span>
 		</div>
-		<div class="center align-start">
-			<div class="font20px bold"> القطاع @Model.DailyOperationViewModel.Operation.Sector.SectorName  من: @Model.DailyOperationViewModel.Operation.SectorPlaceFrom.SectorPlaceName إلى: @Model.DailyOperationViewModel.Operation.SectorPlaceTo.SectorPlaceName </div>
+		<div class="center align-start gap1">
+			<div class="font20px bold" id="sector"> القطاع @Model.DailyOperationViewModel.Operation.Sector.SectorName  من: @Model.DailyOperationViewModel.Operation.SectorPlaceFrom.SectorPlaceName إلى: @Model.DailyOperationViewModel.Operation.SectorPlaceTo.SectorPlaceName </div>
+			<span class="material-symbols-rounded danger no-print cursor" onclick="disablePrint('sector')"> print_disabled </span>
 		</div>
-		<div class="center align-start mg-bottom20">
-			<div class="font20px bold"> التاريخ:  @Model.DailyOperationViewModel.Operation.Date.ToShortDateString() </div>
+		<div class="center align-start mg-bottom20 gap1">
+			<div class="font20px bold" id="date"> التاريخ:  @Model.DailyOperationViewModel.Operation.Date.ToShortDateString() </div>
+			<span class="material-symbols-rounded danger no-print cursor" onclick="disablePrint('date')"> print_disabled </span>
 		</div>
 
 
 
 
-		<div class="flex-column align-center width100">
+		<div class="flex-column align-center width100 mg-top50">
 
 		@if (Model.GroupedSoldierOperations is not null && Model.GroupedSoldierOperations.Count() > 0)
 		{
 			<table class="width100 mg-bottom50">
 				<thead>
+
 					<tr class="bg-grey">
+						<th class="bg-grey"> أصل القوة </th>
+						<th class="bg-grey"> أجازة </th>
+						<th class="bg-grey"> بالعمل </th>
 						@foreach (var item in Model.GroupedSoldierOperations)
 						{
 							<th> @item.OperationType.Type </th>
@@ -309,6 +320,16 @@
 				</thead>
 				<tbody>
 					<tr>
+						<td> @Model.TotalSoldiersCount </td>
+						<td> @Model.TotalHolidayCount </td>
+						@{
+							int sum = 0;
+							@foreach (var operation in Model.GroupedSoldierOperations)
+							{
+								sum += operation.OperatinSoldiers.Count();
+							}
+						}
+						<td> @sum </td>
 						@foreach (var operation in Model.GroupedSoldierOperations)
 						{
 							<td> @operation.OperatinSoldiers.Count() </td>
@@ -316,7 +337,6 @@
 					</tr>
 				</tbody>
 			</table>
-
 
 
 			@foreach(var item in Model.GroupedSoldierOperations)
@@ -328,8 +348,8 @@
 						<tr>
 							<th> الرتبة </th>
 							<th> الاسم </th>
-							<th> مكان الخدمة </th>
-							<th class="no-print"> حذف </th>
+							<th> ملاحظات </th>
+							<th class="no-print cursor"> حذف </th>
 						</tr>
 					</thead>
 				<tbody>
@@ -346,7 +366,7 @@
 								</div>
 							</td>
 							<td class="gap1"> @operation?.OperationDescription?.Description</td>
-							<td class="danger cursor no-print">
+							<td class="danger cursor no-print cursor">
 								<a asp-controller="OperationSoldiers" asp-action="Delete" asp-route-id="@operation.Id" asp-route-operationId="@Model.OperationId">
 									<span class="material-symbols-rounded">
 										delete_forever

@@ -1,5 +1,6 @@
 ﻿using DailyOperations.Domain.Interfaces;
 using DailyOperations.Domain.Interfaces.Services;
+using DailyOperations.Domain.Interfaces.Services.Holidays;
 using DailyOperations.Domain.Interfaces.Services.Operations;
 using DailyOperations.Domain.ViewModels.Operations;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,9 @@ public class OperationsController : Controller
 	private readonly ISectorServices _sectorServices;
 	private readonly IShiftTypeServices _shiftTypeServices;
 	private readonly IsoldiersService _soldiersService;
+	private readonly IHolidayServices _holidayService;
 	private readonly IUnitOfWork _unitOfWork;
+
 	public OperationsController(
 		IDailyOperationServices dailyOperationServices,
 		IGeneralDepartmentServices generalDepartmentServices,
@@ -30,7 +33,8 @@ public class OperationsController : Controller
 		ISectorServices sectorServices,
 		IShiftTypeServices shiftTypeServices,
 		IsoldiersService soldiersService,
-		IUnitOfWork unitOfWork)
+		IUnitOfWork unitOfWork,
+		IHolidayServices holidayService)
 	{
 		_dailyOperationServices = dailyOperationServices;
 		_generalDepartmentServices = generalDepartmentServices;
@@ -44,6 +48,7 @@ public class OperationsController : Controller
 		_shiftTypeServices = shiftTypeServices;
 		_soldiersService = soldiersService;
 		_unitOfWork = unitOfWork;
+		_holidayService = holidayService;
 	}
 
 	public async Task<IActionResult> GetAll(GetAllOperationsViewModel model)
@@ -58,6 +63,8 @@ public class OperationsController : Controller
 
 		// members drop down lists unique (choosen member can not be choosen again)
 		model.Soldiers = await _soldiersService.GetAll(model.OperationId);
+		model.TotalSoldiersCount = await _soldiersService.GetCount();
+		model.TotalHolidayCount = await _holidayService.GetHolidaysCount(model.OperationId);
 
 		// all dropdown lists
 		model.DailyOperations = await _dailyOperationServices.GetAll();
