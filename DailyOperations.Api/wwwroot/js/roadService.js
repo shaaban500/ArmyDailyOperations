@@ -251,140 +251,77 @@
 
 
 
+function addSignature() {
+    var jobInput = document.getElementById('job');
+    var degreeInput = document.getElementById('degree');
+    var nameInput = document.getElementById('name');
+    var signaturesDiv = document.getElementById('signatures');
+    var numSignatures = 0;
+    var currentRowDiv;
 
+    if (numSignatures % 2 === 0) {
+        currentRowDiv = document.createElement('div');
+        currentRowDiv.classList.add('flex-row', 'justify-content-between', 'mg-bottom50');
+        signaturesDiv.appendChild(currentRowDiv);
+    }
 
+    // create the signature div with class "flex-column" and "center" if there's only one signature per row
+    var signatureDiv = document.createElement('div');
+    signatureDiv.classList.add('flex-column');
+    signatureDiv.classList.add('center');
 
-var addBtn = document.getElementById('add-btn');
-var jobInput = document.getElementById('job');
-var degreeInput = document.getElementById('degree');
-var nameInput = document.getElementById('name');
-var signaturesDiv = document.getElementById('signatures');
-var numSignatures = 0;
-var currentRowDiv;
+    var jobPlace = document.createElement('div');
+    jobPlace.textContent = jobInput.value;
+    jobPlace.classList.add('job-title'); // add job-title class to center job title
+    signatureDiv.appendChild(jobPlace);
 
-if (addBtn) {
-    addBtn.addEventListener('click', function () {
-        // create a new row div if necessary
-        if (numSignatures % 2 === 0) {
-            currentRowDiv = document.createElement('div');
-            currentRowDiv.classList.add('flex-row', 'justify-content-between', 'mg-bottom50');
-            signaturesDiv.appendChild(currentRowDiv);
-        }
+    var degreeNameDiv = document.createElement('div');
+    degreeNameDiv.classList.add('word-and-slash');
+    var degreeNameText = document.createElement('span');
+    degreeNameText.textContent = degreeInput.value + ' / ' + nameInput.value;
+    degreeNameDiv.appendChild(degreeNameText);
+    signatureDiv.appendChild(degreeNameDiv);
 
-        // create the signature div with class "flex-column" and "center" if there's only one signature per row
-        var signatureDiv = document.createElement('div');
-        signatureDiv.classList.add('flex-column');
-        signatureDiv.classList.add('center');
+    // append the signature div to the current row div
+    currentRowDiv.appendChild(signatureDiv);
 
-        var jobPlace = document.createElement('div');
-        jobPlace.textContent = jobInput.value;
-        jobPlace.classList.add('job-title'); // add job-title class to center job title
-        signatureDiv.appendChild(jobPlace);
+    // increment the number of signatures
+    numSignatures++;
 
-        var degreeNameDiv = document.createElement('div');
-        degreeNameDiv.classList.add('word-and-slash');
-        var degreeNameText = document.createElement('span');
-        degreeNameText.textContent = degreeInput.value + ' / ' + nameInput.value;
-        degreeNameDiv.appendChild(degreeNameText);
-        signatureDiv.appendChild(degreeNameDiv);
-
-        // append the signature div to the current row div
-        currentRowDiv.appendChild(signatureDiv);
-
-        // increment the number of signatures
-        numSignatures++;
-
-        // clear the input values
-        jobInput.value = '';
-        degreeInput.value = '';
-        nameInput.value = '';
-    });
-
-}
-
-function GetDriverData() {
-    var selectedValue = document.getElementById('DriverSelect').value;
-    console.log('Selected value:', selectedValue);
-
-    var selectedValues = selectedValue.split('|');
-    var driverId = selectedValues[0];
-    var driverTypeId = selectedValues[1];
-    console.log('Driver ID:', driverId);
-    console.log('Driver type ID:', driverTypeId);
-
-    document.getElementById('Driver').value = driverId;
-    document.getElementById('DriverType').value = driverTypeId;
-
-    console.log('Driver ID field value:', document.getElementById('Driver').value);
-    console.log('Driver type ID field value:', document.getElementById('DriverType').value);
+    // clear the input values
+    jobInput.value = '';
+    degreeInput.value = '';
+    nameInput.value = '';
 }
 
 
+function updateTable() {
+    var thInput = document.getElementById("thInput");
+    var tdInput = document.getElementById("tdInput");
+    var trth = document.getElementById("headerRow");
+    var trtd = document.getElementById("dataRow");
+    // Check if the input elements and the tr element are found and not null
+    if (thInput && tdInput && trth && trtd) {
+        var thValue = thInput.value;
+        var tdValue = tdInput.value;
+    console.log(1111111);
 
+        // Check for empty values
+        if (thValue !== "" && tdValue !== "") {
+            // Create new th and td elements
+            var newTh = document.createElement("th");
+            newTh.textContent = thValue;
 
-$(document).ready(function () {
-    $('#DepartmentId').on('change', function () {
-        var DepartmentId = $(this).val();
-        var Officers = $('#OfficerId');
+            var newTd = document.createElement("td");
+            newTd.textContent = tdValue;
 
-        Officers.empty();
-        Officers.append('<option></option>');
+            // Append the new th and td to the existing tr
+            trth.appendChild(newTh);
+            trtd.appendChild(newTd);
 
-        if (DepartmentId !== '') {
-            $.ajax({
-                url: '/PoliceOfficers/GetAllByDepartment?id=' + DepartmentId,
-                success: function (allOfficers) {
-                    $.each(allOfficers, function (i, officer) {
-                        Officers.append($('<option>').attr('value', officer.id).text(officer.name));
-                    });
-                },
-                error: function () {
-                    alert("An error occurred while retrieving officers.");
-                }
-            });
         }
-    });
-});
-
-
-
-function GetOfficersCount(operationId)
-{
-
-    var dateFrom = document.getElementById('dateFrom').value;
-    var dateTo = document.getElementById('dateTo').value;
-
-    var Officers = $('#OfficerId');
-
-    Officers.empty();
-    Officers.append('<option></option>');
-
-    $.ajax({
-        url: '/PoliceOfficers/CountPoliceOfficers?operationId=' + operationId + '&dateFrom=' + dateFrom + '&dateTo=' + dateTo,
-        success: function (allOfficers) {
-            $.each(allOfficers, function (i, officer) {
-                Officers.append($('<option>').attr('value', officer.id).text(officer.name + ' (' + officer.count + ')'));
-            });
-        },
-        error: function () {
-            alert("An error occurred while retrieving officers.");
-        }
-    });
-}
-
-
-function addAccusation() {
-    var stringValue = $('#StringValue').val();
-    var intValue = $('#IntValue').val();
-
-    if (stringValue && intValue) {
-        var newRow = '<tr><td>' + stringValue + '</td><td>' + intValue + '</td></tr>';
-        $('#accusations tbody').append(newRow);
-        $('#StringValue').val('');
-        $('#IntValue').val('');
     }
 }
-
 
 
 function addLogo() {

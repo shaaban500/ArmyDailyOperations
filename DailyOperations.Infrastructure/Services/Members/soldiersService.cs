@@ -67,7 +67,24 @@ namespace DailyOperations.Infrastructure.Services.Members
 			}
 			else
 			{
-				var updatedSoldier = await _unitOfWork.Soldiers.UpdateAsync(model);
+				var soldier = await _unitOfWork.Soldiers.GetByIdAsync(model.Id);
+
+				if (soldier is not null)
+				{
+					if (model.LastFireShootingDate is null)
+					{
+						soldier.MovingDate = model.MovingDate;
+						soldier.MovingNotes = model.MovingNotes;
+						soldier.DepartmentId = model.DepartmentId;
+						soldier.PreviousDepartmentId = model.PreviousDepartmentId;
+					}
+					else
+					{
+						soldier.LastFireShootingDate = model.LastFireShootingDate;
+					}
+
+					var updatedSoldier = await _unitOfWork.Soldiers.UpdateAsync(soldier);
+				}
 			}
 		}
 
@@ -83,8 +100,18 @@ namespace DailyOperations.Infrastructure.Services.Members
 			if (soldier is not null)
 			{
 				_unitOfWork.Soldiers.Remove(soldier);
-				await _unitOfWork.SaveAsync();
-			}
+                //await _unitOfWork.SaveAsync();
+
+                // delete related holidays
+                var holidays = await _unitOfWork.SoldierHolidays.GetAllAsync(x => x.SoldierId == soldier.Id);
+				
+				foreach(var holiday in holidays)
+				{
+					_unitOfWork.SoldierHolidays.Remove(holiday);
+                }
+					await _unitOfWork.SaveAsync();
+
+            }
 		}
 
 		public async Task<List<Soldier>> GetAll(long operationId)
@@ -139,6 +166,8 @@ namespace DailyOperations.Infrastructure.Services.Members
 												p => p.Department,
 												p => p.EducationType,
 												p => p.Skills,
+												p => p.PreviousDepartment,
+												p => p.CurrentDepartment,
 										   };
 
 			var soldiers = await _unitOfWork.Soldiers.GetAllAsync(null, x => x.OrderBy(x => x.Name), includes);

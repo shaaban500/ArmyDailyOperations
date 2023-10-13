@@ -25,6 +25,7 @@ namespace DailyOperations.Domain.Entities
 
 		public List<Skill>? Skills { get; set; }
 
+		
 		// current dept info
 		public long? DepartmentId { get; set; }
 		public Department? Department { get; set; }
@@ -33,13 +34,16 @@ namespace DailyOperations.Domain.Entities
 		// prev dept info
 		public long? PreviousDepartmentId { get; set; }
 		public Department? PreviousDepartment { get; set; }
-		public DateTime? PreviousMovingDate { get; set; }
 
-
+		
 		// next dept info
-		public long? NextDepartmentId { get; set; }
-		public Department? NextDepartment { get; set; }
-		public DateTime? NextMovingDate { get; set; }
+		public long? CurrentDepartmentId { get; set; }
+		public Department? CurrentDepartment { get; set; }
+		public DateTime? MovingDate { get; set; }
+		public string? MovingNotes { get; set; }
 
+		
+		// Fire Shooting Date
+		public DateTime? LastFireShootingDate { get; set; }
 	}
 }

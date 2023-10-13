@@ -3,7 +3,7 @@
 
 <div class="flex-column align-center">
 
-	<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" onclick="expand('operation')">
+	<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" >
 		<div class="flex-row font1-5rem width100 bold gold height50px" id="operationspans">
 			<div class="flex-row justify-content-start width100">
 				إنشاء يومية جديدة
@@ -113,7 +113,7 @@
 {
 	<div class="flex-column align-center">
 
-		<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" onclick="expand('service')">
+		<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" >
 			<div class="flex-row font1-5rem width100 bold gold height50px" id="servicespans">
 				<div class="flex-row justify-content-start width100">
 					إضافة خدمة
@@ -183,7 +183,7 @@
 
 	<div class="flex-column align-center">
 
-		<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" onclick="expand('signs')">
+		<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" >
 			<div class="flex-row font1-5rem width100 bold gold height50px" id="signsspans">
 				<div class="flex-row justify-content-start width100">
 					إضافة الإمضاء
@@ -214,11 +214,11 @@
 						<label> الاسم </label>
 						<input class="input-box width100" id="name" />
 					</div>
-					<button class="center gap2 padding1 width500px card-radius height50px cursor shadow1 white font20px bg-primary bold need-media-row">
+					<button onclick="addSignature()" class="center gap2 padding1 width500px card-radius height50px cursor shadow1 white font20px bg-primary bold need-media-row">
 						<span class="material-symbols-rounded width100">
 							add_box
 						</span>
-						<div class="width100">
+						<div class="center width100">
 							<span class="width100">
 								إضافة الإمضاء
 							</span>
@@ -230,11 +230,9 @@
 	</div>
 
 
-	
-
 
 	<div class="flex-column align-center">
-		<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" onclick="expand('logo')">
+		<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30">
 			<div class="flex-row font1-5rem width100 bold gold height50px" id="logospans">
 				<div class="flex-row justify-content-start width100">
 					إضافة الشعار
@@ -258,6 +256,33 @@
 						<button id="AddLogo" class="center gap2 padding1 width500px card-radius height50px cursor shadow1 white font20px bg-primary bold need-media-row" onclick="addLogo()"> إضافة شعار </button>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="flex-column align-center">
+		<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" >
+			<div class="flex-row font1-5rem width100 bold gold height50px">
+				<div class="flex-row justify-content-start width100">
+					إضافة الإمضاء
+				</div>
+				<span class="material-symbols-rounded flex-row justify-content-end width100" style="font-weight:900; font-size:40px">
+					arrow_drop_up
+				</span>
+				<span class="material-symbols-rounded flex-row justify-content-end width100" style="font-weight:900; font-size:40px; display:none;">
+					arrow_drop_down
+				</span>
+			</div>
+
+			<div class="center width100">
+				<div class="line width100"></div>
+			</div>
+
+			<div class="center gap3 width100 mg-top10">
+				<input type="text" id="thInput" placeholder="ادخل العنوان في يومية التشغيل" class="input-box width100">
+				<input type="text" id="tdInput" placeholder="ادخل العدد في جدول يومية التشغيل" class="input-box width100">
+				<button onclick="updateTable()" class="center gap2 font20px card-radius height50px cursor width100 shadow1 white bg-primary bold need-media-row"> إضافة إلى يومية التشغيل </button>
 			</div>
 		</div>
 	</div>
@@ -302,13 +327,13 @@
 
 
 		<div class="flex-column align-center width100 mg-top50">
-
+			
 		@if (Model.GroupedSoldierOperations is not null && Model.GroupedSoldierOperations.Count() > 0)
 		{
 			<table class="width100 mg-bottom50">
 				<thead>
 
-					<tr class="bg-grey">
+					<tr class="bg-grey" id="headerRow">
 						<th class="bg-grey"> أصل القوة </th>
 						<th class="bg-grey"> أجازة </th>
 						<th class="bg-grey"> بالعمل </th>
@@ -319,7 +344,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
+					<tr id="dataRow">
 						<td> @Model.TotalSoldiersCount </td>
 						<td> @Model.TotalHolidayCount </td>
 						@{
@@ -337,6 +362,7 @@
 					</tr>
 				</tbody>
 			</table>
+
 
 
 			@foreach(var item in Model.GroupedSoldierOperations)
@@ -392,7 +418,6 @@
 }
 
 
-</div>
 
 
 

@@ -537,7 +537,7 @@ namespace DailyOperations.Persistence.Repositories.Members
         }
         public async Task<IQueryable<T>> GetAllIQueryable()
         {
-            IQueryable<T> query = dbSet.Where(x => x.IsDeleted == false);
+            IQueryable<T> query = dbSet.Where(x => x.IsDeleted != true  );
             return query;
         }
 
@@ -555,17 +555,20 @@ namespace DailyOperations.Persistence.Repositories.Members
 
         public int GetCount(Expression<Func<T, bool>> filter)
         {
-            return dbSet.Count(filter);
+            IQueryable<T> query = dbSet.Where(x => x.IsDeleted == false);
+            return query.Count(filter);
             //return dbSet.Where(filter).Count();
         }
         public Task<int> GetCountAsync(Expression<Func<T, bool>>? filter)
         {
-            return dbSet.CountAsync(filter);
+            IQueryable<T> query = dbSet.Where(x => x.IsDeleted == false);
+            return query.CountAsync(filter);
             //return dbSet.Where(filter).Count();
         }
         public Task<int> GetCountAsync()
         {
-            return dbSet.CountAsync();
+            IQueryable<T> query = dbSet.Where(x => x.IsDeleted == false);
+            return query.CountAsync();
             //return dbSet.Where(filter).Count();
         }
         public virtual async Task<IEnumerable<T>> GetAllWithFilterAsync(Expression<Func<T, bool>> filter)

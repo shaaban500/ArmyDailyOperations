@@ -1,7 +1,22 @@
 ﻿@using DailyOperations.Domain.ViewModels.Soldiers;
 @model GetAllSoldiersViewModel
 
-<header class="center mg-top20 mg-bottom20"> المجندين </header>
+<div class="center mg-top25 mg-bottom50 gap2 need-media-row">
+    <a asp-controller="Soldiers" asp-action="GetAll" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold white bg-primary need-media-row">
+         المجندين
+    </a>
+    <a asp-controller="SoldierMovings" asp-action="GetAll" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold need-media-row">
+         النقل
+    </a>
+    <a asp-controller="SoldiersFireShooting" asp-action="GetAll" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold need-media-row">
+        الرماية
+    </a>
+    <a asp-controller="SoldierHolidays" asp-action="GetAllHolidays" class="center padding1 gap2 font20px card-radius height50px cursor width200px shadow1 bold need-media-row">
+         المرضي
+    </a>
+</div>
+
+
 
 <div class="center mg-top20" id="officers-body">
     <table class="width100">
@@ -9,18 +24,22 @@
             <tr>
                 <th>
                     <div class="flex-row center gap1 need-media-row">
-                        <div>القوة</div>
                         <div class="cursor" onclick="openForm('PowerTypeForm')">
-                            <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>
+                            <span class="material-symbols-rounded cursor gold">
+                                add_box
+                            </span>
                         </div>
+                        <div>القوة</div>
                     </div>
                 </th>
                 <th>
                     <div class="flex-row center gap1 need-media-row">
-                        <div> الإدارة </div>
                         <div class="cursor" onclick="openForm('DepartmentForm')">
-                            <span class="material-symbols-rounded primary cursor" style="font-size:20px;font-weight:500;">add_circle</span>
+                            <span class="material-symbols-rounded cursor gold">
+                                add_box
+                            </span>
                         </div>
+                        <div> الإدارة </div>
                     </div>
                 </th>
                 <th> الاسم </th>
@@ -31,10 +50,11 @@
                 <th>
                     <div class="center">
                         <div class="cursor" onclick="openForm('SoldierForm')">
-                            <span class="material-symbols-rounded primary cursor" style="font-size:38px;font-weight:500;">add_circle</span>
+                            <span class="material-symbols-rounded cursor gold">
+                                add_box
+                            </span>
                         </div>
                     </div>
-
                 </th>
             </tr>
         </thead>
@@ -125,11 +145,11 @@
                     </select>
                 </div>
 
-                @*<div class="mg-top20 width80">
+                <div class="mg-top20 width80">
                     <label asp-for="Soldier.DepartmentId">الإدارة</label>
                     <select name="Soldier.DepartmentId" class="input-box width100" asp-items="@(new SelectList(Model.Departments, "Id", "Name"))">
                     </select>
-                </div>*@
+                </div>
             </div>
 
             <div class="center gap1 width90">

@@ -1,17 +1,17 @@
-﻿using DailyOperations.Domain.Interfaces.Services;
-using DailyOperations.Domain.Interfaces.Services.Members;
+﻿using DailyOperations.Domain.Interfaces.Services.Members;
+using DailyOperations.Domain.Interfaces.Services;
 using DailyOperations.Domain.ViewModels.Soldiers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DailyOperations.Api.Controllers.Members
 {
-    public class SoldiersController : Controller
+    public class SoldiersFireShootingController : Controller
     {
         private readonly IPowerTypesService _powerTypesService;
         private readonly IDepartmentServices _departmentServices;
         private readonly IEducationTypesService _educationTypesService;
         private readonly IsoldiersService _soldiersService;
-        public SoldiersController(
+        public SoldiersFireShootingController(
             IEducationTypesService educationTypesService,
             IPowerTypesService powerTypesService,
             IDepartmentServices departmentServices,
@@ -22,6 +22,7 @@ namespace DailyOperations.Api.Controllers.Members
             _departmentServices = departmentServices;
             _soldiersService = soldiersService;
         }
+
 
         public async Task<IActionResult> GetAll()
         {
@@ -38,31 +39,15 @@ namespace DailyOperations.Api.Controllers.Members
                 Soldiers = soldiers
             };
 
-
-            if (getAllSoldiersViewModel.Skills is not null)
-            {
-                foreach (var type in getAllSoldiersViewModel.Skills)
-                {
-                    getAllSoldiersViewModel.HasSkill.Add(false);
-                }
-            }
-
             return View(getAllSoldiersViewModel);
         }
 
 
-		[HttpPost]
+        [HttpPost]
         public async Task<IActionResult> AddorUpdate(GetAllSoldiersViewModel model)
         {
-            await _soldiersService.AddOrUpdate(model.Soldier, model.CertificateName, model.ExtraDuration, model.HasSkill);
+            await _soldiersService.AddOrUpdate(model.Soldier, null, null, null);
             return RedirectToAction(nameof(GetAll));
         }
-
-        public async Task<IActionResult> Delete(long id)
-        {
-            await _soldiersService.Delete(id);
-            return RedirectToAction(nameof(GetAll));
-        }
-
     }
 }
