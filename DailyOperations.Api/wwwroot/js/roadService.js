@@ -240,7 +240,7 @@
 
     `);
     printWindow.document.write("</style>");
-    printWindow.document.write("</head><body><main class=\"watermark\">");
+    printWindow.document.write("</head><body><main>");
     printWindow.document.write(printContent.innerHTML);
     printWindow.document.write("</main></body></html>");
     printWindow.document.close();
@@ -251,47 +251,102 @@
 
 
 
-function addSignature() {
-    var jobInput = document.getElementById('job');
-    var degreeInput = document.getElementById('degree');
-    var nameInput = document.getElementById('name');
-    var signaturesDiv = document.getElementById('signatures');
-    var numSignatures = 0;
-    var currentRowDiv;
+//function addSignature() {
+//    var jobInput = document.getElementById('job');
+//    var degreeInput = document.getElementById('degree');
+//    var nameInput = document.getElementById('name');
+//    var signaturesDiv = document.getElementById('signatures');
+//    var numSignatures = 0;
+//    var currentRowDiv;
 
-    if (numSignatures % 2 === 0) {
-        currentRowDiv = document.createElement('div');
-        currentRowDiv.classList.add('flex-row', 'justify-content-between', 'mg-bottom50');
-        signaturesDiv.appendChild(currentRowDiv);
+//    if (numSignatures % 2 === 0) {
+//        currentRowDiv = document.createElement('div');
+//        currentRowDiv.classList.add('flex-row', 'justify-content-between', 'mg-bottom50');
+//        signaturesDiv.appendChild(currentRowDiv);
+//    }
+
+//    // create the signature div with class "flex-column" and "center" if there's only one signature per row
+//    var signatureDiv = document.createElement('div');
+//    signatureDiv.classList.add('flex-column');
+//    signatureDiv.classList.add('center');
+
+//    var jobPlace = document.createElement('div');
+//    jobPlace.textContent = jobInput.value;
+//    jobPlace.classList.add('job-title'); // add job-title class to center job title
+//    signatureDiv.appendChild(jobPlace);
+
+//    var degreeNameDiv = document.createElement('div');
+//    degreeNameDiv.classList.add('word-and-slash');
+//    var degreeNameText = document.createElement('span');
+//    degreeNameText.textContent = degreeInput.value + ' / ' + nameInput.value;
+//    degreeNameDiv.appendChild(degreeNameText);
+//    signatureDiv.appendChild(degreeNameDiv);
+
+//    // append the signature div to the current row div
+//    currentRowDiv.appendChild(signatureDiv);
+
+//    // increment the number of signatures
+//    numSignatures++;
+
+//    // clear the input values
+//    jobInput.value = '';
+//    degreeInput.value = '';
+//    nameInput.value = '';
+//}
+
+
+function addSignature() {
+    // Get the input values
+    const degreeValue = document.getElementById("degree").value;
+    const nameValue = document.getElementById("name").value;
+    const jobValue = document.getElementById("job").value;
+
+    // Get the 'signatures' container
+    const signaturesContainer = document.getElementById("signatures");
+
+    // Create a new div with class 'flex-column align-center' to hold the input values
+    const signatureDiv = document.createElement("div");
+    signatureDiv.className = "flex-column align-center";
+
+    // Create spans for each input value
+    const degreeSpan = document.createElement("span");
+    degreeSpan.className = "center";
+    degreeSpan.innerText = degreeValue;
+
+    const nameSpan = document.createElement("span");
+    nameSpan.className = "center";
+    nameSpan.innerText = nameValue;
+
+    const jobSpan = document.createElement("span");
+    jobSpan.className = "center";
+    jobSpan.innerText = jobValue;
+
+    // Append the spans to the signature div
+    signatureDiv.appendChild(degreeSpan);
+    signatureDiv.appendChild(nameSpan);
+    signatureDiv.appendChild(jobSpan);
+
+    // Check if the 'signatures' container already has two 'flex-row' divs
+    const flexRows = signaturesContainer.getElementsByClassName("flex-row");
+    let lastFlexRow;
+
+    if (flexRows.length === 0 || flexRows[flexRows.length - 1].childElementCount === 2) {
+        // Create a new 'flex-row' div if none exists or if the last one is full
+        lastFlexRow = document.createElement("div");
+        lastFlexRow.className = "flex-row justify-content-between";
+        signaturesContainer.appendChild(lastFlexRow);
+    } else {
+        // Use the last 'flex-row' div if it's not full
+        lastFlexRow = flexRows[flexRows.length - 1];
     }
 
-    // create the signature div with class "flex-column" and "center" if there's only one signature per row
-    var signatureDiv = document.createElement('div');
-    signatureDiv.classList.add('flex-column');
-    signatureDiv.classList.add('center');
+    // Append the signatureDiv to the last 'flex-row' div
+    lastFlexRow.appendChild(signatureDiv);
 
-    var jobPlace = document.createElement('div');
-    jobPlace.textContent = jobInput.value;
-    jobPlace.classList.add('job-title'); // add job-title class to center job title
-    signatureDiv.appendChild(jobPlace);
-
-    var degreeNameDiv = document.createElement('div');
-    degreeNameDiv.classList.add('word-and-slash');
-    var degreeNameText = document.createElement('span');
-    degreeNameText.textContent = degreeInput.value + ' / ' + nameInput.value;
-    degreeNameDiv.appendChild(degreeNameText);
-    signatureDiv.appendChild(degreeNameDiv);
-
-    // append the signature div to the current row div
-    currentRowDiv.appendChild(signatureDiv);
-
-    // increment the number of signatures
-    numSignatures++;
-
-    // clear the input values
-    jobInput.value = '';
-    degreeInput.value = '';
-    nameInput.value = '';
+    // Clear the input fields
+    document.getElementById("degree").value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("job").value = "";
 }
 
 

@@ -1,6 +1,16 @@
 ﻿@using DailyOperations.Domain.ViewModels.Operations;
 @model GetAllOperationsViewModel;
 
+<style>
+	.signature {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		margin: 10px 0;
+		border: 1px solid #ccc;
+		padding: 10px;
+	}
+</style>
 <div class="flex-column align-center">
 
 	<div class="flex-column mg-top20 width75 bg-white shadow1 card-radius mg-bottom20 cursor padding30" >
@@ -330,7 +340,8 @@
 			
 		@if (Model.GroupedSoldierOperations is not null && Model.GroupedSoldierOperations.Count() > 0)
 		{
-			<table class="width100 mg-bottom50">
+			<header class="center mg-bottom20 mg-top50" style="page-break-after: avoid;"> يومية التشغيل </header>
+			<table class="width100 mg-bottom50 page-break" style="page-break-after: always;">
 				<thead>
 
 					<tr class="bg-grey" id="headerRow">

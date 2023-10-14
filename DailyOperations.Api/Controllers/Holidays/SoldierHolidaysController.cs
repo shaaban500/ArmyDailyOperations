@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DailyOperations.Api.Controllers.Holidays
 {
-	public class SoldierHolidaysController : Controller
-	{
-		private readonly IUnitOfWork _unitOfWork;
+    public class SoldierHolidaysController : Controller
+    {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ISeedSoldierHolidaysData _seedSoldierHolidaysData;
         public SoldierHolidaysController(IUnitOfWork unitOfWork, ISeedSoldierHolidaysData seedSoldierHolidaysData)
         {
@@ -22,8 +22,8 @@ namespace DailyOperations.Api.Controllers.Holidays
         {
             var soldierHolidays = await _unitOfWork.SoldierHolidays.GetAllIQueryable();
 
-            
-            var notWantedHolidays = await _unitOfWork.SoldierHolidays.GetAllAsync(x => 
+
+            var notWantedHolidays = await _unitOfWork.SoldierHolidays.GetAllAsync(x =>
                                                     x.HolidayStartDate != null &&
                                                     x.HolidayEndDate != null &&
                                                     x.IsFinished != true);
@@ -41,7 +41,7 @@ namespace DailyOperations.Api.Controllers.Holidays
 
 
             var currentDate = DateTime.UtcNow.Date;
-            
+
             if (model.NumberOfDays > 0)
             {
                 result = result.Where(x => (currentDate - x.HolidayEndDate).Value.TotalDays == model.NumberOfDays).ToList();
@@ -137,7 +137,7 @@ namespace DailyOperations.Api.Controllers.Holidays
 
             var getAllSoldierHolidaysViewModel = new GetAllSoldierHolidaysViewModel();
 
-            foreach(var holiday in soldierHolidays)
+            foreach (var holiday in soldierHolidays)
             {
                 var soldierHoliday = new SoldierHoliday
                 {
@@ -167,8 +167,8 @@ namespace DailyOperations.Api.Controllers.Holidays
         public async Task<IActionResult> EditReturnDates(GetAllSoldierHolidaysViewModel model)
         {
             var soldierHoliday = await _unitOfWork.SoldierHolidays.GetByIdAsync(model.SoldierHolidayId);
-            
-            if(soldierHoliday is not null)
+
+            if (soldierHoliday is not null)
             {
                 soldierHoliday.HolidayStartDate = model.HolidayStartDate;
                 soldierHoliday.HolidayEndDate = model.HolidayEndDate;
@@ -180,14 +180,14 @@ namespace DailyOperations.Api.Controllers.Holidays
         }
 
 
-        
+
         public async Task<IActionResult> AddHolidayReturn(GetAllSoldierHolidaysViewModel model)
         {
-            foreach(var holiday in model.SoldierHolidays.Where(x => x.IsSelectedForReturn == true))
+            foreach (var holiday in model.SoldierHolidays.Where(x => x.IsSelectedForReturn == true))
             {
                 var soldierHoliday = await _unitOfWork.SoldierHolidays.GetByIdAsync(holiday.SoldierHoliday.Id);
-                
-                if(soldierHoliday is not null && soldierHoliday.HolidayEndDate <= DateTime.UtcNow.Date)
+
+                if (soldierHoliday is not null && soldierHoliday.HolidayEndDate <= DateTime.UtcNow.Date)
                 {
                     soldierHoliday.IsFinished = true;
                 }
@@ -198,5 +198,19 @@ namespace DailyOperations.Api.Controllers.Holidays
             return RedirectToAction(nameof(GetAllHolidays));
         }
 
+
+
+        public async Task<IActionResult> Delete(long id)
+        {
+            var holiday = await _unitOfWork.SoldierHolidays.GetByIdAsync(x => x.Id == id);
+
+            if (holiday is not null)
+            {
+                _unitOfWork.SoldierHolidays.Remove(holiday);
+                await _unitOfWork.SaveAsync();
+            }
+
+            return RedirectToAction(nameof(GetAllHolidays), null);
+        }
     }
 }

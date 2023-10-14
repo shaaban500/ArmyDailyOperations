@@ -70,19 +70,19 @@
                         <td>@obj.Phone</td>
                         <td>@obj.RecruitmentStartDate?.ToShortDateString()</td>
                         <td>@obj.RecruitmentEndDate?.ToShortDateString()</td>
-                        <td class="dropdown">
+                        <td>
                             <span class="dropbtn">
                                 @obj.EducationType?.Type
                             </span>
-                            <span class="dropdown-content">
+                            <ul>
                                 @if(obj != null)
                                 {
                                     @foreach(var skill in obj.Skills)
                                     {
-                                        <span> @skill.Name </span>
+                                        <li> @skill.Name </li>
                                     }
                                 }
-                            </span>
+                            </ul>
                         </td>
                         <td>
                             <div class="center gap2">
